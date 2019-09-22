@@ -1,0 +1,111 @@
+{
+    "fb_hl_sb": {
+        "service": "facebook",
+        "settings": {
+            "like_type": "button_count"
+        }
+    },
+    "fb_vl_sb": {
+        "service": "facebook",
+        "settings": {
+            "like_type": "box_count"
+        }
+    },
+    
+    "twitter_hl_sb": {
+        "service": "twitter",
+        "settings": {}
+    },
+    "twitter_vl_sb": {
+        "service": "twitter",
+        "settings": {}
+    },
+    
+    "gp_hl_sb": {
+        "service": "google_plus",
+        "settings": {
+            "size": "medium",
+            "annotation": "bubble"
+        }
+    },
+    "gp_vl_sb": {
+        "service": "google_plus",
+        "settings": {
+            "size": "tall",
+            "annotation": "bubble"
+        }
+    },
+    
+    "pinterest_hl_sb": {
+        "service": "pinterest",
+        "settings": {}
+    },
+    "pinterest_vl_sb": {
+        "service": "pinterest",
+        "settings": {}
+    },
+    
+    "linkedin_hl_sb": {
+        "service": "linkedin",
+        "settings": {}
+    },
+    "linkedin_vl_sb": {
+        "service": "linkedin",
+        "settings": {
+            "type": "top"
+        }
+    },
+    
+    "pocket_hl_sb": {
+        "service": "pocket",
+        "settings": {}
+    },
+    "pocket_vl_sb": {
+        "service": "pocket",
+        "settings": {
+            "type": "top"
+        }
+    },
+    
+    "stumbleupon_hl_sb": {
+        "service": "stumbleupon",
+        "settings": {}
+    },
+    "stumbleupon_vl_sb": {
+        "service": "stumbleupon",
+        "settings": {
+            "type": "5"
+        }
+    },
+    
+    "reddit_hl_sb": {
+        "service": "reddit",
+        "settings": {}
+    },
+    "reddit_vl_sb": {
+        "service": "reddit",
+        "settings": {
+            "type": "button2"
+        }
+    },
+    
+    "share_counter_vl_hl_sb": {
+      "service": "share_counter",
+      "settings": {
+        "add_services": [
+          "facebook",
+          "googleplus",
+          "linkedin",
+          "pinterest",
+          "stumbleupon"
+        ],
+        "text": "Shares",
+        "counter_color": "#000"
+      }
+    },
+    
+    "sb_hl":{"service":"social_buttons","settings":{"selected_sites":"W3siZmFjZWJvb2siOnsiY291bnQiOjEsImN1c3RvbV90ZXh0IjoiIiwiaWNvbiI6IiIsImN1c3RvbV91cmwiOiIiLCJ0ZXh0IjoiIn19LHsidHdpdHRlciI6eyJjdXN0b21fdGV4dCI6IiIsImljb24iOiIiLCJjdXN0b21fdXJsIjoiIiwidGV4dCI6IiJ9fSx7Imdvb2dsZXBsdXMiOnsiY291bnQiOjEsImN1c3RvbV90ZXh0IjoiIiwiaWNvbiI6IiIsImN1c3RvbV91cmwiOiIiLCJ0ZXh0IjoiIn19LHsicGludGVyZXN0Ijp7ImNvdW50IjoxLCJjdXN0b21fdGV4dCI6IiIsImljb24iOiIiLCJjdXN0b21fdXJsIjoiIiwidGV4dCI6IiJ9fSx7ImxpbmtlZGluIjp7ImNvdW50IjoxLCJjdXN0b21fdGV4dCI6IiIsImljb24iOiIiLCJjdXN0b21fdXJsIjoiIiwidGV4dCI6IiJ9fSx7ImVtYWlsIjp7ImN1c3RvbV90ZXh0IjoiIiwiaWNvbiI6IiIsImN1c3RvbV91cmwiOiIiLCJ0ZXh0IjoiIn19LHsicHJpbnQiOnsiY3VzdG9tX3RleHQiOiIiLCJpY29uIjoiIiwiY3VzdG9tX3VybCI6IiIsInRleHQiOiIifX1d","sr-sizes":"32px","sr-shapes":"squircle-2","sr-hover":"opacity","sr-layout":"","sr-font-size":"","sr-icon-display":"","sr-icon-color":"icon-white","sr-border-width":"","sr-border-color":"","sr-background-color":"","sr-count-style":"count-1","sr-shadow":"","sr-pad":"pad","text-styles":"in","more_sites":"0","open_popup":"","title":"sb_hl","_feature":"sharebar"}},
+    
+    "sb_vl":{"service":"social_buttons","settings":{"selected_sites":"W3siZmFjZWJvb2siOnsiY291bnQiOjEsImN1c3RvbV90ZXh0IjoiIiwiaWNvbiI6IiIsImN1c3RvbV91cmwiOiIiLCJ0ZXh0IjoiIn19LHsidHdpdHRlciI6eyJjdXN0b21fdGV4dCI6IiIsImljb24iOiIiLCJjdXN0b21fdXJsIjoiIiwidGV4dCI6IiJ9fSx7Imdvb2dsZXBsdXMiOnsiY291bnQiOjEsImN1c3RvbV90ZXh0IjoiIiwiaWNvbiI6IiIsImN1c3RvbV91cmwiOiIiLCJ0ZXh0IjoiIn19LHsicGludGVyZXN0Ijp7ImNvdW50IjoxLCJjdXN0b21fdGV4dCI6IiIsImljb24iOiIiLCJjdXN0b21fdXJsIjoiIiwidGV4dCI6IiJ9fSx7ImxpbmtlZGluIjp7ImNvdW50IjoxLCJjdXN0b21fdGV4dCI6IiIsImljb24iOiIiLCJjdXN0b21fdXJsIjoiIiwidGV4dCI6IiJ9fSx7ImVtYWlsIjp7ImN1c3RvbV90ZXh0IjoiIiwiaWNvbiI6IiIsImN1c3RvbV91cmwiOiIiLCJ0ZXh0IjpmYWxzZX19LHsicHJpbnQiOnsiY3VzdG9tX3RleHQiOiIiLCJpY29uIjoiIiwiY3VzdG9tX3VybCI6IiIsInRleHQiOiIifX1d","sr-sizes":"32px","sr-shapes":"squircle-2","sr-hover":"opacity","sr-layout":"vertical","sr-font-size":"","sr-icon-display":"","sr-icon-color":"icon-white","sr-border-width":"","sr-border-color":"","sr-background-color":"","sr-count-style":"count-1","sr-shadow":"","sr-pad":"pad","text-styles":"in","more_sites":"0","open_popup":"","title":"sb_vl","_feature":"sharebar"}}
+    
+}

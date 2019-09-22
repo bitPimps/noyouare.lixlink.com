@@ -1,0 +1,89 @@
+.wpsr_widget_wrap{
+    padding: 0.3em 1.33em;
+    background: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 1.33em;
+    border-radius: 3px;
+}
+.wpsr_widget_wrap p:after{
+    content: '';
+    display: block;
+    clear: both;
+}
+.wpsr_widget_wrap label+.widefat{
+    margin-top: 10px;
+}
+.wpsr_widget_wrap .wp-picker-container{
+    float: right;
+}
+.wpsr_widget_wrap .smallfat{
+    float: right;
+}
+
+#available-widgets .wpsr_widget_highlight{
+    box-shadow: 0 5px 20px 0px;
+}
+#available-widgets .wpsr_widget_highlight .widget-top{
+    outline: 2px solid red;
+}
+#available-widgets [id*="wpsr_main_widget"] .widget-title h3{
+    background-image: url( '../images/icons/wp-socializer-sm.png' );
+    background-position: 94%;
+    background-repeat: no-repeat;
+}
+
+.veditor_preview, .wpsr_wtmpl_wrap .vedit_menu{
+    display: none !important;
+}
+.wpsr_wtmpl_wrap .btn_action{
+    display: none;
+}
+.veditor .btn_list {
+    margin-bottom: 15px;
+}
+.veditor li{
+    display: table;
+    background: #333;
+    color: #fff;
+    margin: 0 5px;
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+    line-height: 25px;
+    height: 25px;
+    border-radius: 3px;
+    cursor: default;
+    width: auto !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    font-size: 12px;
+}
+.veditor li span {
+    display: table-cell;
+    line-height: 1em;
+    vertical-align: middle;
+    padding: 0 5px;
+}
+.veditor li span img{
+    width: 12px;
+}
+
+.fb_preview li {
+    width: 48px;
+    height: 48px;
+    color: #fff;
+    text-align: center;
+    line-height: 48px;
+    float: left;
+    margin: 0 10px 0 0;
+    font-size: 20px;
+    border-radius: 3px;
+}
+.fb_preview:after {content: ' ';display: block;clear: both;}
+.fb_preview span {
+    text-align: center;
+    display: block;
+    border: 1px dashed #ccc;
+    padding: 24px;
+}

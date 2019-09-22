@@ -1,0 +1,31 @@
+/* jQuery Styling */
+#accordion {clear:both; margin-bottom:50px;}
+#accordion h3 {font-size:90%;}
+.button {background:#555 url(/wp-content/themes/noyouare/css/ui-darkness/images/ui-bg_glass_20_555555_1x400.png) 50% 50% repeat-x; border:1px solid #666; color:#fff; font-weight:bold; margin-right:20px; padding:5px;}
+.button:hover {background:#0078a3 url(/wp-content/themes/noyouare/css/ui-darkness/images/ui-bg_glass_40_0078a3_1x400.png) 50% 50% repeat-x; border:1px solid #59b4d4;}
+/* Forms */
+fieldset {border:1px solid #fcd113; padding:10px;}
+label {font-weight:bold;}
+.label_hint {font-size:80%; color:#bbb;}
+legend {font-size:120%; font-weight:bold; color:#f5e175;}
+.required {font-weight:bold; color:#f00; margin-left:5px;}
+/* Table Classes */
+.stripeMe tr.alt td {background:#262626; color:#fff;}
+.stripeMe tr.over td {background:#444; color:#fff;}
+.stripeMe tr td {background:#000; border:1px solid #666; padding:5px; vertical-align:top;}
+#tblEdit th, #tblList th {background:#f58400 url(/wp-content/themes/noyouare/css/ui-darkness/images/ui-bg_inset-soft_30_f58400_1x100.png) 50% 50% repeat-x; border:1px solid #ffaf0f; color:#fff; text-shadow:2px 2px #333; padding:3px; text-align:left; vertical-align:top;}
+#tblEdit td {background:#000 url(/wp-content/themes/noyouare/css/ui-darkness/images/ui-bg_inset-soft_25_000000_1x100.png) 50% bottom repeat-x; border:1px solid #666; color:#fff; padding:5px; vertical-align:top;}
+#tblEdit textarea {width:75%;}
+#tblList td {font-size:90%;}
+#tblList td a {color:#74d7fa;}
+#tblList td a:hover {color:#fff;}
+#tblList .center {text-align:center;}
+#tblList .publish {vertical-align:middle;}
+#tblList .quote {font-style:italic;}
+#tblEllis .context, #tblTully .context, #tblRawdog .context, #tblPendarvis .context, #tblKraft .context {font-size:80%; color:#ccc;}
+/* LI Listing */
+#listing {margin:50px 0;}
+#listing ul, #listing ul li {list-style:none; margin:0; padding:0;}
+#listing ul li {float:left;}
+#listing ul li a {display:block; width:170px; background:#222; border:1px solid #aaa; color:#62d0f2; text-align:center; text-decoration:none; margin:0; padding:4px;}
+#listing ul li a:hover {background:#444; color:#acdd4a; text-decoration:underline;}

@@ -1,0 +1,245 @@
+2013/01/30 18:20:01:99.195.250.70,5a0090fdd0daf0b2,Check IP,/wp-admin/options-general.php?page=stopspammersoptions,Passed all
+2013/01/30 18:20:01: Ip Check Passes
+2013/01/30 18:20:39:99.195.250.70,15d98b136c2a6f71,Check IP,/wp-admin/options-general.php?page=stopspammersoptions,Passed all
+2013/01/30 18:20:39: Ip Check Passes
+2013/01/30 18:29:52:99.195.250.70,,bitPimps,/wp-login.php,Admin Login
+2013/01/30 18:35:27: updated options
+2013/01/30 18:40:24: 27.159.226.147,yyhekt@799fu.com,lerlypeeday,/wp-comments-post.php,Red Herring
+2013/01/30 18:40:32: 27.159.226.147,vgrifv@799fu.com,lerlypeeday,/wp-comments-post.php,Cached bad ip
+2013/01/30 18:40:32: 27.159.226.147,vhfltm@799fu.com,lerlypeeday,/wp-comments-post.php,Cached bad ip
+2013/01/30 18:50:22: updated options
+2013/01/30 18:59:53: updated options
+2013/01/30 23:32:09: 192.74.230.33,josephyounkerit@gmail.com,cetIrrenebown,/wp-comments-post.php,Red Herring
+2013/01/31 01:04:49: 91.207.4.157,BAmentemysmamav@aol.com,graiceark,/wp-comments-post.php,Red Herring
+2013/01/31 01:08:37: 223.199.183.168,cnwlyqs@gmail.com,Santa Barbara County Attorney Listings,/wp-comments-post.php,Red Herring
+2013/01/31 03:12:21: 110.85.125.40,dkvqgr@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/01/31 03:14:18: 110.85.125.40,dsincx@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:41:14: 110.85.125.150,ntcggc@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/01/31 05:41:15: 110.85.125.150,xvfiir@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:41:19: 110.85.125.150,diqecr@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:41:21: 110.85.125.150,mudiwv@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:41:21: 110.85.125.150,bwijag@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:41:26: 110.85.125.150,kigejk@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:41:32: 110.85.125.150,pmbwju@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:41:57: 110.85.125.150,kqckiu@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/01/31 05:48:41: 192.74.228.177,vict.o.ria.k.p.et.e.rsss1.968@gmail.com,coekeepsy,/wp-comments-post.php,Red Herring
+2013/01/31 05:55:36: 89.44.106.110,mervandisy@kooee.com.au,traduceri romana greaca,/wp-comments-post.php,Red Herring
+2013/01/31 07:18:12: 119.146.220.42,tomasilinyurprm@gmail.com,comigmho,/wp-comments-post.php,Red Herring
+2013/01/31 09:35:11: 5.9.28.5,,,/login.php,http referer
+2013/01/31 09:35:13: 97.74.87.14,sessneire@gmail.com,Endatetle,/wp-comments-post.php,Red Herring
+2013/01/31 09:35:23: 5.9.28.5,,,/submit.php,Cached bad ip
+2013/01/31 11:45:22: 31.14.132.148,112dqdd@nasqosddreti.con,Link manager LinkMan,/wp-comments-post.php,Red Herring
+2013/01/31 12:08:34: 175.42.87.140,tonybellsret@gmail.com,lergebraida,/wp-comments-post.php,Red Herring
+2013/01/31 13:56:39: 220.161.148.150,terryrs.2012@gmail.com,lewAspili,/wp-comments-post.php,Red Herring
+2013/01/31 14:03:59: 27.200.49.126,vhxjhujt@gmail.com,Whistleblower,/wp-comments-post.php,Red Herring
+2013/01/31 19:10:47: 192.74.228.161,ken.ne.th.es.tewa.r.tt.t19.7.6@gmail.com,Zedeteessub,/wp-comments-post.php,Red Herring
+2013/01/31 21:26:43: 192.74.228.161,k.en.ne.t.h.est.e.w.artt.t.197.6@gmail.com,PrarlElusia,/wp-comments-post.php,Cached bad ip
+2013/02/01 02:43:10: 46.105.52.125,co.r.ey.ma.r.c.ha.h.a.rri.s.19.71@gmail.com,Pedaemach,/wp-comments-post.php,Red Herring
+2013/02/01 03:11:41: 27.159.221.150,qfxrqo@799fu.com,lerlypeeday,/wp-comments-post.php,Red Herring
+2013/02/01 03:11:41: 27.159.221.150,lvgtyy@799fu.com,lerlypeeday,/wp-comments-post.php,Red Herring
+2013/02/01 03:11:41: 27.159.221.150,zjnvwx@799fu.com,lerlypeeday,/wp-comments-post.php,Red Herring
+2013/02/01 03:11:50: 27.159.221.150,cuqygb@799fu.com,lerlypeeday,/wp-comments-post.php,Cached bad ip
+2013/02/01 03:35:53: 119.131.47.65,tomasilinyu@gmail.com,comignsp,/wp-comments-post.php,Red Herring
+2013/02/01 04:39:06: 27.159.225.165,uzuuxi@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/01 04:39:13: 27.159.225.165,mxxvhk@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/01 04:39:14: 27.159.225.165,ywizwc@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/01 04:39:36: 27.159.225.165,qjhfmu@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/01 06:48:34: 8.36.225.203,Stoltzfus926@gmail.com,Virtuaguy,/wp-comments-post.php,Red Herring
+2013/02/01 09:56:43: 31.14.132.148,11s2dqdd@nasqosssdddreti.con,Link manager LinkMan,/wp-comments-post.php,Cached bad ip
+2013/02/01 12:05:37: 192.74.228.145,ti.mo.thyl.e.e.smithhh1.9.7.1@gmail.com,Seasemeflably,/wp-comments-post.php,Red Herring
+2013/02/01 12:26:43: 119.183.252.32,ipndeostra@gmail.com,Environmental Law,/wp-comments-post.php,Red Herring
+2013/02/01 13:26:12: 110.85.126.214,nehlin@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/01 13:26:14: 110.85.126.214,sykutp@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/01 13:50:14: 168.62.161.248,ericsmithpn@gmail.com,Sownfejette,/wp-comments-post.php,Red Herring
+2013/02/01 14:19:29: 192.74.228.177,vic.t.o.ri.ak.p.e.t.e.rsss.196.8@gmail.com,Bektakheige,/wp-comments-post.php,Cached bad ip
+2013/02/01 15:05:30: 46.105.52.125,co.re.ym.ar.c.h.a.ha.rri.s.1971@gmail.com,Pedaemach,/wp-comments-post.php,Cached bad ip
+2013/02/01 16:44:26: 192.74.230.33,josephyounkerit@gmail.com,cetIrrenebown,/wp-comments-post.php,Cached bad ip
+2013/02/01 19:52:35: 168.61.17.216,hualium@gmail.com,pletchernzd,/wp-comments-post.php,Red Herring
+2013/02/01 20:16:12: 195.137.109.23,BudnickSeymer016@gnumail.com,hey, just passing by your cool stuff .. hope you can check out my blog too!,/wp-comments-post.php,Red Herring
+2013/02/01 22:05:46: 192.74.240.68,rickyleon1992@aol.com,Jetesleefly,/wp-comments-post.php,Red Herring
+2013/02/02 02:26:20: 192.74.240.68,sam.a.ntha.rk.ram.e.r.rr19.7.6@gmail.com,Urbaparee,/wp-comments-post.php,Cached bad ip
+2013/02/02 03:12:10: 91.201.64.27,borqog@nqfwvl.com,vbeyghqupbd,/wp-comments-post.php,Red Herring
+2013/02/02 03:36:12: 118.183.220.168,bzvazob@gmail.com,Power of Attorney,/wp-comments-post.php,Red Herring
+2013/02/02 05:58:14: 123.12.254.175,cohvmuiijwp@gmail.com,Government Agencies,/wp-comments-post.php,Red Herring
+2013/02/02 05:59:00: 180.142.80.115,zlilvv@gmail.com,Agriculture,/wp-comments-post.php,Red Herring
+2013/02/02 06:02:36: 1.204.130.8,atanvrvv@gmail.com,Landlord-Tenant,/wp-comments-post.php,Red Herring
+2013/02/02 06:35:21: 122.80.48.133,dhsqbyw@gmail.com,Business Organization,/wp-comments-post.php,Red Herring
+2013/02/02 07:38:52: 113.8.219.156,jsmgubeh@gmail.com,Industry Specialties,/wp-comments-post.php,Red Herring
+2013/02/02 08:21:08: 201.0.107.156,christianlabres@hotmail.com,lista de emails,/wp-comments-post.php,Red Herring
+2013/02/02 12:56:08: 192.74.228.177,vi.ct.oria.kpe.ters.ss1.9.68@gmail.com,BligTodeReige,/wp-comments-post.php,Cached bad ip
+2013/02/02 13:20:54: 201.87.32.123,carvalhodasilva9@hotmail.com,lista de email,/wp-comments-post.php,Red Herring
+2013/02/02 14:29:05: 192.74.228.177,vic.to.riakp.et.e.r.s.s.s1.9.68@gmail.com,coekeepsy,/wp-comments-post.php,Cached bad ip
+2013/02/02 14:44:16: 91.207.8.30,xueijss@loonycodupon.com,Savanna Hannon,/wp-comments-post.php,Red Herring
+2013/02/02 15:00:26: 192.74.228.177,v.ic.t.o.ri.a.k.pet.ers.s.s.1968@gmail.com,coekeepsy,/wp-comments-post.php,Cached bad ip
+2013/02/02 15:08:12: 192.74.228.177,vi.c.t.or.i.akpet.e.rss.s1.9.6.8@gmail.com,coekeepsy,/wp-comments-post.php,Cached bad ip
+2013/02/02 17:08:30: 192.74.240.68,sa.m.a.n.t.har.kr.a.me.r.r.r.1976@gmail.com,Urbaparee,/wp-comments-post.php,Cached bad ip
+2013/02/02 18:46:36: 192.74.228.177,v.i.c.t.o.ria.k.p.et.er.s.ss.196.8@gmail.com,BligTodeReige,/wp-comments-post.php,Cached bad ip
+2013/02/02 20:08:15: 192.74.228.177,v.i.ctor.i.akpete.r.s.ss1.9.6.8@gmail.com,coekeepsy,/wp-comments-post.php,Cached bad ip
+2013/02/02 20:24:25: 192.74.240.68,ameliarodriguez1986@aol.com,enasomsshoott,/wp-comments-post.php,Cached bad ip
+2013/02/02 21:02:45: 222.73.161.161,ginnyxwwy@hotmail.com,Wrerrankibeli,/wp-comments-post.php,Red Herring
+2013/02/02 22:52:27: 192.74.228.177,v.i.c.to.r.ia.kp.eter.sss.19.6.8@gmail.com,illickupt,/wp-comments-post.php,Cached bad ip
+2013/02/03 01:10:28: 142.4.98.36,younghu002@126.com,Addeceitase,/wp-comments-post.php,Red Herring
+2013/02/03 02:31:54: 120.62.2.102,Langel16402@gmail.com,Mollie King,/wp-comments-post.php,Red Herring
+2013/02/03 05:37:44: 201.75.87.28,casal100vergonha@hotmail.com,mestreseo,/wp-comments-post.php,Red Herring
+2013/02/03 06:50:14: 5.39.47.161,PorchiaMcmahan051@hotmail.com,Best Backlinker,/wp-comments-post.php,Red Herring
+2013/02/03 13:31:27: 58.222.255.2,tan.ger.trade@gmail.com,foakley,/wp-comments-post.php,Red Herring
+2013/02/03 14:04:53: 142.234.49.98,Fowlston@yahoo.com,Jamison Resse,/wp-comments-post.php,Red Herring
+2013/02/03 14:27:07: 188.165.211.176,sarah.jarrett1@aol.co.uk,Befbifigked,/wp-comments-post.php,Red Herring
+2013/02/03 14:29:10: 121.32.20.227,tomasilinyu@gmail.com,comigkir,/wp-comments-post.php,Red Herring
+2013/02/03 14:46:26: 173.237.178.181,SchreckDonadio5384@aol.com,salsa beaverton oregon,/wp-comments-post.php,Red Herring
+2013/02/03 15:12:20: 91.192.164.49,esnycfixt@gmail.com,strony www Rzesz&#243;w,/wp-comments-post.php,Red Herring
+2013/02/03 15:26:30: 91.192.164.49,rrgydjgn@gmail.com,pozycjonowanie Rzesz&#243;w,/wp-comments-post.php,Cached bad ip
+2013/02/03 15:52:00: 67.209.190.86,Savarino@news.com,Destiny Dixon blowjob,/wp-comments-post.php,Red Herring
+2013/02/03 16:10:37: 67.209.190.81,Ander@news.com,Destiny Dixon porn,/wp-comments-post.php,Red Herring
+2013/02/03 18:15:36: 188.40.69.204,,,/tag/gavin-rossdale/trackback,http referer
+2013/02/03 18:34:11: 201.56.208.233,Potocnik@aol.com,profollica official site,/wp-comments-post.php,Red Herring
+2013/02/03 19:39:45: 110.85.127.204,cglcjr@799fu.com,Draiffgor,/wp-comments-post.php,Red Herring
+2013/02/03 19:39:45: 110.85.127.204,vqmzul@799fu.com,Draiffgor,/wp-comments-post.php,Red Herring
+2013/02/03 19:39:48: 110.85.127.204,blrzpe@799fu.com,Draiffgor,/wp-comments-post.php,Cached bad ip
+2013/02/04 00:32:04: 183.129.177.114,tan.ger.trade@gmail.com,foakley sunglasses,/wp-comments-post.php,Red Herring
+2013/02/04 01:59:27: 176.106.121.126,Fukuda8@gmail.com,Polovni automobili,/wp-comments-post.php,Red Herring
+2013/02/04 02:46:21: 27.159.217.192,bcysfx@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/04 02:46:26: 27.159.217.192,mejrwd@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 02:46:28: 27.159.217.192,ojvdar@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 02:54:36: 110.85.127.234,onilif@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/04 02:54:38: 110.85.127.234,mpxici@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 02:54:42: 110.85.127.234,ynjcmi@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 02:54:42: 110.85.127.234,hbicqi@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 02:54:44: 110.85.127.234,kqriab@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 02:54:45: 110.85.127.234,poloxq@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 02:54:48: 110.85.127.234,thwtjj@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/04 03:30:36: 107.198.155.31,JahdeGlanville202@aol.com,View JUNIOR CETOUTE\'s professional profile on Linked,/wp-comments-post.php,Red Herring
+2013/02/04 05:15:13: 177.16.84.97,carmenafortunato@hotmail.com,lista de emails,/wp-comments-post.php,Red Herring
+2013/02/04 06:39:32: 23.19.34.165,Threat64@gmail.com,William Marinkovic,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/04 07:20:59: 67.209.190.91,Vizard@gmail.com,Julia Bond,/wp-comments-post.php,Red Herring
+2013/02/04 08:10:00: 93.182.159.35,Linsday@gmail.com,Lenita Lene,/wp-comments-post.php,Red Herring
+2013/02/04 08:32:27: 67.209.190.79,Testerman@gmail.com,Julia Bond pics,/wp-comments-post.php,Red Herring
+2013/02/04 08:42:15: 192.74.230.34,josephyounkerit@gmail.com,cetIrrenebown,/wp-comments-post.php,Red Herring
+2013/02/04 09:14:55: 67.209.190.85,Cyrnek@gmail.com,Julia Bond pics,/wp-comments-post.php,Red Herring
+2013/02/04 09:20:12: 187.52.88.91,cleyson_silvaperes@hotmail.com,lista de email,/wp-comments-post.php,Red Herring
+2013/02/04 09:23:28: updated options
+2013/02/04 09:25:08: updated options
+2013/02/04 09:26:54: updated options
+2013/02/04 11:17:40: 46.105.52.167,pwpxup@via-paypal.com,GarkEquamma,/wp-comments-post.php,Red Herring
+2013/02/04 11:42:45: 50.122.39.227,vufxfhy@gmail.com,xrumerpros,/wp-comments-post.php,Red Herring
+2013/02/04 12:57:45: 177.69.227.87,srbuttars@gmail.com,kissing disease mono,/wp-comments-post.php,Red Herring
+2013/02/04 12:58:10: 187.5.104.43,carol_carolsinha23@hotmail.com,lista de email,/wp-comments-post.php,Red Herring
+2013/02/04 13:44:22: 88.80.20.212,Ligon33@gmail.com,Donny Huminski,/wp-comments-post.php,Red Herring
+2013/02/04 13:48:56: 27.159.221.180,rspswn@374kj.com,soypeaerordew,/wp-comments-post.php,Red Herring
+2013/02/04 13:48:56: 27.159.221.180,vfwfjs@374kj.com,soypeaerordew,/wp-comments-post.php,Red Herring
+2013/02/04 13:49:00: 27.159.221.180,gjqhoi@374kj.com,soypeaerordew,/wp-comments-post.php,Cached bad ip
+2013/02/04 13:49:00: 27.159.221.180,tgwlef@374kj.com,soypeaerordew,/wp-comments-post.php,Cached bad ip
+2013/02/04 13:49:04: 27.159.221.180,hnmdof@374kj.com,soypeaerordew,/wp-comments-post.php,Cached bad ip
+2013/02/04 13:49:04: 27.159.221.180,cortfz@374kj.com,soypeaerordew,/wp-comments-post.php,Cached bad ip
+2013/02/04 13:49:05: 27.159.221.180,qlgcea@374kj.com,soypeaerordew,/wp-comments-post.php,Cached bad ip
+2013/02/04 14:29:47: 200.175.156.111,lezmazy@gmail.com,Kurtis Dormane,/wp-comments-post.php,Red Herring
+2013/02/04 16:17:39: 27.159.219.78,sneozm@mediosbase.com,Usentysnilt,/wp-comments-post.php,Red Herring
+2013/02/04 16:17:41: 27.159.219.78,ecqqmz@mediosbase.com,Usentysnilt,/wp-comments-post.php,Cached bad ip
+2013/02/04 16:17:50: 27.159.219.78,xvksjp@mediosbase.com,Usentysnilt,/wp-comments-post.php,Cached bad ip
+2013/02/04 17:22:03: 200.37.145.132,Regner4079@angelfire.com,co-eds nymphy nightcaps,/wp-comments-post.php,Red Herring
+2013/02/04 17:22:05: 212.119.105.65,Guenette6726@angelfire.com,tara does campus dorm,/wp-comments-post.php,Red Herring
+2013/02/04 17:22:06: 210.212.98.228,Medas8602@angelfire.com,college dreams in my bed,/wp-comments-post.php,Red Herring
+2013/02/04 17:22:08: 180.87.197.91,Hitt5696@angelfire.com,bedtime milfs,/wp-comments-post.php,Red Herring
+2013/02/04 17:22:09: 210.212.98.228,Tivis6089@angelfire.com,tube whore,/wp-comments-post.php,Cached bad ip
+2013/02/04 17:22:12: 200.180.98.10,Wison2106@angelfire.com,tube whore,/wp-comments-post.php,Red Herring
+2013/02/04 17:22:24: 200.21.193.98,Scaglione9335@angelfire.com,porno paulie,/wp-comments-post.php,Red Herring
+2013/02/04 17:30:44: 193.105.210.216,tukachevgen@gmail.com,AngeftAlitmen,/wp-comments-post.php,Red Herring
+2013/02/04 17:42:22: 41.230.30.24,Opaka@aol.com,profollica coupons,/wp-comments-post.php,Red Herring
+2013/02/04 17:58:48: 110.85.125.254,lwtkwg@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/04 17:58:48: 110.85.125.254,qsuhfm@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/04 18:24:48: 46.119.119.173,spymobileonme@gmail.com,exoxia1977,/wp-comments-post.php,Red Herring
+2013/02/04 18:48:41: 27.159.218.55,uwgylq@799fu.com,lerlypeeday,/wp-comments-post.php,Red Herring
+2013/02/04 18:50:34: updated options
+2013/02/04 19:04:15: updated options
+2013/02/04 19:10:54: updated options
+2013/02/04 20:29:27: 113.212.70.244,Dradloriroabs@gmail.com,Alcorrolo,/wp-comments-post.php,Red Herring
+2013/02/04 22:47:14: 91.231.40.28,rudnitskyanton1@gmail.com,Unfissensap,/wp-comments-post.php,Red Herring
+2013/02/04 23:25:51: 89.47.26.154,help@etraffic247.ca,Glenn McLelland,/wp-comments-post.php,Red Herring
+2013/02/04 23:50:02: 192.162.19.193,burdiyananton1@gmail.com,Wewswaype,/wp-comments-post.php,Red Herring
+2013/02/05 00:31:21: 69.162.117.2,srpglzjpw@100mail.com,hgh releaser reviews,/wp-comments-post.php,Red Herring
+2013/02/05 00:31:24: 69.162.117.2,xnbfngs@100mail.com,hgh releaser reviews,/wp-comments-post.php,Cached bad ip
+2013/02/05 04:12:40: 2.102.38.67,Vandeveer@cityforex.com,Utility Warehouse Broadband,/wp-comments-post.php,Red Herring
+2013/02/05 04:27:57: 83.8.105.110,Jurewicz@yahoo.de.ru,ghghghghgh,/wp-comments-post.php,Red Herring
+2013/02/05 04:45:30: 91.192.164.49,becezkxvysb@gmail.com,pozycjonowanie Rzesz&#243;w,/wp-comments-post.php,Red Herring
+2013/02/05 05:19:50: 88.80.21.224,Cree36@gmail.com,Porter Troxil,/wp-comments-post.php,Red Herring
+2013/02/05 05:36:40: 110.85.72.35,buycanadagooseoutlet@gmail.com,Christine Tupaz,/wp-comments-post.php,Red Herring
+2013/02/05 06:55:31: 168.62.169.221,FooreallWar@gmail.com,DamImacebom,/wp-comments-post.php,Red Herring
+2013/02/05 07:16:11: 91.231.40.27,bushmantaras1@gmail.com,lypeexcalry,/wp-comments-post.php,Red Herring
+2013/02/05 07:18:21: 177.8.226.254,Macduffee96187@gmail.com,Janice Ternullo,/wp-comments-post.php,Red Herring
+2013/02/05 07:20:40: 168.61.41.115,josegarnicanr@gmail.com,knoneoppose,/wp-comments-post.php,Red Herring
+2013/02/05 07:32:27: 117.88.175.86,ang552@gmail.com,more than 20 years of experience in the technical bags business,/wp-comments-post.php,Red Herring
+2013/02/05 07:32:27: 117.88.175.86,4wf31@gmail.com,go green with printed paper bags,/wp-comments-post.php,Red Herring
+2013/02/05 07:47:05: 201.24.223.10,cilzera@hotmail.com,lista de emails,/wp-comments-post.php,Red Herring
+2013/02/05 07:53:31: 200.199.87.24,carla_nmarinho@hotmail.com,lista de emails,/wp-comments-post.php,Red Herring
+2013/02/05 09:13:17: 211.142.137.99,tan.ger.trade@gmail.com,foakley,/wp-comments-post.php,Red Herring
+2013/02/05 09:51:31: 168.62.169.221,aldenjon.essr@gmail.com,SwesteTes,/wp-comments-post.php,Cached bad ip
+2013/02/05 10:47:42: 8.18.120.37,yalcin@noramedya.com,e-ticaret,/wp-comments-post.php,Red Herring
+2013/02/05 11:26:26: 23.27.128.182,yalcin@noramedya.com,e-ticaret,/wp-comments-post.php,Red Herring
+2013/02/05 13:07:48: 200.57.90.4,carol_cuemo@hotmail.com,lista de email,/wp-comments-post.php,Red Herring
+2013/02/05 13:51:37: 81.66.152.163,cleberlulio@hotmail.com,,/wp-comments-post.php,Red Herring
+2013/02/05 14:29:55: 193.105.210.217,donetsivan@gmail.com,Knonocaup,/wp-comments-post.php,Red Herring
+2013/02/05 15:32:20: 123.233.245.237,lung@yahoo.com,Kimberli Douvier,/wp-comments-post.php,Red Herring
+2013/02/05 15:35:15: 8.30.147.231,yalcin@noramedya.com,e-ticaret,/wp-comments-post.php,Red Herring
+2013/02/05 16:30:10: 23.27.128.182,yalcin@noramedya.com,e-ticaret,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:12:48: 110.85.124.226,kaotuh@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/05 20:12:49: 110.85.124.226,dtrcjb@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:12:52: 110.85.124.226,whagty@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:12:52: 110.85.124.226,zqgxsj@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:12:53: 110.85.124.226,trarcv@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:12:53: 110.85.124.226,ujucvk@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:12:55: 110.85.124.226,exxklz@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:12:55: 110.85.124.226,lnyynu@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:41:17: 192.74.228.10,layons72233344@gmail.com,Wendyiis,/wp-comments-post.php,Red Herring
+2013/02/05 20:43:23: 192.74.228.10,layons72233344@gmail.com,Wendyiis,/wp-comments-post.php,Cached bad ip
+2013/02/05 20:44:39: 192.74.228.10,layons72233344@gmail.com,Wendyiis,/wp-comments-post.php,Cached bad ip
+2013/02/05 21:09:37: 168.61.41.115,zacksadairt@gmail.com,CigGizsnisk,/wp-comments-post.php,Cached bad ip
+2013/02/05 21:48:50: 110.85.126.34,nobcbc@799fu.com,OptiowStict,/wp-comments-post.php,Red Herring
+2013/02/05 21:48:52: 110.85.126.34,yzlkze@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 21:48:52: 110.85.126.34,qonjqd@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 21:48:53: 110.85.126.34,hklmry@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 21:48:55: 110.85.126.34,qrylrz@799fu.com,OptiowStict,/wp-comments-post.php,Cached bad ip
+2013/02/05 21:50:58: 192.74.230.34,josephyounkerit@gmail.com,cetIrrenebown,/wp-comments-post.php,Red Herring
+2013/02/06 00:02:29: 81.218.89.26,Iris_Olkowski@hotmail.com,Joe Shatz,/wp-comments-post.php,Red Herring
+2013/02/06 00:20:39: 175.44.5.206,pearl.ycvg@gmail.com,goaneissops,/wp-comments-post.php,Red Herring
+2013/02/06 01:48:16: 203.187.170.66,Mcerlean@hotmail.com,profollica scam,/wp-comments-post.php,Red Herring
+2013/02/06 02:36:49: 81.218.89.26,Jodi_Verdon@hotmail.com,Paris Uchimura,/wp-comments-post.php,Cached bad ip
+2013/02/06 04:21:22: 69.147.240.43,Torbert178@gmail.com,Alla Days,/wp-comments-post.php,Red Herring
+2013/02/06 04:42:24: 173.208.68.37,Warwick56@gmail.com,Dallas Julian,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 04:42:28: 64.120.52.37,Schoen74@gmail.com,Johnathan Sandrowicz,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 04:42:29: 69.147.225.28,Koester97@gmail.com,Maurice Brits,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 04:42:30: 174.34.146.13,Langlitz49@gmail.com,Lelah Leuckel,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 04:42:34: 108.62.114.124,Amin87@gmail.com,Asuncion Perdue,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 04:42:38: 174.34.146.13,Davie81@gmail.com,Corey Thee,/wp-comments-post.php,Cached bad ip
+2013/02/06 04:42:37: 173.234.253.52,Recker69@gmail.com,Mora Chanin,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 04:42:37: 108.62.18.157,Arrott84@gmail.com,Sondra Joans,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 04:47:36: 64.145.83.172,7Brannon@ymail.com,supplements for endurance athletes,/wp-comments-post.php,Red Herring
+2013/02/06 04:47:36: 216.172.131.46,42Rozzell@ymail.com,steroids before and after,/wp-comments-post.php,Red Herring
+2013/02/06 04:47:36: 173.245.194.54,63Klacic@ymail.com,steroids online,/wp-comments-post.php,Red Herring
+2013/02/06 04:47:38: 173.245.194.20,7Brannon@ymail.com,supplements for men,/wp-comments-post.php,Red Herring
+2013/02/06 06:01:18: 81.218.89.26,Cleveland_Snock@yahoo.com,Rodger Hauschildt,/wp-comments-post.php,Cached bad ip
+2013/02/06 06:01:42: 81.218.89.26,Charley_Askia@yahoo.com,Laverna Wojner,/wp-comments-post.php,Cached bad ip
+2013/02/06 06:03:35: 81.218.89.26,Pattie_Diano@gmail.com,Yuonne Petix,/wp-comments-post.php,Cached bad ip
+2013/02/06 06:28:52: 81.218.89.26,Kristin_Kobialka@hotmail.com,Florrie Berryman,/wp-comments-post.php,Cached bad ip
+2013/02/06 06:48:23: 213.4.106.85,Darm4006@gmail.com,Olin Mccardell,/wp-comments-post.php,Red Herring
+2013/02/06 07:11:57: 81.218.89.26,Marcy_Schanz@gmail.com,Jinny Lamothe,/wp-comments-post.php,Cached bad ip
+2013/02/06 07:11:59: 81.218.89.26,Lenard_Stine@hotmail.com,Leisha Netzer,/wp-comments-post.php,Cached bad ip
+2013/02/06 07:12:29: 81.218.89.26,Karl_Kang@yahoo.com,Sherilyn Canpos,/wp-comments-post.php,Cached bad ip
+2013/02/06 07:12:29: 81.218.89.26,Karoline_Crosman@hotmail.com,Aurelia Detommaso,/wp-comments-post.php,Cached bad ip
+2013/02/06 07:13:09: 81.218.89.26,Eugenie_Kanta@gmail.com,Isabell Gutowski,/wp-comments-post.php,Cached bad ip
+2013/02/06 07:13:09: 81.218.89.26,Julieann_Suleiman@yahoo.com,Natasha Coluccio,/wp-comments-post.php,Cached bad ip
+2013/02/06 07:16:52: 81.218.89.26,Quentin_Amboise@gmail.com,Santana Chiarito,/wp-comments-post.php,Cached bad ip
+2013/02/06 07:16:52: 81.218.89.26,Samatha_Mitchener@gmail.com,Shanda Risser,/wp-comments-post.php,Cached bad ip
+2013/02/06 08:35:30: 173.213.89.193,Mcclaren202@gmail.com,Robena Rommel,/wp-comments-post.php,Red Herring
+2013/02/06 08:41:43: 188.190.124.72,Wignall34@gmail.com,Alishia Surbaugh,/wp-comments-post.php,Red Herring
+2013/02/06 08:50:06: 173.234.227.69,BuntinBerkebile6719@yahoomail.com,pure green coffee bean extract,/wp-comments-post.php,Ubiquity-Nobis
+2013/02/06 08:52:55: 175.44.5.206,t.rillionsdr@gmail.com,goaneissops,/wp-comments-post.php,Cached bad ip
+2013/02/06 09:25:59: 188.190.124.71,Wollmuth76@gmail.com,Beula Hotchkiss,/wp-comments-post.php,Red Herring
+2013/02/06 10:06:09: 81.218.89.26,Miss_Pashal@yahoo.com,Anjanette Sohn,/wp-comments-post.php,Cached bad ip
+2013/02/06 10:44:51: 218.94.145.210,ang552@gmail.com,topwholesalebags blog,/wp-comments-post.php,Red Herring
+2013/02/06 11:01:48: 173.0.55.70,Mirante1415@hotmail.com,Sex,/wp-comments-post.php,Virpus
+2013/02/06 11:15:55: 175.44.5.17,fi.gurexcf@gmail.com,ugg boots online,/wp-comments-post.php,Red Herring
+2013/02/06 11:27:53: 173.0.55.70,Hamdn977@hotmail.com,Porn,/wp-comments-post.php,Cached bad ip
+2013/02/06 13:35:31: 5.15.148.206,hotgirls25@gmail.com,roxana,/wp-comments-post.php,Red Herring
+2013/02/06 14:43:20: 124.195.6.243,kissner@yahoo.com,Winston Guttmann,/wp-comments-post.php,Red Herring
+2013/02/06 15:02:46: updated options
+2013/02/06 17:09:35: 202.166.205.91,nuessen@gmail.com,Delinda Ureste,/wp-comments-post.php,Red Herring

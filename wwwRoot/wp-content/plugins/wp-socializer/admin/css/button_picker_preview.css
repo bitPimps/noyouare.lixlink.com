@@ -1,0 +1,117 @@
+body{
+    margin: 0;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+}
+h3 {
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.bt_wrap {
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #dfdfdf;
+    margin: 0 15px 15px 0;
+    position: relative;
+    cursor: pointer;
+}
+.bt_inner {
+    padding: 15px;
+}
+.bt_wrap:hover:after{
+    position: absolute;
+    content: '';
+    background: rgba(0, 0, 0, 0.4);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.bt_wrap.inserting:after{
+    position: absolute;
+    content: '';
+    background: rgba(255, 255, 255, 0.9);
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url(../images/icons/loading.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.bt_wrap[data-id="default"]{
+    min-width: 150px;
+}
+
+.bt_delete{
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #fff;
+    width: 16px;
+    height: 16px;
+    z-index: 99;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 0 0 0 5px;
+    color: #333;
+}
+.bt_delete:hover{
+    background-color: #f1f1f1;
+    color: red;
+}
+.bt_wrap:hover .bt_delete{
+    display: block;
+}
+
+.tooltip {
+    display: none;
+    background: #333;
+    color: #fff;
+    position: absolute;
+    padding: 5px 10px;
+    border-radius: 3px;
+    max-width: 300px;
+    min-width: auto;
+    text-align: left;
+    z-index: 999;
+    top: 110%;
+    white-space: pre;
+    font-size: 11px;
+}
+.tooltip:after{
+    position: absolute;
+    content: '';
+    border: 5px solid;
+    border-color: transparent transparent #333 transparent;
+    top: -10px;
+    left: 5px;
+}
+.tooltip span{
+    display: block;
+}
+.bt_wrap:hover .tooltip{
+    display: block;
+}
+
+.default_icon {
+    position: absolute;
+    font-size: 20px !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #888;
+}
+
+.clearfix{
+    display: flex;
+    flex-wrap: wrap;
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}

@@ -1,0 +1,474 @@
+{
+    "template1": {
+        "name": "Template 1",
+        "category": "native",
+        "content": [
+            [ "fb_hl", "gp_hl", "twitter_hl", "linkedin_hl", "pocket_hl" ]
+        ]
+    },
+    "template2": {
+        "name": "Template 2",
+        "category": "native",
+        "content": [
+            [ "fb_hl_lg", "twitter_hl_lg", "gp_hl_lg" ]
+        ]
+    },
+    
+    "template-spcl1": {
+        "name": "Template Spcl 1",
+        "category": "icons_text_count",
+        "content": [
+            [ "share_counter_hl", "sb-spcl-1" ]
+        ]
+    },
+    
+    "template-spcl2": {
+        "name": "Template Spcl 2",
+        "category": "native",
+        "content": [
+            [ "share_counter_vl", "sb-2" ],
+            [ "fb_hl", "gp_hl", "twitter_hl", "linkedin_hl", "pocket_hl" ]
+        ]
+    },
+    
+    "template-spcl3": {
+        "name": "Template spcl 3",
+        "category": "native",
+        "content": [
+            [ "share_counter_hl", "fb_hl_nc", "twitter_hl", "gp_hl_nc", "linkedin_hl_nc", "pocket_hl_nc" ]
+        ]
+    },
+    
+    "template-spcl4": {
+        "name": "Template spcl 4",
+        "category": "icons_text_count",
+        "content": [
+            [ "share_counter_hl", "sb-b-1" ]
+        ]
+    },
+    
+    "template4": {
+        "name": "Template 4",
+        "category": "just_icons",
+        "content": [
+            [ "sb-1" ]
+        ]
+    },
+
+    "template5": {
+        "name": "Template 5",
+        "category": "icons_count",
+        "content": [
+            [ "sb-2" ]
+        ]
+    },
+
+    "template6": {
+        "name": "Template 6",
+        "category": "icons_count",
+        "content": [
+            [ "sb-3" ]
+        ]
+    },
+
+    "template7": {
+        "name": "Template 7",
+        "category": "icons_count",
+        "content": [
+            [ "sb-4" ]
+        ]
+    },
+
+    "template8": {
+        "name": "Template 8",
+        "category": "icons_count",
+        "content": [
+            [ "sb-5" ]
+        ]
+    },
+
+    "template9": {
+        "name": "Template 9",
+        "category": "icons_count",
+        "content": [
+            [ "sb-6" ]
+        ]
+    },
+
+    "template10": {
+        "name": "Template 10",
+        "category": "icons_count",
+        "content": [
+            [ "sb-7" ]
+        ]
+    },
+
+    "template12": {
+        "name": "Template 12",
+        "category": "icons_count",
+        "content": [
+            [ "sb-9" ]
+        ]
+    },
+    
+    "template12-1": {
+        "name": "Template 12-1",
+        "category": "icons_count",
+        "content": [
+            [ "sb-b-2" ]
+        ]
+    },
+    
+    "template12-a2": {
+        "name": "Template 12a2",
+        "category": "icons_count",
+        "content": [
+            [ "sb-b-7" ]
+        ]
+    },
+    
+    "template12-a5": {
+        "name": "Template 12a5",
+        "category": "icons_count",
+        "content": [
+            [ "sb-b-10" ]
+        ]
+    },
+    
+    "template13": {
+        "name": "Template 13",
+        "category": "just_icons",
+        "content": [
+            [ "sb-10" ]
+        ]
+    },
+    
+    "template12-cmb-1": {
+        "name": "Template 12cmb1",
+        "category": "icons_count",
+        "content": [
+            [ "share_counter_hl", "sb-2" ]
+        ]
+    },
+    
+    "template12-cmb-2": {
+        "name": "Template 12cmb2",
+        "category": "icons_count",
+        "content": [
+            [ "share_counter_hl", "sb-3" ]
+        ]
+    },
+    
+    "template12-cmb-3": {
+        "name": "Template 12cmb3",
+        "category": "icons_count",
+        "content": [
+            [ "share_counter_hl", "sb-4" ]
+        ]
+    },
+    
+    "template12-cmb-6": {
+        "name": "Template 12cmb6",
+        "category": "icons_count",
+        "content": [
+            [ "share_counter_hl", "sb-7" ]
+        ]
+    },
+    
+    "template12-cmb-8": {
+        "name": "Template 12cmb8",
+        "category": "icons_count",
+        "content": [
+            [ "share_counter_vl", "sb-9" ]
+        ]
+    },
+    
+    "template12-cmb-9": {
+        "name": "Template 12cmb9",
+        "category": "icons_count",
+        "content": [
+            [ "share_counter_hl", "sb-10" ]
+        ]
+    },
+    
+    "template14": {
+        "name": "Template 14",
+        "category": "just_icons",
+        "content": [
+            [ "sb-11" ]
+        ]
+    },
+
+    "template15": {
+        "name": "Template 15",
+        "category": "just_icons",
+        "content": [
+            [ "sb-12" ]
+        ]
+    },
+
+    "template16": {
+        "name": "Template 16",
+        "category": "just_icons",
+        "content": [
+            [ "sb-13" ]
+        ]
+    },
+
+    "template17": {
+        "name": "Template 17",
+        "category": "just_icons",
+        "content": [
+            [ "sb-14" ]
+        ]
+    },
+
+    "template19": {
+        "name": "Template 19",
+        "category": "just_icons",
+        "content": [
+            [ "sb-16" ]
+        ]
+    },
+
+    "template20": {
+        "name": "Template 20",
+        "category": "full_width",
+        "content": [
+            [ "sb-17" ]
+        ]
+    },
+
+    "template21": {
+        "name": "Template 21",
+        "category": "full_width",
+        "content": [
+            [ "sb-18" ]
+        ]
+    },
+
+    "template22": {
+        "name": "Template 22",
+        "category": "full_width",
+        "content": [
+            [ "sb-19" ]
+        ]
+    },
+
+    "template23": {
+        "name": "Template 23",
+        "category": "full_width",
+        "content": [
+            [ "sb-20" ]
+        ]
+    },
+    
+    "template25": {
+        "name": "Template 25",
+        "category": "just_icons",
+        "content": [
+            [ "sb-22" ]
+        ]
+    },
+    
+    "template27": {
+        "name": "Template 27",
+        "category": "just_icons",
+        "content": [
+            [ "sb-24" ]
+        ]
+    },
+    
+    "template29": {
+        "name": "Template 29",
+        "category": "just_icons",
+        "content": [
+            [ "sb-26" ]
+        ]
+    },
+    
+    "template30": {
+        "name": "Template 30",
+        "category": "just_icons",
+        "content": [
+            [ "sb-27" ]
+        ]
+    },
+    
+    "template32": {
+        "name": "Template 32",
+        "category": "just_icons",
+        "content": [
+            [ "sb-29" ]
+        ]
+    },
+    
+    "template33": {
+        "name": "Template 33",
+        "category": "just_icons",
+        "content": [
+            [ "sb-30" ]
+        ]
+    },
+    
+    "template35": {
+        "name": "Template 35",
+        "category": "icons_text",
+        "content": [
+            [ "sb-text-1" ]
+        ]
+    },
+    
+    "template36": {
+        "name": "Template 36",
+        "category": "icons_text",
+        "content": [
+            [ "sb-text-2" ]
+        ]
+    },
+    
+    "template37": {
+        "name": "Template 37",
+        "category": "icons_text",
+        "content": [
+            [ "sb-text-3" ]
+        ]
+    },
+    
+    "template38": {
+        "name": "Template 38",
+        "category": "icons_text",
+        "content": [
+            [ "sb-text-4" ]
+        ]
+    },
+    
+    "template41": {
+        "name": "Template 41",
+        "category": "icons_text",
+        "content": [
+            [ "sb-text-7" ]
+        ]
+    },
+    
+    "template43": {
+        "name": "Template 43",
+        "category": "icons_text",
+        "content": [
+            [ "sb-text-9" ]
+        ]
+    },
+    
+    "template45": {
+        "name": "Template 45",
+        "category": "icons_text_count",
+        "content": [
+            [ "sb-count-text-1" ]
+        ]
+    },
+    
+    "template46": {
+        "name": "Template 46",
+        "category": "icons_text_count",
+        "content": [
+            [ "sb-count-text-2" ]
+        ]
+    },
+    
+    "template49": {
+        "name": "Template 49",
+        "category": "full_width",
+        "content": [
+            [ "sb-count-text-5" ]
+        ]
+    },
+    
+    "template51": {
+        "name": "Template 51",
+        "category": "icons_text_count",
+        "content": [
+            [ "sb-count-bbl-2" ]
+        ]
+    },
+    
+    "template54": {
+        "name": "Template 54",
+        "category": "icons_text_count",
+        "content": [
+            [ "sb-count-bbl-5" ]
+        ]
+    },
+    
+    "template55": {
+        "name": "Template 55",
+        "category": "just_text",
+        "content": [
+            [ "sb-only-text-1" ]
+        ]
+    },
+    
+    "template56": {
+        "name": "Template 56",
+        "category": "just_text",
+        "content": [
+            [ "sb-only-text-2" ]
+        ]
+    },
+    
+    "template58": {
+        "name": "Template 58",
+        "category": "just_text",
+        "content": [
+            [ "sb-only-text-4" ]
+        ]
+    },
+    
+    "template59": {
+        "name": "Template 59",
+        "category": "just_text",
+        "content": [
+            [ "sb-only-text-5" ]
+        ]
+    },
+    
+    "template60": {
+        "name": "Template 60",
+        "category": "icons_text",
+        "content": [
+            [ "sb-a-1" ]
+        ]
+    },
+    
+    "template61": {
+        "name": "Template 61",
+        "category": "icons_text",
+        "content": [
+            [ "sb-a-2" ]
+        ]
+    },
+    
+    "template62": {
+        "name": "Template 62",
+        "category": "icons_text",
+        "content": [
+            [ "sb-a-3" ]
+        ]
+    },
+    
+    "template63": {
+        "name": "Template 63",
+        "category": "icons_text",
+        "content": [
+            [ "sb-a-4" ]
+        ]
+    },
+    
+    "template64": {
+        "name": "Template 64",
+        "category": "icons_text",
+        "content": [
+            [ "sb-a-5" ]
+        ]
+    }
+    
+}

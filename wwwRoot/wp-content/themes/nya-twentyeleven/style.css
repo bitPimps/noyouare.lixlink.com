@@ -1,0 +1,215 @@
+/*
+Theme Name:     NYA 2018
+Theme URI:      http://wordpress.org/themes/twentyeleven
+Description:    NYA color scheme for Twenty Eleven.
+Author:         bitPimps
+Author URI:     http://noyouare.lixlink.com
+Template:       twentyeleven
+Version:        1.0.1
+*/
+
+
+/**
+ * Import twenty eleven base and dark styles
+ */
+
+@import url("../twentyeleven/style.css");
+@import url("../twentyeleven/colors/dark.css");
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+body {
+	background:#1d1d1d url(img/bgs/background_body_2014.jpg) top center repeat-x fixed;
+}
+/* Widgets */
+.widget-title {
+	color:#bbb;
+	font-family:'Droid Sans', sans-serif;
+	font-size:12px;
+	font-weight:800;
+	letter-spacing:0.1em;
+	line-height:1.6em;
+	text-transform:uppercase;
+}
+.widget a:hover,.widget a:focus,.widget a:active {color:#62d0f2;}
+/* Link color */
+#content .entry-content a {color:#62d0f2;}
+.widget_noyouare_ephemera .comments-link a:hover,
+section.recent-posts .other-recent-posts a[rel="bookmark"]:hover,
+section.recent-posts .other-recent-posts .comments-link a:hover,
+.format-image footer.entry-meta a:hover,
+#site-generator a:hover {color:#2fc2ef;}
+section.recent-posts .other-recent-posts .comments-link a:hover {border-color:#2fc2ef;}
+article.feature-image.small .entry-summary p a:hover,
+.entry-header .comments-link a:hover,
+.entry-header .comments-link a:focus,
+.entry-header .comments-link a:active,
+.feature-slider a.active {background-color:#2fc2ef;}
+/* Sidebar */
+/* Sidebar -> Text */
+.widget_text h3 {background:url(images/icons/star.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Sidebar -> Categories */
+.widget_categories h3 {background:url(images/icons/folder.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/*
+.widget_categories ul {list-style:none;}
+.widget_categories ul li,.widget_categories ul li a {display:block;}
+.widget_categories ul li a {background:url(images/icons/folder.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+*/
+/* Sidebar -> Recent Posts */
+.widget_recent_entries h3 {background:url(images/icons/page.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Sidebar -> Recent Comments */
+.widget_recent_comments h3 {background:url(images/icons/comment.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Sidebar -> Archives */
+.widget_archive h3 {background:url(images/icons/package.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Sidebar -> Calendar */
+.widget_calendar h3 {background:url(images/icons/calendar.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Sidebar -> Tag Cloud */
+.widget_tag_cloud h3 {background:url(images/icons/asterisk_yellow.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Sidebar -> Meta */
+.widget_meta h3 {background:url(images/icons/wrench.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Footer */
+ul.blogroll {list-style:none;}
+ul.blogroll li,ul.blogroll li a {display:block;}
+ul.blogroll li a {background:url(images/icons/arrow_grey.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+ul.blogroll li a:hover {background:url(images/icons/arrow_blue.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Footer -> Twitters You Should Follow */
+#first h3 {background:url(images/icons/twitter.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/*
+#first ul.blogroll {list-style:none;}
+#first ul.blogroll li,#first ul.blogroll li a {display:block;}
+#first ul.blogroll li a {background:url(images/icons/twitter.png) left no-repeat; padding-left:25px;}
+*/
+/* Footer -> Instagrams You Should Follow */
+#second h3 {background:url(images/icons/instagram.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Footer -> Places You Should Visit */
+#third h3 {background:url(images/icons/world.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Footer -> Shit You Can Buy */
+#third aside:last-child h3 {background:url(images/icons/money_dollar.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+/* Tables > Bootstrap 3 Style (.table) */
+table {
+  max-width: 100%;
+  background-color: transparent;
+}
+th {
+  text-align: left;
+}
+.table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #55595c;
+}
+.table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #55595c;
+}
+.table > caption + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > th,
+.table > caption + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > td,
+.table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+.table > tbody + tbody {
+  border-top: 2px solid #55595c;
+}
+.table .table {
+  background-color: #373a3c;
+}
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+  padding: 5px;
+}
+.table-bordered {
+  border: 1px solid #55595c;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid #55595c;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #2b2d2f;
+}
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+  background-color: #494c4f;
+}
+table col[class*="col-"] {
+  position: static;
+  display: table-column;
+  float: none;
+}
+table td[class*="col-"],
+table th[class*="col-"] {
+  position: static;
+  display: table-cell;
+  float: none;
+}
+@media (max-width: 767px) {
+  .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #55595c;
+  }
+  .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  .table-responsive > .table > thead > tr > th,
+  .table-responsive > .table > tbody > tr > th,
+  .table-responsive > .table > tfoot > tr > th,
+  .table-responsive > .table > thead > tr > td,
+  .table-responsive > .table > tbody > tr > td,
+  .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  .table-responsive > .table-bordered {
+    border: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+}

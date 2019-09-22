@@ -1,0 +1,1706 @@
+#   BULLETPROOF .51.8 >>>>>>> SECURE .HTACCESS     
+
+# CUSTOM CODE TOP PHP/PHP.INI HANDLER/CACHE CODE
+#Gzip
+<ifmodule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/text text/html text/plain text/xml text/css application/x-javascript application/javascript text/javascript
+</ifmodule>
+#End Gzip
+
+# BEGIN WEBSITE SPEED BOOST
+# Time cheat sheet in seconds
+# A86400 = 1 day
+# A172800 = 2 days
+# A2419200 = 1 month
+# A4838400 = 2 months
+# A29030400 = 1 year
+
+# Test which ETag setting works best on your Host/Server/Website
+# with Firefox Firebug, Firephp and Yslow benchmark tests.
+
+# Create the ETag (entity tag) response header field
+#FileETag MTime Size
+
+# Remove the ETag (entity tag) response header field
+Header unset ETag
+FileETag none
+
+<IfModule mod_expires.c>
+ExpiresActive on
+ExpiresByType image/jpg A4838400
+ExpiresByType image/gif A4838400
+ExpiresByType image/jpg A4838400
+ExpiresByType image/png A4838400
+ExpiresByType application/x-shockwave-flash A4838400
+ExpiresByType application/x-javascript A4838400
+ExpiresByType application/javascript A4838400
+ExpiresByType text/javascript A4838400
+ExpiresByType text/css A4838400
+#ExpiresByType text/html A86400
+# Default is 2 days below so the line above is not needed / commented out
+ExpiresDefault A172800
+</IfModule>
+
+<IfModule mod_headers.c>
+
+# Block other sites from displaying your website in iFrames
+# Protects against Clickjacking
+# Using DENY will block all iFrames including iFrames on your own website
+# Header set X-Frame-Options DENY
+# Recommended: iFrames from the same site are allowed - other sites are blocked
+Header always append X-Frame-Options SAMEORIGIN
+
+# Protects against Drive-by Download attacks
+# Protects against MIME/Content/Data sniffing
+Header set X-Content-Type-Options nosniff
+
+<FilesMatch "\.(js|css|flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|gif|jpg|jpeg|png|swf)$">
+Header append Cache-Control "public"
+</FilesMatch>
+<FilesMatch "\.(txt|html)$">
+Header append Cache-Control "proxy-revalidate"
+</FilesMatch>
+<FilesMatch "\.(php|cgi|pl|htm|xml)$">
+Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform"
+Header set Pragma "no-cache"
+</FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+# Insert filters
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+AddOutputFilterByType DEFLATE application/x-httpd-php
+AddOutputFilterByType DEFLATE application/x-httpd-fastphp
+AddOutputFilterByType DEFLATE image/svg+xml
+
+# Drop problematic browsers
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+
+# Make sure proxies don't deliver the wrong content
+Header append Vary User-Agent env=!dont-vary
+</IfModule>
+# END WEBSITE SPEED BOOST
+
+# TURN OFF YOUR SERVER SIGNATURE
+# Suppresses the footer line server version number and ServerName of the serving virtual host
+ServerSignature Off
+
+# DO NOT SHOW DIRECTORY LISTING
+# Disallow mod_autoindex from displaying a directory listing
+# If a 500 Internal Server Error occurs when activating Root BulletProof Mode 
+# copy the entire DO NOT SHOW DIRECTORY LISTING and DIRECTORY INDEX sections of code 
+# and paste it into BPS Custom Code and comment out Options -Indexes 
+# by adding a # sign in front of it.
+# Example: #Options -Indexes
+Options -Indexes
+
+# DIRECTORY INDEX FORCE INDEX.PHP
+# Use index.php as default directory index file. index.html will be ignored.
+# If a 500 Internal Server Error occurs when activating Root BulletProof Mode 
+# copy the entire DO NOT SHOW DIRECTORY LISTING and DIRECTORY INDEX sections of code 
+# and paste it into BPS Custom Code and comment out DirectoryIndex 
+# by adding a # sign in front of it.
+# Example: #DirectoryIndex index.php index.html /index.php
+DirectoryIndex index.php index.html /index.php
+
+# CUSTOM CODE BRUTE FORCE LOGIN PAGE PROTECTION
+# BRUTE FORCE LOGIN PAGE PROTECTION
+# Protects the Login page from SpamBots, HackerBots & Proxies
+# that use Server Protocol HTTP/1.0 or a blank User Agent
+RewriteCond %{REQUEST_URI} ^(/wp-login\.php|.*wp-login\.php.*)$
+RewriteCond %{HTTP_USER_AGENT} ^$ [OR]
+RewriteCond %{THE_REQUEST} HTTP/1\.0$ [OR]
+RewriteCond %{SERVER_PROTOCOL} HTTP/1\.0$
+RewriteRule ^(.*)$ - [F,L]
+
+# BPS ERROR LOGGING AND TRACKING
+# Use BPS Custom Code to modify/edit/change this code and to save it permanently.
+# BPS has premade 403 Forbidden, 400 Bad Request and 404 Not Found files that are used 
+# to track and log 403, 400 and 404 errors that occur on your website. When a hacker attempts to
+# hack your website the hackers IP address, Host name, Request Method, Referering link, the file name or
+# requested resource, the user agent of the hacker and the query string used in the hack attempt are logged.
+# All BPS log files are htaccess protected so that only you can view them. 
+# The 400.php, 403.php and 404.php files are located in /wp-content/plugins/bulletproof-security/
+# The 400 and 403 Error logging files are already set up and will automatically start logging errors
+# after you install BPS and have activated BulletProof Mode for your Root folder.
+# If you would like to log 404 errors you will need to copy the logging code in the BPS 404.php file
+# to your Theme's 404.php template file. Simple instructions are included in the BPS 404.php file.
+# You can open the BPS 404.php file using the WP Plugins Editor.
+# NOTE: By default WordPress automatically looks in your Theme's folder for a 404.php Theme template file.
+
+ErrorDocument 400 /wp-content/plugins/bulletproof-security/400.php
+ErrorDocument 401 default
+ErrorDocument 403 /wp-content/plugins/bulletproof-security/403.php
+ErrorDocument 404 /404.php
+
+# DENY ACCESS TO PROTECTED SERVER FILES AND FOLDERS
+# Use BPS Custom Code to modify/edit/change this code and to save it permanently.
+# Files and folders starting with a dot: .htaccess, .htpasswd, .errordocs, .logs
+RedirectMatch 403 \.(htaccess|htpasswd|errordocs|logs)$
+
+# WP-ADMIN/INCLUDES
+# Use BPS Custom Code to remove this code permanently.
+RewriteEngine On
+RewriteBase /
+RewriteRule ^wp-admin/includes/ - [F]
+RewriteRule !^wp-includes/ - [S=3]
+RewriteRule ^wp-includes/[^/]+\.php$ - [F]
+RewriteRule ^wp-includes/js/tinymce/langs/.+\.php - [F]
+RewriteRule ^wp-includes/theme-compat/ - [F]
+
+# WP REWRITE LOOP START
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+
+# REQUEST METHODS FILTERED
+# If you want to allow HEAD Requests use BPS Custom Code and 
+# remove/delete HEAD| from the Request Method filter.
+# Example: RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]
+# The TRACE, DELETE, TRACK and DEBUG Request methods should never be removed.
+RewriteCond %{REQUEST_METHOD} ^(HEAD|TRACE|DELETE|TRACK|DEBUG) [NC]
+RewriteRule ^(.*)$ - [F]
+
+# PLUGINS/THEMES AND VARIOUS EXPLOIT FILTER SKIP RULES
+# To add plugin/theme skip/bypass rules use BPS Custom Code.
+# The [S] flag is used to skip following rules. Skip rule [S=12] will skip 12 following RewriteRules.
+# The skip rules MUST be in descending consecutive number order: 12, 11, 10, 9...
+# If you delete a skip rule, change the other skip rule numbers accordingly.
+# Examples: If RewriteRule [S=5] is deleted than change [S=6] to [S=5], [S=7] to [S=6], etc.
+# If you add a new skip rule above skip rule 12 it will be skip rule 13: [S=13]
+
+# Adminer MySQL management tool data populate
+RewriteCond %{REQUEST_URI} ^/wp-content/plugins/adminer/ [NC]
+RewriteRule . - [S=12]
+# Comment Spam Pack MU Plugin - CAPTCHA images not displaying 
+RewriteCond %{REQUEST_URI} ^/wp-content/mu-plugins/custom-anti-spam/ [NC]
+RewriteRule . - [S=11]
+# Peters Custom Anti-Spam display CAPTCHA Image
+RewriteCond %{REQUEST_URI} ^/wp-content/plugins/peters-custom-anti-spam-image/ [NC] 
+RewriteRule . - [S=10]
+# Status Updater plugin fb connect
+RewriteCond %{REQUEST_URI} ^/wp-content/plugins/fb-status-updater/ [NC] 
+RewriteRule . - [S=9]
+# Stream Video Player - Adding FLV Videos Blocked
+RewriteCond %{REQUEST_URI} ^/wp-content/plugins/stream-video-player/ [NC]
+RewriteRule . - [S=8]
+# XCloner 404 or 403 error when updating settings
+RewriteCond %{REQUEST_URI} ^/wp-content/plugins/xcloner-backup-and-restore/ [NC]
+RewriteRule . - [S=7]
+# BuddyPress Logout Redirect
+RewriteCond %{QUERY_STRING} action=logout&redirect_to=http%3A%2F%2F(.*) [NC]
+RewriteRule . - [S=6]
+# redirect_to=
+RewriteCond %{QUERY_STRING} redirect_to=(.*) [NC]
+RewriteRule . - [S=5]
+# Login Plugins Password Reset And Redirect 1
+RewriteCond %{QUERY_STRING} action=resetpass&key=(.*) [NC]
+RewriteRule . - [S=4]
+# Login Plugins Password Reset And Redirect 2
+RewriteCond %{QUERY_STRING} action=rp&key=(.*) [NC]
+RewriteRule . - [S=3]
+
+# TIMTHUMB FORBID RFI and MISC FILE SKIP/BYPASS RULE
+# Use BPS Custom Code to modify/edit/change this code and to save it permanently.
+# Remote File Inclusion (RFI) security rules
+# Note: Only whitelist your additional domains or files if needed - do not whitelist hacker domains or files
+RewriteCond %{QUERY_STRING} ^.*(http|https|ftp)(%3A|:)(%2F|/)(%2F|/)(w){0,3}.?(blogger|picasa|blogspot|tsunami|petapolitik|photobucket|imgur|imageshack|wordpress\.com|img\.youtube|tinypic\.com|upload\.wikimedia|kkc|start-thegame).*$ [NC,OR]
+RewriteCond %{THE_REQUEST} ^.*(http|https|ftp)(%3A|:)(%2F|/)(%2F|/)(w){0,3}.?(blogger|picasa|blogspot|tsunami|petapolitik|photobucket|imgur|imageshack|wordpress\.com|img\.youtube|tinypic\.com|upload\.wikimedia|kkc|start-thegame).*$ [NC]
+RewriteRule .* index.php [F]
+# 
+# Example: Whitelist additional misc files: (example\.php|another-file\.php|phpthumb\.php|thumb\.php|thumbs\.php)
+RewriteCond %{REQUEST_URI} (timthumb\.php|phpthumb\.php|thumb\.php|thumbs\.php) [NC]
+# Example: Whitelist additional website domains: RewriteCond %{HTTP_REFERER} ^.*(YourWebsite.com|AnotherWebsite.com).*
+RewriteCond %{HTTP_REFERER} ^.*noyouare.lixlink.com.*
+RewriteRule . - [S=1]
+
+# BEGIN BPSQSE BPS QUERY STRING EXPLOITS
+# The libwww-perl User Agent is forbidden - Many bad bots use libwww-perl modules, but some good bots use it too.
+# Good sites such as W3C use it for their W3C-LinkChecker. 
+# Use BPS Custom Code to add or remove user agents temporarily or permanently from the 
+# User Agent filters directly below or to modify/edit/change any of the other security code rules below.
+RewriteCond %{HTTP_USER_AGENT} (havij|libwww-perl|wget|python|nikto|curl|scan|java|winhttp|clshttp|loader) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} (;|<|>|'|"|\)|\(|%0A|%0D|%22|%27|%28|%3C|%3E|%00).*(libwww-perl|wget|python|nikto|curl|scan|java|winhttp|HTTrack|clshttp|archiver|loader|email|harvest|extract|grab|miner) [NC,OR]
+RewriteCond %{THE_REQUEST} (\?|\*|%2a)+(%20+|\\s+|%20+\\s+|\\s+%20+|\\s+%20+\\s+)HTTP(:/|/) [NC,OR]
+RewriteCond %{THE_REQUEST} etc/passwd [NC,OR]
+RewriteCond %{THE_REQUEST} cgi-bin [NC,OR]
+RewriteCond %{THE_REQUEST} (%0A|%0D|\\r|\\n) [NC,OR]
+RewriteCond %{REQUEST_URI} owssvr\.dll [NC,OR]
+RewriteCond %{HTTP_REFERER} (%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+RewriteCond %{HTTP_REFERER} \.opendirviewer\. [NC,OR]
+RewriteCond %{HTTP_REFERER} users\.skynet\.be.* [NC,OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [NC,OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [NC,OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
+RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC,OR]
+RewriteCond %{QUERY_STRING} (\.\./|%2e%2e%2f|%2e%2e/|\.\.%2f|%2e\.%2f|%2e\./|\.%2e%2f|\.%2e/) [NC,OR]
+RewriteCond %{QUERY_STRING} ftp\: [NC,OR]
+RewriteCond %{QUERY_STRING} http\: [NC,OR] 
+RewriteCond %{QUERY_STRING} https\: [NC,OR]
+RewriteCond %{QUERY_STRING} \=\|w\| [NC,OR]
+RewriteCond %{QUERY_STRING} ^(.*)/self/(.*)$ [NC,OR]
+RewriteCond %{QUERY_STRING} ^(.*)cPath=http://(.*)$ [NC,OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*embed.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^e]*e)+mbed.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*object.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^o]*o)+bject.*(>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (\<|%3C).*iframe.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^i]*i)+frame.*(>|%3E) [NC,OR] 
+RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [NC,OR]
+RewriteCond %{QUERY_STRING} base64_(en|de)code[^(]*\([^)]*\) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} ^.*(\(|\)|<|>|%3c|%3e).* [NC,OR]
+RewriteCond %{QUERY_STRING} ^.*(\x00|\x04|\x08|\x0d|\x1b|\x20|\x3c|\x3e|\x7f).* [NC,OR]
+RewriteCond %{QUERY_STRING} (NULL|OUTFILE|LOAD_FILE) [OR]
+RewriteCond %{QUERY_STRING} (\.{1,}/)+(motd|etc|bin) [NC,OR]
+RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
+RewriteCond %{QUERY_STRING} (<|>|'|%0A|%0D|%27|%3C|%3E|%00) [NC,OR]
+RewriteCond %{QUERY_STRING} concat[^\(]*\( [NC,OR]
+RewriteCond %{QUERY_STRING} union([^s]*s)+elect [NC,OR]
+RewriteCond %{QUERY_STRING} union([^a]*a)+ll([^s]*s)+elect [NC,OR]
+RewriteCond %{QUERY_STRING} \-[sdcr].*(allow_url_include|allow_url_fopen|safe_mode|disable_functions|auto_prepend_file) [NC,OR]
+RewriteCond %{QUERY_STRING} (;|<|>|'|"|\)|%0A|%0D|%22|%27|%3C|%3E|%00).*(/\*|union|select|insert|drop|delete|update|cast|create|char|convert|alter|declare|order|script|set|md5|benchmark|encode) [NC,OR]
+RewriteCond %{QUERY_STRING} (sp_executesql) [NC]
+RewriteRule ^(.*)$ - [F]
+# END BPSQSE BPS QUERY STRING EXPLOITS
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+# WP REWRITE LOOP END
+
+# DENY BROWSER ACCESS TO THESE FILES 
+# Use BPS Custom Code to modify/edit/change this code and to save it permanently.
+# wp-config.php, bb-config.php, php.ini, php5.ini, readme.html
+# Replace 88.77.66.55 with your current IP address and remove the  
+# pound sign # in front of the Allow from line of code below to be able to access
+# any of these files directly from your Browser.
+
+<FilesMatch "^(wp-config\.php|php\.ini|php5\.ini|readme\.html|bb-config\.php)">
+Order Allow,Deny
+Deny from all
+#Allow from 88.77.66.55
+</FilesMatch>
+
+# CUSTOM CODE BOTTOM HOTLINKING/FORBID COMMENT SPAMMERS/BLOCK BOTS/BLOCK IP/REDIRECT CODE
+# XML-RPC DDoS PROTECTION
+# You can whitelist your IP address if you use A Weblog Client
+# or want to whitelist your IP address for any other reasons.
+# Example: uncomment #Allow from x.x.x. by deleting the # sign and
+# replace the x's with your actual IP address. Allow from 99.88.77.
+# Note: It is recommended that you use 3 octets x.x.x. of your IP address
+# instead of 4 octets x.x.x.x of your IP address.
+
+<FilesMatch "^(xmlrpc\.php)">
+Order Deny,Allow
+Deny from all
+#Allow from x.x.x.
+</FilesMatch>
+
+# Protect wp-login.php from Brute Force Login Attacks based on Server Protocol
+# All legitimate humans and bots should be using Server Protocol HTTP/1.1
+RewriteCond %{REQUEST_URI} ^/wp-login\.php$
+RewriteCond %{THE_REQUEST} HTTP/1\.0
+RewriteRule ^(.*)$ - [F,L]
+
+#COUNTRY_BLOCK_START
+<Limit GET HEAD POST>
+order allow,deny
+deny from 1.12.0.0/14
+deny from 1.24.0.0/13
+deny from 1.32.0.0/16
+deny from 1.45.0.0/16
+deny from 1.48.0.0/14
+deny from 1.56.0.0/13
+deny from 1.68.0.0/14
+deny from 1.80.0.0/12
+deny from 1.116.0.0/14
+deny from 1.180.0.0/14
+deny from 1.184.0.0/15
+deny from 1.188.0.0/13
+deny from 1.196.0.0/14
+deny from 1.202.0.0/14
+deny from 1.206.0.0/15
+deny from 14.16.0.0/12
+deny from 14.102.156.0/22
+deny from 14.103.0.0/12
+deny from 14.119.0.0/13
+deny from 14.127.0.0/16
+deny from 14.130.0.0/15
+deny from 14.134.0.0/15
+deny from 14.144.0.0/12
+deny from 14.192.60.0/22
+deny from 14.196.0.0/15
+deny from 14.204.0.0/15
+deny from 14.208.0.0/12
+deny from 27.8.0.0/12
+deny from 27.24.0.0/13
+deny from 27.36.0.0/13
+deny from 27.44.0.0/14
+deny from 27.50.128.0/17
+deny from 27.54.192.0/18
+deny from 27.98.208.0/19
+deny from 27.98.240.0/20
+deny from 27.100.36.0/22
+deny from 27.103.0.0/16
+deny from 27.106.128.0/18
+deny from 27.112.0.0/18
+deny from 27.112.80.0/20
+deny from 27.113.128.0/18
+deny from 27.115.0.0/17
+deny from 27.116.44.0/22
+deny from 27.128.0.0/15
+deny from 27.131.220.0/22
+deny from 27.144.0.0/16
+deny from 27.148.0.0/13
+deny from 27.156.0.0/14
+deny from 27.184.0.0/11
+deny from 27.216.0.0/13
+deny from 27.224.0.0/14
+deny from 49.4.0.0/14
+deny from 49.52.0.0/14
+deny from 49.112.0.0/13
+deny from 49.120.0.0/14
+deny from 49.140.0.0/10
+deny from 49.204.0.0/11
+deny from 49.236.0.0/14
+deny from 58.14.0.0/13
+deny from 58.22.0.0/14
+deny from 58.30.0.0/11
+deny from 58.62.0.0/15
+deny from 58.66.0.0/15
+deny from 58.68.128.0/17
+deny from 58.82.0.0/15
+deny from 58.87.64.0/18
+deny from 58.99.128.0/15
+deny from 58.101.128.0/17
+deny from 58.116.0.0/14
+deny from 58.128.0.0/13
+deny from 58.144.0.0/16
+deny from 58.154.0.0/15
+deny from 58.192.0.0/11
+deny from 58.240.0.0/12
+deny from 59.32.0.0/11
+deny from 59.64.0.0/12
+deny from 59.80.0.0/14
+deny from 59.107.0.0/14
+deny from 59.111.0.0/16
+deny from 59.139.29.0/24
+deny from 59.151.0.0/17
+deny from 59.155.0.0/16
+deny from 59.172.0.0/14
+deny from 59.191.0.0/17
+deny from 59.191.240.0/10
+deny from 59.255.240.0/20
+deny from 60.0.0.0/11
+deny from 60.55.0.0/16
+deny from 60.63.0.0/16
+deny from 60.160.0.0/11
+deny from 60.194.0.0/15
+deny from 60.200.0.0/12
+deny from 60.216.0.0/13
+deny from 60.232.0.0/15
+deny from 60.235.0.0/16
+deny from 60.245.128.0/15
+deny from 60.247.128.0/17
+deny from 60.252.0.0/16
+deny from 60.253.0.0/18
+deny from 60.253.64.0/19
+deny from 60.253.128.0/17
+deny from 60.255.0.0/16
+deny from 61.4.80.0/20
+deny from 61.4.176.0/20
+deny from 61.7.133.96/27
+deny from 61.8.160.0/20
+deny from 61.14.29.8/29
+deny from 61.14.29.80/28
+deny from 61.28.0.0/17
+deny from 61.28.195.0/23
+deny from 61.29.128.0/17
+deny from 61.45.128.0/18
+deny from 61.47.128.0/18
+deny from 61.48.0.0/13
+deny from 61.56.73.0/24
+deny from 61.87.192.0/18
+deny from 61.128.0.0/10
+deny from 61.216.99.204/30
+deny from 61.232.0.0/14
+deny from 61.236.0.0/15
+deny from 61.240.0.0/14
+deny from 62.112.132.152/30
+deny from 63.150.129.120/29
+deny from 63.162.142.0/24
+deny from 63.167.100.192/28
+deny from 64.34.99.176/28
+deny from 64.34.250.0/28
+deny from 64.37.114.160/27
+deny from 64.49.203.240/29
+deny from 64.62.151.8/29
+deny from 64.62.206.224/27
+deny from 64.62.255.0/24
+deny from 64.64.0.10/30
+deny from 64.64.1.110/30
+deny from 64.64.15.26/30
+deny from 64.71.151.96/27
+deny from 64.71.172.0/24
+deny from 64.75.14.192/27
+deny from 64.78.162.0/24
+deny from 64.78.165.96/28
+deny from 64.127.103.0/29
+deny from 64.224.124.225/29
+deny from 64.224.124.233/30
+deny from 64.224.124.237/31
+deny from 65.19.134.112/29
+deny from 65.19.135.0/24
+deny from 65.19.152.0/24
+deny from 65.19.188.0/24
+deny from 65.49.38.136/28
+deny from 65.49.38.152/29
+deny from 65.49.38.192/28
+deny from 65.49.38.240/29
+deny from 65.49.72.64/26
+deny from 65.49.89.24/29
+deny from 65.255.41.0/25
+deny from 65.255.42.0/25
+deny from 66.37.216.192/27
+deny from 66.160.128.40/29
+deny from 66.160.130.0/24
+deny from 66.160.162.0/24
+deny from 66.165.126.0/28
+deny from 66.220.29.112/28
+deny from 67.43.226.232/29
+deny from 67.43.230.200/29
+deny from 67.192.6.168/29
+deny from 67.192.19.96/29
+deny from 67.192.28.24/29
+deny from 67.192.112.176/29
+deny from 67.192.227.176/29
+deny from 67.219.103.208/29
+deny from 67.222.130.98/29
+deny from 68.168.112.128/26
+deny from 69.90.99.136/29
+deny from 69.95.65.112/29
+deny from 69.95.96.0/29
+deny from 72.3.166.136/29
+deny from 72.8.128.32/27
+deny from 72.8.128.248/30
+deny from 72.8.129.138/32
+deny from 72.8.129.146/31
+deny from 72.8.134.148/30
+deny from 72.8.138.0/24
+deny from 72.8.157.32/28
+deny from 72.8.158.64/26
+deny from 72.8.180.0/24
+deny from 72.9.147.235/28
+deny from 72.9.148.244/29
+deny from 72.9.149.144/29
+deny from 72.9.149.218/28
+deny from 72.9.149.234/30
+deny from 72.9.149.238/31
+deny from 72.9.158.238/29
+deny from 72.9.158.246/31
+deny from 72.10.168.64/29
+deny from 72.10.172.192/28
+deny from 72.10.173.192/29
+deny from 72.13.82.56/29
+deny from 72.20.1.16/30
+deny from 72.20.4.140/30
+deny from 72.20.8.192/26
+deny from 72.20.10.64/26
+deny from 72.20.11.128/26
+deny from 72.20.13.48/29
+deny from 72.20.15.192/26
+deny from 72.20.17.0/25
+deny from 72.20.22.21/32
+deny from 72.20.22.28/32
+deny from 72.20.23.192/26
+deny from 72.20.52.4/30
+deny from 72.20.56.208/28
+deny from 72.21.89.232/29
+deny from 72.32.164.88/29
+deny from 72.52.93.224/27
+deny from 72.52.94.224/29
+deny from 72.52.94.240/29
+deny from 74.127.38.96/27
+deny from 76.74.175.32/28
+deny from 76.74.175.64/27
+deny from 76.74.219.32/27
+deny from 78.24.201.80/28
+deny from 78.24.202.40/29
+deny from 78.24.203.40/29
+deny from 78.24.206.40/29
+deny from 78.159.104.81/27
+deny from 78.159.104.113/29
+deny from 78.159.104.121/30
+deny from 78.159.104.125/31
+deny from 78.159.104.127/32
+deny from 78.159.106.10/27
+deny from 78.159.106.42/30
+deny from 78.159.106.46/32
+deny from 78.159.127.81/27
+deny from 78.159.127.113/29
+deny from 78.159.127.121/30
+deny from 78.159.127.125/31
+deny from 78.159.127.127/32
+deny from 81.95.150.160/27
+deny from 81.95.153.0/26
+deny from 81.95.154.192/26
+deny from 81.95.155.0/27
+deny from 85.25.171.0/27
+deny from 85.233.200.160/27
+deny from 91.196.232.0/22
+deny from 93.93.100.64/26
+deny from 98.126.221.0/23
+deny from 98.129.138.120/29
+deny from 109.169.36.0/25
+deny from 110.6.0.0/15
+deny from 110.16.0.0/14
+deny from 110.40.0.0/14
+deny from 110.44.0.0/20
+deny from 110.48.0.0/16
+deny from 110.51.0.0/15
+deny from 110.53.0.0/16
+deny from 110.56.0.0/13
+deny from 110.64.0.0/15
+deny from 110.72.0.0/15
+deny from 110.75.0.0/16
+deny from 110.76.0.0/18
+deny from 110.76.192.0/17
+deny from 110.77.64.0/18
+deny from 110.80.0.0/13
+deny from 110.88.0.0/14
+deny from 110.94.0.0/11
+deny from 110.126.0.0/15
+deny from 110.152.0.0/14
+deny from 110.156.0.0/15
+deny from 110.165.32.0/19
+deny from 110.166.0.0/15
+deny from 110.172.192.0/18
+deny from 110.173.0.0/19
+deny from 110.173.32.0/20
+deny from 110.173.96.0/19
+deny from 110.173.192.0/19
+deny from 110.176.0.0/11
+deny from 110.208.0.0/12
+deny from 110.228.0.0/14
+deny from 110.232.32.0/19
+deny from 110.236.0.0/15
+deny from 110.240.0.0/12
+deny from 111.0.0.0/10
+deny from 111.66.0.0/16
+deny from 111.67.192.0/20
+deny from 111.68.64.0/19
+deny from 111.72.0.0/13
+deny from 111.85.0.0/16
+deny from 111.91.192.0/19
+deny from 111.112.0.0/14
+deny from 111.116.0.0/15
+deny from 111.119.64.0/18
+deny from 111.119.128.0/19
+deny from 111.120.0.0/14
+deny from 111.124.0.0/16
+deny from 111.126.0.0/11
+deny from 111.158.0.0/13
+deny from 111.166.0.0/15
+deny from 111.170.0.0/16
+deny from 111.172.0.0/13
+deny from 111.180.0.0/14
+deny from 111.186.0.0/15
+deny from 111.192.0.0/12
+deny from 111.208.0.0/13
+deny from 111.221.128.0/16
+deny from 111.222.128.0/17
+deny from 111.223.240.0/22
+deny from 111.223.248.0/22
+deny from 111.224.0.0/13
+deny from 111.235.96.0/19
+deny from 111.235.160.0/19
+deny from 112.0.0.0/11
+deny from 112.32.0.0/12
+deny from 112.48.0.0/13
+deny from 112.56.0.0/14
+deny from 112.60.0.0/15
+deny from 112.62.0.0/16
+deny from 112.63.0.0/17
+deny from 112.63.128.0/19
+deny from 112.63.160.0/23
+deny from 112.63.162.0/26
+deny from 112.63.162.64/27
+deny from 112.63.162.96/28
+deny from 112.63.162.112/30
+deny from 112.63.162.124/28
+deny from 112.63.162.140/29
+deny from 112.63.162.152/14
+deny from 112.67.162.152/18
+deny from 112.67.226.152/20
+deny from 112.67.242.152/21
+deny from 112.67.250.152/22
+deny from 112.67.254.152/24
+deny from 112.67.255.152/26
+deny from 112.67.255.216/27
+deny from 112.67.255.248/29
+deny from 112.73.0.0/15
+deny from 112.75.0.0/16
+deny from 112.80.0.0/12
+deny from 112.96.0.0/13
+deny from 112.109.128.0/17
+deny from 112.111.0.0/14
+deny from 112.115.0.0/15
+deny from 112.117.0.0/16
+deny from 112.122.0.0/13
+deny from 112.130.0.0/15
+deny from 112.132.0.0/16
+deny from 112.192.0.0/14
+deny from 112.224.0.0/11
+deny from 113.0.0.0/13
+deny from 113.8.0.0/15
+deny from 113.11.192.0/19
+deny from 113.12.0.0/14
+deny from 113.16.0.0/15
+deny from 113.18.0.0/16
+deny from 113.24.0.0/14
+deny from 113.31.0.0/16
+deny from 113.44.0.0/13
+deny from 113.52.160.0/19
+deny from 113.54.0.0/14
+deny from 113.58.0.0/16
+deny from 113.59.0.0/17
+deny from 113.62.0.0/10
+deny from 113.126.0.0/14
+deny from 113.130.96.0/20
+deny from 113.130.112.0/21
+deny from 113.132.0.0/13
+deny from 113.140.0.0/14
+deny from 113.194.0.0/15
+deny from 113.200.0.0/15
+deny from 113.202.0.0/16
+deny from 113.204.0.0/14
+deny from 113.208.96.0/16
+deny from 113.209.96.0/17
+deny from 113.209.224.0/19
+deny from 113.212.0.0/18
+deny from 113.213.0.0/17
+deny from 113.214.0.0/15
+deny from 113.218.0.0/11
+deny from 113.250.0.0/15
+deny from 114.28.0.0/16
+deny from 114.54.0.0/15
+deny from 114.60.0.0/13
+deny from 114.68.0.0/16
+deny from 114.80.0.0/12
+deny from 114.96.0.0/13
+deny from 114.104.0.0/14
+deny from 114.110.0.0/20
+deny from 114.110.64.0/17
+deny from 114.110.192.0/18
+deny from 114.111.0.0/19
+deny from 114.111.160.0/19
+deny from 114.112.0.0/13
+deny from 114.132.0.0/16
+deny from 114.135.0.0/16
+deny from 114.138.0.0/15
+deny from 114.141.128.0/18
+deny from 114.196.0.0/15
+deny from 114.208.0.0/11
+deny from 114.240.0.0/12
+deny from 115.24.0.0/14
+deny from 115.28.0.0/15
+deny from 115.32.0.0/14
+deny from 115.44.0.0/12
+deny from 115.60.0.0/14
+deny from 115.84.0.0/18
+deny from 115.84.192.0/19
+deny from 115.85.192.0/18
+deny from 115.100.0.0/13
+deny from 115.120.0.0/14
+deny from 115.124.16.0/20
+deny from 115.148.0.0/13
+deny from 115.156.0.0/14
+deny from 115.168.0.0/13
+deny from 115.180.0.0/14
+deny from 115.192.0.0/11
+deny from 115.224.0.0/12
+deny from 116.1.0.0/13
+deny from 116.9.0.0/15
+deny from 116.11.0.0/16
+deny from 116.13.0.0/16
+deny from 116.16.0.0/12
+deny from 116.52.0.0/14
+deny from 116.56.0.0/15
+deny from 116.58.128.0/20
+deny from 116.58.208.0/20
+deny from 116.60.0.0/14
+deny from 116.66.0.0/17
+deny from 116.69.0.0/16
+deny from 116.70.0.0/17
+deny from 116.76.0.0/14
+deny from 116.89.144.0/20
+deny from 116.90.80.0/20
+deny from 116.90.184.0/21
+deny from 116.95.0.0/16
+deny from 116.112.0.0/14
+deny from 116.116.0.0/15
+deny from 116.128.0.0/10
+deny from 116.192.0.0/16
+deny from 116.193.16.0/19
+deny from 116.193.48.0/20
+deny from 116.194.0.0/15
+deny from 116.196.0.0/16
+deny from 116.198.0.0/16
+deny from 116.199.0.0/17
+deny from 116.199.128.0/19
+deny from 116.204.0.0/15
+deny from 116.207.0.0/14
+deny from 116.211.0.0/16
+deny from 116.212.115.0/24
+deny from 116.212.160.0/20
+deny from 116.213.64.0/17
+deny from 116.213.192.0/18
+deny from 116.214.32.0/19
+deny from 116.214.64.0/20
+deny from 116.214.124.0/24
+deny from 116.214.128.0/14
+deny from 116.218.128.0/16
+deny from 116.219.128.0/17
+deny from 116.224.0.0/12
+deny from 116.242.0.0/13
+deny from 116.252.0.0/15
+deny from 116.254.128.0/17
+deny from 116.255.128.0/17
+deny from 117.8.0.0/13
+deny from 117.21.0.0/12
+deny from 117.37.0.0/13
+deny from 117.45.0.0/16
+deny from 117.48.0.0/14
+deny from 117.52.0.0/16
+deny from 117.53.48.0/20
+deny from 117.53.176.0/20
+deny from 117.57.0.0/16
+deny from 117.58.0.0/17
+deny from 117.59.0.0/13
+deny from 117.67.0.0/14
+deny from 117.71.0.0/15
+deny from 117.73.0.0/16
+deny from 117.74.64.0/20
+deny from 117.74.128.0/12
+deny from 117.90.128.0/14
+deny from 117.94.128.0/16
+deny from 117.95.128.0/17
+deny from 117.100.0.0/15
+deny from 117.103.16.0/20
+deny from 117.103.128.0/20
+deny from 117.106.0.0/15
+deny from 117.112.0.0/13
+deny from 117.120.64.0/16
+deny from 117.121.64.0/17
+deny from 117.121.192.0/21
+deny from 117.122.128.0/17
+deny from 117.124.0.0/10
+deny from 117.188.0.0/14
+deny from 118.24.0.0/13
+deny from 118.64.0.0/15
+deny from 118.66.0.0/16
+deny from 118.67.112.0/20
+deny from 118.72.0.0/13
+deny from 118.80.0.0/15
+deny from 118.84.0.0/15
+deny from 118.88.32.0/16
+deny from 118.89.32.0/17
+deny from 118.89.160.0/18
+deny from 118.89.224.0/19
+deny from 118.91.240.0/20
+deny from 118.102.16.0/20
+deny from 118.103.240.0/21
+deny from 118.112.0.0/13
+deny from 118.120.0.0/14
+deny from 118.124.0.0/15
+deny from 118.126.0.0/16
+deny from 118.132.0.0/14
+deny from 118.144.0.0/14
+deny from 118.178.0.0/16
+deny from 118.180.0.0/12
+deny from 118.196.0.0/13
+deny from 118.204.0.0/14
+deny from 118.212.0.0/15
+deny from 118.224.0.0/14
+deny from 118.228.0.0/15
+deny from 118.230.0.0/16
+deny from 118.239.0.0/16
+deny from 118.242.0.0/16
+deny from 118.244.0.0/13
+deny from 118.252.0.0/14
+deny from 119.0.0.0/15
+deny from 119.2.0.0/19
+deny from 119.2.128.0/13
+deny from 119.15.136.0/21
+deny from 119.16.0.0/16
+deny from 119.18.192.0/20
+deny from 119.18.208.0/21
+deny from 119.18.224.0/14
+deny from 119.22.224.0/16
+deny from 119.23.224.0/19
+deny from 119.27.64.0/18
+deny from 119.27.160.0/15
+deny from 119.29.160.0/18
+deny from 119.29.224.0/19
+deny from 119.30.48.0/20
+deny from 119.31.192.0/19
+deny from 119.32.0.0/13
+deny from 119.40.0.0/18
+deny from 119.40.64.0/20
+deny from 119.40.128.0/16
+deny from 119.41.128.0/17
+deny from 119.42.0.0/18
+deny from 119.42.136.0/21
+deny from 119.42.224.0/19
+deny from 119.44.0.0/15
+deny from 119.48.0.0/13
+deny from 119.57.0.0/15
+deny from 119.59.128.0/15
+deny from 119.61.128.0/16
+deny from 119.62.128.0/17
+deny from 119.63.32.0/19
+deny from 119.75.208.0/20
+deny from 119.78.0.0/14
+deny from 119.84.0.0/13
+deny from 119.96.0.0/13
+deny from 119.108.0.0/15
+deny from 119.112.0.0/11
+deny from 119.144.0.0/14
+deny from 119.148.160.0/20
+deny from 119.161.128.0/14
+deny from 119.165.128.0/15
+deny from 119.167.128.0/17
+deny from 119.176.0.0/12
+deny from 119.232.0.0/15
+deny from 119.235.128.0/18
+deny from 119.248.0.0/14
+deny from 119.253.0.0/15
+deny from 119.255.0.0/16
+deny from 120.0.0.0/12
+deny from 120.24.0.0/14
+deny from 120.30.0.0/12
+deny from 120.46.0.0/14
+deny from 120.52.0.0/14
+deny from 120.64.0.0/13
+deny from 120.72.32.0/19
+deny from 120.72.128.0/17
+deny from 120.76.0.0/13
+deny from 120.84.0.0/14
+deny from 120.88.8.0/21
+deny from 120.90.0.0/15
+deny from 120.92.0.0/16
+deny from 120.94.0.0/15
+deny from 120.128.0.0/13
+deny from 120.136.128.0/18
+deny from 120.137.0.0/17
+deny from 120.192.0.0/10
+deny from 121.0.16.0/20
+deny from 121.4.0.0/15
+deny from 121.8.0.0/11
+deny from 121.40.0.0/14
+deny from 121.46.0.0/14
+deny from 121.51.0.0/16
+deny from 121.52.160.0/19
+deny from 121.52.208.0/19
+deny from 121.52.240.0/20
+deny from 121.55.0.0/18
+deny from 121.56.0.0/15
+deny from 121.58.0.0/17
+deny from 121.58.144.0/20
+deny from 121.59.0.0/14
+deny from 121.63.0.0/17
+deny from 121.63.128.0/19
+deny from 121.63.160.0/23
+deny from 121.63.162.0/24
+deny from 121.63.163.0/25
+deny from 121.63.163.128/28
+deny from 121.63.163.152/30
+deny from 121.63.163.160/18
+deny from 121.63.227.160/20
+deny from 121.63.243.160/21
+deny from 121.63.251.160/22
+deny from 121.63.255.160/26
+deny from 121.63.255.224/27
+deny from 121.68.0.0/14
+deny from 121.76.0.0/15
+deny from 121.79.128.0/18
+deny from 121.89.0.0/16
+deny from 121.100.128.0/17
+deny from 121.101.208.0/20
+deny from 121.192.0.0/13
+deny from 121.201.0.0/16
+deny from 121.204.0.0/14
+deny from 121.224.0.0/12
+deny from 121.248.0.0/14
+deny from 121.255.0.0/16
+deny from 122.0.64.0/17
+deny from 122.0.192.0/18
+deny from 122.4.0.0/13
+deny from 122.12.0.0/14
+deny from 122.48.0.0/16
+deny from 122.49.0.0/18
+deny from 122.51.0.0/16
+deny from 122.64.0.0/11
+deny from 122.96.0.0/15
+deny from 122.102.0.0/20
+deny from 122.102.64.0/19
+deny from 122.112.0.0/14
+deny from 122.119.0.0/16
+deny from 122.136.0.0/13
+deny from 122.144.128.0/17
+deny from 122.152.192.0/18
+deny from 122.156.0.0/14
+deny from 122.192.0.0/14
+deny from 122.198.0.0/16
+deny from 122.200.64.0/18
+deny from 122.204.0.0/14
+deny from 122.224.0.0/12
+deny from 122.240.0.0/13
+deny from 122.248.48.0/20
+deny from 123.0.128.0/18
+deny from 123.4.0.0/13
+deny from 123.12.0.0/14
+deny from 123.49.128.0/17
+deny from 123.52.0.0/11
+deny from 123.84.0.0/13
+deny from 123.92.0.0/14
+deny from 123.96.0.0/15
+deny from 123.98.0.0/17
+deny from 123.99.128.0/17
+deny from 123.100.0.0/19
+deny from 123.100.232.0/24
+deny from 123.101.0.0/16
+deny from 123.103.0.0/17
+deny from 123.108.128.0/20
+deny from 123.108.208.0/20
+deny from 123.112.0.0/12
+deny from 123.128.0.0/13
+deny from 123.136.80.0/20
+deny from 123.137.0.0/15
+deny from 123.139.0.0/16
+deny from 123.144.0.0/11
+deny from 123.176.80.0/20
+deny from 123.177.0.0/13
+deny from 123.185.0.0/14
+deny from 123.189.0.0/15
+deny from 123.191.0.0/16
+deny from 123.196.0.0/15
+deny from 123.199.128.0/17
+deny from 123.206.0.0/15
+deny from 123.232.0.0/14
+deny from 123.242.0.0/17
+deny from 123.244.0.0/14
+deny from 123.249.0.0/16
+deny from 123.253.0.0/16
+deny from 124.6.64.0/18
+deny from 124.14.0.0/14
+deny from 124.20.0.0/14
+deny from 124.28.192.0/17
+deny from 124.29.64.0/18
+deny from 124.31.0.0/16
+deny from 124.40.112.0/18
+deny from 124.40.176.0/20
+deny from 124.42.0.0/16
+deny from 124.47.0.0/18
+deny from 124.64.0.0/15
+deny from 124.66.0.0/17
+deny from 124.67.0.0/13
+deny from 124.75.0.0/14
+deny from 124.79.0.0/16
+deny from 124.88.0.0/13
+deny from 124.108.8.0/21
+deny from 124.108.40.0/21
+deny from 124.112.0.0/13
+deny from 124.126.0.0/13
+deny from 124.134.0.0/15
+deny from 124.147.128.0/17
+deny from 124.151.0.0/15
+deny from 124.156.0.0/16
+deny from 124.160.0.0/13
+deny from 124.172.0.0/14
+deny from 124.192.0.0/15
+deny from 124.196.0.0/16
+deny from 124.200.0.0/13
+deny from 124.220.0.0/12
+deny from 124.236.0.0/14
+deny from 124.240.0.0/17
+deny from 124.240.128.0/18
+deny from 124.242.0.0/16
+deny from 124.243.192.0/18
+deny from 124.248.0.0/17
+deny from 124.249.0.0/15
+deny from 124.251.0.0/16
+deny from 124.254.0.0/18
+deny from 125.31.192.0/12
+deny from 125.47.192.0/18
+deny from 125.53.24.0/24
+deny from 125.58.128.0/17
+deny from 125.61.128.0/17
+deny from 125.62.0.0/18
+deny from 125.64.0.0/11
+deny from 125.96.0.0/15
+deny from 125.98.0.0/16
+deny from 125.104.0.0/12
+deny from 125.120.0.0/13
+deny from 125.169.0.0/16
+deny from 125.171.0.0/16
+deny from 125.208.0.0/18
+deny from 125.210.0.0/15
+deny from 125.213.0.0/17
+deny from 125.214.96.0/19
+deny from 125.215.0.0/18
+deny from 125.216.0.0/13
+deny from 125.254.128.0/17
+deny from 128.88.255.0/24
+deny from 134.196.0.0/16
+deny from 140.242.6.0/24
+deny from 147.243.224.0/19
+deny from 159.226.0.0/16
+deny from 160.44.238.56/29
+deny from 160.62.9.0/24
+deny from 161.207.0.0/16
+deny from 162.105.0.0/16
+deny from 166.111.0.0/16
+deny from 167.139.0.0/16
+deny from 168.160.0.0/16
+deny from 169.211.1.0/24
+deny from 173.203.162.136/29
+deny from 173.203.165.104/29
+deny from 173.245.72.0/29
+deny from 173.245.72.48/28
+deny from 174.138.163.48/28
+deny from 174.139.116.168/28
+deny from 174.143.58.248/29
+deny from 174.143.106.128/29
+deny from 175.0.0.0/12
+deny from 175.16.0.0/13
+deny from 175.24.0.0/14
+deny from 175.30.0.0/15
+deny from 175.42.0.0/15
+deny from 175.44.0.0/16
+deny from 175.46.0.0/11
+deny from 175.78.0.0/12
+deny from 175.94.0.0/15
+deny from 175.102.0.0/16
+deny from 175.106.128.0/17
+deny from 175.146.0.0/13
+deny from 175.154.0.0/15
+deny from 175.160.0.0/12
+deny from 175.178.0.0/16
+deny from 175.184.128.0/18
+deny from 175.185.0.0/14
+deny from 175.189.0.0/15
+deny from 175.191.0.0/16
+deny from 178.162.139.0/24
+deny from 178.238.131.48/29
+deny from 178.238.135.48/28
+deny from 178.238.137.224/27
+deny from 180.76.0.0/14
+deny from 180.84.0.0/15
+deny from 180.86.0.0/16
+deny from 180.88.0.0/14
+deny from 180.94.56.0/21
+deny from 180.94.96.0/20
+deny from 180.95.128.0/11
+deny from 180.127.128.0/17
+deny from 180.129.128.0/16
+deny from 180.130.128.0/17
+deny from 180.136.0.0/13
+deny from 180.148.224.0/19
+deny from 180.149.128.0/19
+deny from 180.150.160.0/19
+deny from 180.152.0.0/12
+deny from 180.168.0.0/13
+deny from 180.178.192.0/18
+deny from 180.184.0.0/14
+deny from 180.188.0.0/17
+deny from 180.189.148.0/22
+deny from 180.200.252.0/15
+deny from 180.202.252.0/16
+deny from 180.203.252.0/22
+deny from 180.208.0.0/15
+deny from 180.210.224.0/19
+deny from 180.212.0.0/15
+deny from 180.222.224.0/16
+deny from 180.223.224.0/19
+deny from 180.233.0.0/18
+deny from 180.233.64.0/19
+deny from 180.235.64.0/19
+deny from 182.16.192.0/19
+deny from 182.18.0.0/17
+deny from 182.32.0.0/12
+deny from 182.48.96.0/19
+deny from 182.49.0.0/16
+deny from 182.50.0.0/20
+deny from 182.50.112.0/20
+deny from 182.51.0.0/16
+deny from 182.54.0.0/17
+deny from 182.61.0.0/16
+deny from 182.80.0.0/13
+deny from 182.88.0.0/14
+deny from 182.92.0.0/16
+deny from 182.96.0.0/11
+deny from 182.128.0.0/12
+deny from 182.144.0.0/13
+deny from 182.157.0.0/16
+deny from 182.160.64.0/19
+deny from 182.174.0.0/15
+deny from 182.200.0.0/13
+deny from 182.236.128.0/17
+deny from 182.238.0.0/16
+deny from 182.239.0.0/19
+deny from 182.240.0.0/13
+deny from 182.254.0.0/16
+deny from 183.0.0.0/10
+deny from 183.64.0.0/13
+deny from 183.81.180.0/22
+deny from 183.84.0.0/15
+deny from 183.91.128.0/22
+deny from 183.91.144.0/20
+deny from 183.92.0.0/14
+deny from 183.128.0.0/11
+deny from 183.160.0.0/13
+deny from 183.168.0.0/15
+deny from 183.170.0.0/16
+deny from 183.172.0.0/14
+deny from 183.182.0.0/19
+deny from 183.184.0.0/10
+deny from 183.248.0.0/13
+deny from 192.83.122.0/24
+deny from 192.124.154.0/24
+deny from 192.137.31.0/24
+deny from 192.188.170.0/24
+deny from 193.220.112.0/24
+deny from 194.117.101.45/32
+deny from 194.117.101.55/32
+deny from 194.117.103.43/32
+deny from 194.117.103.58/32
+deny from 194.117.103.78/31
+deny from 194.117.103.120/32
+deny from 194.117.103.123/32
+deny from 194.117.103.150/32
+deny from 194.117.103.154/31
+deny from 194.117.103.181/32
+deny from 194.117.103.189/32
+deny from 194.117.103.195/32
+deny from 194.117.103.206/32
+deny from 194.117.103.215/32
+deny from 194.117.103.218/31
+deny from 194.117.103.230/32
+deny from 194.117.119.101/32
+deny from 195.112.167.20/30
+deny from 195.112.167.56/30
+deny from 195.112.167.84/30
+deny from 195.112.167.156/29
+deny from 195.112.177.20/30
+deny from 195.112.177.32/30
+deny from 195.112.177.124/30
+deny from 195.112.191.12/32
+deny from 198.17.7.0/24
+deny from 199.3.210.0/25
+deny from 199.34.124.200/29
+deny from 202.0.110.0/24
+deny from 202.2.144.64/26
+deny from 202.4.128.0/19
+deny from 202.4.252.0/22
+deny from 202.8.27.0/24
+deny from 202.8.128.0/19
+deny from 202.10.64.0/20
+deny from 202.14.88.0/24
+deny from 202.14.235.0/22
+deny from 202.20.120.0/24
+deny from 202.22.248.0/21
+deny from 202.38.0.0/20
+deny from 202.38.64.0/18
+deny from 202.38.128.0/20
+deny from 202.38.144.0/22
+deny from 202.38.149.0/23
+deny from 202.38.152.0/22
+deny from 202.38.156.0/24
+deny from 202.38.158.0/22
+deny from 202.38.164.0/21
+deny from 202.38.172.0/22
+deny from 202.38.176.0/23
+deny from 202.38.184.0/18
+deny from 202.38.248.0/21
+deny from 202.41.142.0/24
+deny from 202.41.152.0/21
+deny from 202.41.240.0/20
+deny from 202.43.76.0/22
+deny from 202.43.144.0/20
+deny from 202.46.32.0/19
+deny from 202.46.224.0/20
+deny from 202.59.232.0/23
+deny from 202.60.112.0/20
+deny from 202.63.248.0/22
+deny from 202.69.4.0/22
+deny from 202.69.16.0/20
+deny from 202.70.0.0/19
+deny from 202.70.161.0/21
+deny from 202.70.169.0/22
+deny from 202.70.173.0/23
+deny from 202.70.175.0/24
+deny from 202.74.8.0/21
+deny from 202.75.208.0/20
+deny from 202.77.170.48/28
+deny from 202.85.208.0/20
+deny from 202.89.21.0/24
+deny from 202.90.0.0/22
+deny from 202.90.224.0/20
+deny from 202.90.252.0/21
+deny from 202.91.128.0/22
+deny from 202.91.176.0/20
+deny from 202.91.224.0/19
+deny from 202.92.0.0/22
+deny from 202.92.252.0/21
+deny from 202.93.252.0/19
+deny from 202.94.28.0/22
+deny from 202.95.0.0/19
+deny from 202.95.252.0/12
+deny from 202.111.252.0/13
+deny from 202.119.252.0/20
+deny from 202.120.12.0/21
+deny from 202.120.20.0/22
+deny from 202.120.24.0/25
+deny from 202.120.24.128/26
+deny from 202.120.24.192/27
+deny from 202.120.25.0/16
+deny from 202.121.25.0/17
+deny from 202.121.153.0/18
+deny from 202.121.217.0/19
+deny from 202.121.249.0/21
+deny from 202.122.1.0/22
+deny from 202.122.5.0/23
+deny from 202.122.7.0/24
+deny from 202.122.32.0/21
+deny from 202.122.64.0/19
+deny from 202.122.112.0/21
+deny from 202.122.128.0/24
+deny from 202.123.96.0/20
+deny from 202.124.24.0/22
+deny from 202.125.176.0/20
+deny from 202.127.0.0/21
+deny from 202.127.12.0/20
+deny from 202.127.28.0/22
+deny from 202.127.40.0/20
+deny from 202.127.56.0/21
+deny from 202.127.112.0/19
+deny from 202.127.144.0/20
+deny from 202.127.160.0/21
+deny from 202.127.192.0/18
+deny from 202.130.0.0/19
+deny from 202.130.224.0/19
+deny from 202.131.16.0/21
+deny from 202.131.48.0/20
+deny from 202.131.208.0/20
+deny from 202.136.48.0/20
+deny from 202.136.208.0/19
+deny from 202.141.160.0/19
+deny from 202.142.16.0/20
+deny from 202.143.16.0/20
+deny from 202.148.96.0/19
+deny from 202.149.160.0/19
+deny from 202.149.224.0/19
+deny from 202.150.16.0/20
+deny from 202.152.176.0/20
+deny from 202.153.48.0/20
+deny from 202.153.194.192/27
+deny from 202.158.160.0/19
+deny from 202.160.176.0/20
+deny from 202.164.0.0/20
+deny from 202.165.176.0/20
+deny from 202.165.208.0/20
+deny from 202.168.160.0/19
+deny from 202.170.128.0/19
+deny from 202.170.216.0/19
+deny from 202.170.248.0/21
+deny from 202.173.8.0/21
+deny from 202.173.224.0/19
+deny from 202.179.240.0/20
+deny from 202.180.128.0/19
+deny from 202.181.112.0/20
+deny from 202.189.80.0/20
+deny from 202.192.0.0/17
+deny from 202.192.128.0/18
+deny from 202.192.192.0/19
+deny from 202.192.224.0/20
+deny from 202.192.240.0/23
+deny from 202.192.243.0/13
+deny from 202.200.243.0/14
+deny from 202.204.243.0/15
+deny from 202.206.243.0/16
+deny from 202.207.243.0/21
+deny from 202.207.251.0/22
+deny from 202.207.255.0/24
+deny from 203.18.50.0/24
+deny from 203.79.0.0/20
+deny from 203.80.144.0/20
+deny from 203.81.16.0/20
+deny from 203.83.56.0/21
+deny from 203.86.0.0/18
+deny from 203.86.64.0/19
+deny from 203.88.32.0/19
+deny from 203.88.192.0/19
+deny from 203.89.0.0/22
+deny from 203.90.0.0/22
+deny from 203.90.128.0/18
+deny from 203.90.192.0/19
+deny from 203.91.32.0/19
+deny from 203.91.96.0/20
+deny from 203.91.120.0/21
+deny from 203.92.0.0/22
+deny from 203.92.160.0/19
+deny from 203.93.0.0/16
+deny from 203.94.0.0/19
+deny from 203.95.0.0/21
+deny from 203.95.96.0/19
+deny from 203.98.193.168/29
+deny from 203.98.193.240/29
+deny from 203.98.194.16/28
+deny from 203.98.195.48/28
+deny from 203.98.201.0/24
+deny from 203.98.205.32/28
+deny from 203.98.205.168/29
+deny from 203.98.207.0/29
+deny from 203.98.207.80/27
+deny from 203.98.209.128/26
+deny from 203.98.210.0/28
+deny from 203.98.210.96/29
+deny from 203.98.213.24/29
+deny from 203.98.213.176/29
+deny from 203.99.16.0/20
+deny from 203.99.80.0/20
+deny from 203.100.32.0/20
+deny from 203.100.48.0/21
+deny from 203.100.80.0/19
+deny from 203.100.112.0/20
+deny from 203.100.192.0/20
+deny from 203.110.160.0/19
+deny from 203.114.244.0/22
+deny from 203.118.192.0/19
+deny from 203.118.248.0/22
+deny from 203.119.24.0/21
+deny from 203.119.32.0/22
+deny from 203.119.80.0/22
+deny from 203.119.85.0/24
+deny from 203.128.32.0/19
+deny from 203.128.96.0/18
+deny from 203.130.32.0/19
+deny from 203.132.32.0/19
+deny from 203.134.240.0/21
+deny from 203.135.96.0/19
+deny from 203.135.160.0/20
+deny from 203.142.12.0/23
+deny from 203.142.219.0/24
+deny from 203.148.0.0/18
+deny from 203.152.64.0/19
+deny from 203.156.192.0/18
+deny from 203.158.16.0/21
+deny from 203.161.180.0/24
+deny from 203.161.192.0/19
+deny from 203.166.160.0/19
+deny from 203.171.224.0/20
+deny from 203.174.7.0/24
+deny from 203.174.96.0/19
+deny from 203.175.128.0/19
+deny from 203.175.192.0/17
+deny from 203.176.64.0/19
+deny from 203.176.168.0/21
+deny from 203.184.80.0/20
+deny from 203.187.160.0/19
+deny from 203.190.96.0/20
+deny from 203.191.16.0/20
+deny from 203.191.64.0/18
+deny from 203.191.144.0/20
+deny from 203.192.0.0/19
+deny from 203.194.139.159/27
+deny from 203.196.0.0/20
+deny from 203.207.64.0/17
+deny from 203.207.192.0/18
+deny from 203.208.0.0/20
+deny from 203.208.16.0/22
+deny from 203.208.32.0/19
+deny from 203.209.224.0/19
+deny from 203.212.0.0/20
+deny from 203.212.80.0/20
+deny from 203.215.146.0/23
+deny from 203.222.44.168/29
+deny from 203.222.166.96/29
+deny from 203.222.166.192/26
+deny from 203.222.167.56/29
+deny from 203.222.167.128/28
+deny from 203.222.174.200/29
+deny from 203.222.176.244/26
+deny from 203.222.177.52/28
+deny from 203.222.177.68/30
+deny from 203.222.177.104/29
+deny from 203.222.177.192/26
+deny from 203.222.182.96/28
+deny from 203.222.182.144/28
+deny from 204.232.171.24/29
+deny from 206.73.60.96/27
+deny from 206.73.68.128/27
+deny from 206.73.91.32/26
+deny from 206.73.195.64/27
+deny from 206.73.210.96/27
+deny from 206.73.227.64/26
+deny from 206.73.246.32/28
+deny from 206.125.174.72/29
+deny from 206.168.117.160/28
+deny from 206.182.199.208/29
+deny from 206.182.200.128/26
+deny from 206.182.221.112/28
+deny from 206.182.221.192/26
+deny from 206.214.208.29/30
+deny from 206.214.210.207/30
+deny from 206.214.211.71/30
+deny from 206.214.211.216/30
+deny from 206.214.214.77/30
+deny from 206.214.215.12/30
+deny from 206.214.215.85/30
+deny from 206.221.217.232/30
+deny from 206.221.221.64/29
+deny from 206.221.221.176/29
+deny from 206.221.222.208/29
+deny from 206.222.26.32/29
+deny from 207.117.165.0/24
+deny from 207.209.206.128/25
+deny from 207.209.226.32/28
+deny from 208.74.175.1/28
+deny from 208.74.175.17/29
+deny from 208.74.175.25/30
+deny from 208.74.175.29/31
+deny from 208.74.175.31/32
+deny from 208.77.151.64/29
+deny from 208.115.140.0/24
+deny from 209.50.243.8/29
+deny from 209.93.110.0/25
+deny from 209.93.112.128/25
+deny from 209.93.114.128/26
+deny from 209.93.178.0/25
+deny from 209.93.178.128/27
+deny from 209.93.178.160/32
+deny from 209.93.184.192/26
+deny from 209.93.189.0/23
+deny from 209.93.191.0/24
+deny from 209.93.194.64/26
+deny from 209.93.236.104/29
+deny from 209.93.238.128/25
+deny from 209.93.240.128/25
+deny from 209.190.24.104/29
+deny from 209.190.122.232/29
+deny from 210.2.0.0/19
+deny from 210.5.0.0/19
+deny from 210.5.144.0/20
+deny from 210.12.0.0/15
+deny from 210.14.64.0/19
+deny from 210.14.112.0/16
+deny from 210.15.112.0/18
+deny from 210.15.176.0/20
+deny from 210.16.128.0/18
+deny from 210.21.0.0/15
+deny from 210.23.32.0/19
+deny from 210.25.0.0/14
+deny from 210.29.0.0/15
+deny from 210.31.0.0/17
+deny from 210.31.128.0/18
+deny from 210.31.192.0/20
+deny from 210.31.208.0/23
+deny from 210.31.210.0/30
+deny from 210.31.210.8/12
+deny from 210.47.210.8/19
+deny from 210.47.242.8/21
+deny from 210.47.250.8/22
+deny from 210.47.254.8/24
+deny from 210.47.255.8/25
+deny from 210.47.255.136/26
+deny from 210.47.255.200/27
+deny from 210.47.255.232/28
+deny from 210.47.255.248/29
+deny from 210.51.0.0/15
+deny from 210.53.0.0/16
+deny from 210.56.192.0/19
+deny from 210.72.0.0/14
+deny from 210.76.0.0/15
+deny from 210.78.0.0/16
+deny from 210.79.64.0/18
+deny from 210.79.224.0/19
+deny from 210.82.0.0/15
+deny from 210.87.128.0/18
+deny from 210.185.192.0/18
+deny from 210.192.96.0/19
+deny from 211.64.0.0/13
+deny from 211.80.0.0/12
+deny from 211.96.0.0/13
+deny from 211.136.0.0/11
+deny from 212.63.181.28/30
+deny from 212.63.181.40/29
+deny from 212.63.181.76/30
+deny from 212.63.181.140/30
+deny from 212.63.181.180/29
+deny from 212.63.181.200/30
+deny from 212.63.181.224/30
+deny from 212.63.183.4/32
+deny from 212.63.183.9/31
+deny from 212.63.183.15/32
+deny from 212.63.183.19/32
+deny from 212.63.183.23/32
+deny from 212.63.183.28/32
+deny from 212.63.183.58/32
+deny from 212.63.183.62/32
+deny from 212.63.183.64/32
+deny from 212.63.183.68/32
+deny from 212.63.183.212/29
+deny from 212.63.183.228/30
+deny from 212.95.43.10/26
+deny from 212.95.43.74/27
+deny from 212.95.43.106/28
+deny from 212.95.43.122/30
+deny from 212.95.43.126/31
+deny from 216.38.51.144/30
+deny from 216.38.52.76/30
+deny from 216.38.54.183/30
+deny from 216.38.54.203/30
+deny from 216.38.54.243/30
+deny from 216.38.62.130/30
+deny from 216.38.63.98/30
+deny from 216.94.105.0/24
+deny from 216.94.116.128/25
+deny from 216.108.228.228/29
+deny from 216.108.229.128/28
+deny from 216.108.231.208/28
+deny from 216.108.234.108/28
+deny from 216.108.236.216/28
+deny from 216.131.76.24/29
+deny from 216.131.121.64/28
+deny from 216.136.136.128/28
+deny from 216.136.162.208/28
+deny from 216.136.183.184/29
+deny from 216.136.217.176/28
+deny from 216.139.183.80/29
+deny from 216.158.143.65/26
+deny from 216.158.147.1/25
+deny from 216.158.147.129/26
+deny from 216.158.147.193/27
+deny from 216.158.147.225/28
+deny from 216.158.147.241/29
+deny from 216.158.147.249/30
+deny from 216.158.147.253/31
+deny from 216.158.147.255/32
+deny from 216.179.192.0/21
+deny from 216.198.215.32/27
+deny from 216.218.168.16/28
+deny from 217.8.101.0/24
+deny from 218.0.0.0/11
+deny from 218.56.0.0/11
+deny from 218.88.0.0/13
+deny from 218.96.0.0/14
+deny from 218.104.0.0/14
+deny from 218.108.0.0/15
+deny from 218.185.192.0/19
+deny from 218.192.0.0/12
+deny from 218.240.0.0/13
+deny from 218.249.0.0/16
+deny from 219.72.0.0/16
+deny from 219.82.0.0/16
+deny from 219.128.0.0/11
+deny from 219.216.0.0/12
+deny from 219.232.0.0/13
+deny from 219.242.0.0/14
+deny from 219.246.0.0/15
+deny from 220.101.192.0/18
+deny from 220.112.0.0/14
+deny from 220.152.128.0/17
+deny from 220.154.0.0/15
+deny from 220.160.0.0/11
+deny from 220.192.0.0/12
+deny from 220.231.0.0/18
+deny from 220.231.128.0/17
+deny from 220.232.64.0/18
+deny from 220.234.0.0/16
+deny from 220.242.0.0/15
+deny from 220.248.0.0/14
+deny from 220.252.0.0/16
+deny from 221.0.0.0/13
+deny from 221.8.0.0/14
+deny from 221.12.0.0/17
+deny from 221.12.128.0/18
+deny from 221.13.0.0/15
+deny from 221.15.0.0/16
+deny from 221.122.0.0/15
+deny from 221.129.0.0/15
+deny from 221.131.0.0/16
+deny from 221.133.224.0/19
+deny from 221.136.0.0/15
+deny from 221.172.0.0/13
+deny from 221.180.0.0/14
+deny from 221.192.0.0/14
+deny from 221.196.0.0/15
+deny from 221.198.0.0/16
+deny from 221.199.0.0/17
+deny from 221.199.128.0/18
+deny from 221.199.192.0/20
+deny from 221.199.224.0/11
+deny from 221.231.224.0/13
+deny from 221.239.224.0/19
+deny from 222.16.0.0/10
+deny from 222.80.0.0/12
+deny from 222.125.0.0/16
+deny from 222.126.128.0/17
+deny from 222.128.0.0/12
+deny from 222.160.0.0/14
+deny from 222.168.0.0/11
+deny from 222.200.0.0/12
+deny from 222.216.0.0/13
+deny from 222.240.0.0/13
+deny from 222.248.0.0/15
+deny from 223.0.0.0/12
+deny from 223.20.0.0/15
+deny from 223.27.184.0/22
+deny from 223.64.0.0/10
+deny from 223.128.0.0/15
+deny from 223.144.0.0/12
+deny from 223.160.0.0/14
+deny from 223.166.0.0/15
+deny from 223.192.0.0/15
+deny from 223.198.0.0/15
+deny from 223.201.0.0/15
+deny from 223.203.0.0/16
+deny from 223.208.0.0/13
+deny from 223.220.0.0/15
+deny from 223.223.176.0/19
+deny from 223.240.0.0/13
+deny from 223.248.0.0/14
+deny from 223.254.0.0/16
+deny from 223.255.0.0/17
+allow from all
+</Limit>
+#COUNTRY_BLOCK_END
+
+# WP AUTHOR ENUMERATION BOT PROBE PROTECTION
+# Redirects to author=999999 that does not actually exist
+# which results in a standard 404 error. To the hacker bot
+# it appears that this author does not exist without giving
+# any clues that the author does actually exist.
+
+RewriteCond %{QUERY_STRING} ^author=([0-9]){1,}$ [NC]
+RewriteRule ^(.*)$ $1?author=999999 [L]
+
+# Block/Forbid Referer Spammers/Referer Phishing
+RewriteCond %{HTTP_REFERER} ^.*(ranksonic\.|semalt\.|kambasoft\.|buttons-for-website\.).*$ [NC]
+RewriteRule ^(.*)$ - [F]
+
