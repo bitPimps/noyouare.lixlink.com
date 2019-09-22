@@ -1,0 +1,25 @@
+body {color:#333; background-color:#fff; padding-top:50px;}
+/* Icon colors */
+.green, .green a {color:#0c3;}
+.red, .red a {color:#c00;}
+/* navbar-inverse */
+.navbar-inverse .navbar-brand {color:#d9f1fc;}
+.navbar-inverse .navbar-text {color:#d9f1fc;}
+.navbar-inverse .navbar-nav > li > a {color:#d9f1fc;}
+.navbar-inverse {
+	background-image:	-webkit-linear-gradient(top, #00aaf0 0%, #00415c 100%);
+	background-image:					linear-gradient(to bottom, #00aaf0 0%, #00415c 100%);
+	filter:	progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff00aaf0', endColorstr='#ff00415c', GradientType=0);
+}
+.navbar-inverse .navbar-nav > .active > a {
+	background-image:	-webkit-linear-gradient(top, #004b6f 0%, #0086c2 100%);
+	background-image:					linear-gradient(to bottom, #004b6f 0%, #0086c2 100%);
+	filter:	progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff004b6f', endColorstr='#ff0086c2', GradientType=0);
+	-webkit-box-shadow: inset 0 3px 9px rgba(0, 0, 0, .25);
+					box-shadow: inset 0 3px 9px rgba(0, 0, 0, .25);
+}
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+}
+
