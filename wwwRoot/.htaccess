@@ -1714,3 +1714,18 @@ RewriteRule ^(.*)$ $1?author=999999 [L]
 RewriteCond %{HTTP_REFERER} ^.*(ranksonic\.|semalt\.|kambasoft\.|buttons-for-website\.).*$ [NC]
 RewriteRule ^(.*)$ - [F]
 
+# ------------------------------------------------------------------------------
+# | Forcing the domain to serve securely using HTTPS (for any site)            |
+# ------------------------------------------------------------------------------
+
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+
+# ------------------------------------------------------------------------------
+# | Resolving insecure site and mixed-content warnings                         |
+# ------------------------------------------------------------------------------
+
+<ifModule mod_headers.c>
+Header always set Content-Security-Policy "upgrade-insecure-requests;"
+</IfModule>
