@@ -19,29 +19,22 @@ $wolfknivesMembers = $wolfknivesMemberSR->getWolfknivesMembers();
 mysqli_close($dbConn);
 ?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>NYA Administration &gt; Wolfknives Member Registry Database</title>
 		<?php include_once("../inc/meta-data.php"); ?>
 	</head>
 	<body>
-	<?php
-	require_once("../inc/nav_main.php");
-	DrawNavMain("Wolfknives Member Registry");
-	?>
-	<div class="container">
+	<?php require_once("../inc/nav_main.php"); DrawNavMain("Wolfknives Member Registry"); ?>
+	<main role="main" class="container">
 		<ol class="breadcrumb">
-			<li><a href="/admin/index.php">Home</a></li>
-			<li class="active">Wolfknives Member Registry</li>
+			<li class="breadcrumb-item"><a href="/admin/index.php">Home</a></li>
+			<li class="breadcrumb-item active">Wolfknives Member Registry</li>
 		</ol><!-- /breadcrumb -->
 		<div class="row">
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-3 col-sm-offset-1 sidebar">
 				<h2>Show Only <small>Author</small></h2>
 				<form action="<?php echo basename($_SERVER['PHP_SELF']) ?>" method="post" name="wkMemberSearch" class="form-inline" role="form">
 					<div class="input-group">
@@ -57,11 +50,9 @@ mysqli_close($dbConn);
 					</div><!-- /input-group -->
 				</form>
 				<p>&nbsp;</p>
-				<div class="btn-group">
-					<a href="controller.php" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> <strong>Add a new Wolfknives Member</strong></a>
-				</div><!-- /btn-group -->
+				<p><a href="controller.php" class="btn btn-lg btn-success" role="button"><i class="fa fa-plus-circle"></i> Add New Member</a></p>
 			</div><!-- /.col-sm-3 col-sm-offset-1 -->
-			<div class="col-sm-8">
+			<div class="col-sm-8 main">
 				<h1>Wolfknives Member Registry <small>Database</small></h1>
 				<p>Before posting a Wolfknives Member, please:</p>
 				<ol>
@@ -96,7 +87,7 @@ mysqli_close($dbConn);
 							<td class="text-center"><?php if ($wolfknivesMembers[$i]->getNameInstagram() != "") { ?><a href="http://instagram.com/<?php echo $wolfknivesMembers[$i]->getNameInstagram(); ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="@<?php echo $wolfknivesMembers[$i]->getNameInstagram(); ?>"><img src="../../wp-content/themes/noyouare/images/icons/instagram.png" border="0"></a><?php } else { ?>&nbsp;<?php } ?></td>
 							<td class="text-center"><?php if ($wolfknivesMembers[$i]->getNameOJE() != "") { ?><a href="#" data-toggle="tooltip" data-placement="top" title="<?php echo $wolfknivesMembers[$i]->getNameOJE(); ?>"><img src="../../wp-content/themes/noyouare/images/icons/officialjasonellis.png" border="0"></a><?php } else { ?>&nbsp;<?php } ?></td>
 							<td><?php echo $wolfknivesMembers[$i]->getRank(); ?></td>
-							<td class="text-center"><span class="glyphicon <?php if ($wolfknivesMembers[$i]->getPublish()==1){ ?>glyphicon-ok green<?php } else { ?>glyphicon-remove red<?php } ?>"></span></td>
+							<td class="text-center"><?php if ($wolfknivesMembers[$i]->getPublish()==1){ ?><i class="fa fa-check-circle green" aria-hidden="true"></i><?php } else { ?><i class="fa fa-ban red" aria-hidden="true"></i><?php } ?></td>
 						</tr>
 						<?php } if(count($wolfknivesMembers)==0){ ?>
 						<tr>
@@ -108,9 +99,8 @@ mysqli_close($dbConn);
 				</div><!-- /table-responsive -->
 			</div><!-- /.col-sm-8 -->
 		</div><!-- /.row -->
-		<?php require_once("../inc/footer.php"); ?>
-	</div><!-- /container -->
-	<?php require_once("../inc/footer_scripts.php"); ?>
+	</main><!-- /container -->
+	<?php require_once("../inc/footer.php"); ?>
 	<script>
 	$(document).ready(function() {
 		$('[data-toggle="tooltip"]').tooltip({

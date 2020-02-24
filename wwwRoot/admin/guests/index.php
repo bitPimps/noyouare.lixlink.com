@@ -19,44 +19,35 @@ $guests = $guestSR->getGuests();
 mysqli_close($dbConn);
 ?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>NYA Administration &gt; TJES Guest Database</title>
 		<?php include_once("../inc/meta-data.php"); ?>
 	</head>
 	<body>
-	<?php
-	require_once("../inc/nav_main.php");
-	DrawNavMain("Guests");
-	?>
-	<div class="container">
+	<?php require_once("../inc/nav_main.php"); DrawNavMain("Guests"); ?>
+	<main role="main" class="container">
 		<ol class="breadcrumb">
-			<li><a href="/admin/index.php">Home</a></li>
-			<li class="active">TJES Guests</li>
+			<li class="breadcrumb-item"><a href="/admin/index.php">Home</a></li>
+			<li class="breadcrumb-item active">TJES Guests</li>
 		</ol><!-- /breadcrumb -->
 		<div class="row">
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-3 col-sm-offset-1 sidebar">
 				<h2>Search <small>Guests</small></h2>
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" name="guestSearch" class="form-inline" role="form">
 					<div class="input-group">
 						<input type="text" value="<?php echo $sName ?>" placeholder="Guest Search..." name="sName" id="sName" class="form-control">
-						<span class="input-group-btn">
-							<button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-						</span>
+						<div class="input-group-prepend">
+							<button class="btn btn-info" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+						</div>
 					</div><!-- /input-group -->
 				</form>
 				<p>&nbsp;</p>
-				<div class="btn-group">
-					<a href="controller.php" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> <strong>Add a new guest</strong></a>
-				</div><!-- /btn-group -->
+				<p><a href="controller.php" class="btn btn-lg btn-success" role="button"><i class="fa fa-plus-circle"></i> Add New Guest</a></p>
 			</div><!-- /.col-sm-3 col-sm-offset-1 -->
-			<div class="col-sm-8">
+			<div class="col-sm-8 main">
 				<h1>TJES Guest <small>Database</small></h1>
 				<p>A list of guests on TJES.</p>
 				<p>Before posting a guest, please:</p>
@@ -80,7 +71,7 @@ mysqli_close($dbConn);
 						<?php for ($i = 0; $i<count($guests); $i++){ ?>
 						<tr>
 							<td><a href="controller.php?id=<?php echo $guests[$i]->getId(); ?>"><?php echo $guests[$i]->getName(); ?></a></td>
-							<td class="text-center"><span class="glyphicon <?php if ($guests[$i]->getPublish()==1){ ?>glyphicon-ok green<?php } else { ?>glyphicon-remove red<?php } ?>"></span></td>
+							<td class="text-center"><?php if ($guests[$i]->getPublish()==1){ ?><i class="fa fa-check-circle green" aria-hidden="true"></i><?php } else { ?><i class="fa fa-ban red" aria-hidden="true"></i><?php } ?></td>
 						</tr>
 						<?php } if(count($guests)==0){ ?>
 						<tr>
@@ -92,9 +83,8 @@ mysqli_close($dbConn);
 				</div><!-- /table-responsive -->
 			</div><!-- /.col-sm-8 -->
 		</div><!-- /.row -->
-		<?php require_once("../inc/footer.php"); ?>
-	</div><!-- /container -->
-	<?php require_once("../inc/footer_scripts.php"); ?>
+	</main><!-- /container -->
+	<?php include_once("../inc/footer.php"); ?>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var cache = {},

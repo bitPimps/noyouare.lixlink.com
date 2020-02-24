@@ -19,35 +19,26 @@ $ellisWords = $dictSR->getDicts();
 mysqli_close($dbConn);
 ?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>NYA Administration &gt; Ellis English Dictionary Database</title>
 		<?php include_once("../inc/meta-data.php"); ?>
 	</head>
 	<body>
-	<?php
-	require_once("../inc/nav_main.php");
-	DrawNavMain("EED");
-	?>
-	<div class="container">
+	<?php require_once("../inc/nav_main.php"); DrawNavMain("EED"); ?>
+	<main role="main" class="container">
 		<ol class="breadcrumb">
-			<li><a href="/admin/index.php">Home</a></li>
-			<li class="active">Ellis English Dictionary</li>
+			<li class="breadcrumb-item"><a href="/admin/index.php">Home</a></li>
+			<li class="breadcrumb-item active">Ellis English Dictionary</li>
 		</ol><!-- /breadcrumb -->
 		<div class="row">
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-3 col-sm-offset-1 sidebar">
 				<h2>&nbsp;</h2>
-				<div class="btn-group">
-					<a href="controller.php" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> <strong>Add a new term</strong></a>
-				</div><!-- /btn-group -->
+				<p><a href="controller.php" class="btn btn-lg btn-success" role="button"><i class="fa fa-plus-circle"></i> Add New Term</a></p>
 			</div><!-- /.col-sm-3 col-sm-offset-1 -->
-			<div class="col-sm-8">
+			<div class="col-sm-8 main">
 				<h1>Ellis English Dictionary <small>Database</small></h1>
 				<p>A list of Ellis words &amp; their meanings.</p>
 				<p>Before posting a Term, please:</p>
@@ -83,8 +74,7 @@ mysqli_close($dbConn);
 				</div><!-- /table-responsive -->
 			</div><!-- /.col-sm-8 -->
 		</div><!-- /.row -->
-		<?php require_once("../inc/footer.php"); ?>
-	</div><!-- /container -->
-	<?php require_once("../inc/footer_scripts.php"); ?>
+	</main><!-- /container -->
+	<?php include_once("../inc/footer.php"); ?>
 	</body>
 </html>

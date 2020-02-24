@@ -18,29 +18,22 @@ $punchpads = $padSR->getPunchPads();
 mysqli_close($dbConn);
 ?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>NYA Administration &gt; TJES Punch-Pad Database</title>
 		<?php include_once("../inc/meta-data.php"); ?>
 	</head>
 	<body>
-	<?php
-	require_once("../inc/nav_main.php");
-	DrawNavMain("PunchPad");
-	?>
-	<div class="container">
+	<?php require_once("../inc/nav_main.php"); DrawNavMain("PunchPad"); ?>
+	<main role="main" class="container">
 		<ol class="breadcrumb">
-			<li><a href="/admin/index.php">Home</a></li>
-			<li class="active">TJES Punch-Pad Results</li>
+			<li class="breadcrumb-item"><a href="/admin/index.php">Home</a></li>
+			<li class="breadcrumb-item active">TJES Punch-Pad Results</li>
 		</ol><!-- /breadcrumb -->
 		<div class="row">
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-3 col-sm-offset-1 sidebar">
 				<h2>Show Only <small>Strike</small></h2>
 				<form action="<?php echo basename($_SERVER['PHP_SELF']) ?>" method="post" name="punchSearch" class="form-inline" role="form">
 					<div class="input-group">
@@ -52,11 +45,9 @@ mysqli_close($dbConn);
 					</div><!-- /input-group -->
 				</form>
 				<p>&nbsp;</p>
-				<div class="btn-group">
-					<a href="controller.php" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> <strong>Add a new result</strong></a>
-				</div><!-- /btn-group -->
+				<p><a href="controller.php" class="btn btn-lg btn-success" role="button"><i class="fa fa-plus-circle"></i> Add New Result</a></p>
 			</div><!-- /.col-sm-3 col-sm-offset-1 -->
-			<div class="col-sm-8">
+			<div class="col-sm-8 main">
 				<h1>TJES Punch-Pad <small>Database</small></h1>
 				<p>Before posting a result, please:</p>
 				<ol>
@@ -82,7 +73,7 @@ mysqli_close($dbConn);
 							<td><a href="controller.php?id=<?php echo $punchpads[$i]->getId(); ?>"><?php echo $punchpads[$i]->getFirstName(); ?> <?php echo $punchpads[$i]->getLastName(); ?></a></td>
 							<td><?php echo $punchpads[$i]->getStrike(); ?></td>
 							<td class="text-center"><?php echo $punchpads[$i]->getScore(); ?></td>
-							<td class="text-center"><span class="glyphicon <?php if ($punchpads[$i]->getPublish()==1){ ?>glyphicon-ok green<?php } else { ?>glyphicon-remove red<?php } ?>"></span></td>
+							<td class="text-center"><?php if ($punchpads[$i]->getPublish()==1){ ?><i class="fa fa-check-circle green" aria-hidden="true"></i><?php } else { ?><i class="fa fa-ban red" aria-hidden="true"></i><?php } ?></td>
 						</tr>
 						<?php } if(count($punchpads)==0){ ?>
 						<tr>
@@ -94,8 +85,7 @@ mysqli_close($dbConn);
 				</div><!-- /table-responsive -->
 			</div><!-- /.col-sm-8 -->
 		</div><!-- /.row -->
-		<?php require_once("../inc/footer.php"); ?>
-	</div><!-- /container -->
-	<?php require_once("../inc/footer_scripts.php"); ?>
+	</main><!-- /container -->
+	<?php require_once("../inc/footer.php"); ?>
 	</body>
 </html>

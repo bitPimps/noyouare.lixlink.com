@@ -19,44 +19,35 @@ $wolfknives = $wolfkniveSR->getWolfknives();
 mysqli_close($dbConn);
 ?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>NYA Administration &gt; TJES Wolfknives Names Database</title>
 		<?php include_once("../inc/meta-data.php"); ?>
 	</head>
 	<body>
-	<?php
-	require_once("../inc/nav_main.php");
-	DrawNavMain("Wolfknives Names");
-	?>
-	<div class="container">
+	<?php require_once("../inc/nav_main.php"); DrawNavMain("Wolfknives Names"); ?>
+	<main role="main" class="container">
 		<ol class="breadcrumb">
-			<li><a href="/admin/index.php">Home</a></li>
-			<li class="active">TJES Wolfknives Names</li>
+			<li class="breadcrumb-item"><a href="/admin/index.php">Home</a></li>
+			<li class="breadcrumb-item active">TJES Wolfknives Names</li>
 		</ol><!-- /breadcrumb -->
 		<div class="row">
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-3 col-sm-offset-1 sidebar">
 				<h2>Wolfknives <small>Search</small></h2>
 				<form action="<?php echo basename($_SERVER['PHP_SELF']) ?>" method="post" name="wolfSearch" class="form-inline" role="form">
 					<div class="input-group">
 						<input type="text" value="<?php echo $sName ?>" placeholder="Wolfknives Search..." name="sName" id="sName" class="form-control">
-						<span class="input-group-btn">
-							<button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-						</span>
+						<div class="input-group-prepend">
+							<button class="btn btn-info" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+						</div>
 					</div><!-- /input-group -->
 				</form>
 				<p>&nbsp;</p>
-				<div class="btn-group">
-					<a href="controller.php" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> <strong>Add a new Wolfknives name</strong></a>
-				</div><!-- /btn-group -->
+				<p><a href="controller.php" class="btn btn-lg btn-success" role="button"><i class="fa fa-plus-circle"></i> Add New Name</a></p>
 			</div><!-- /.col-sm-3 col-sm-offset-1 -->
-			<div class="col-sm-8">
+			<div class="col-sm-8 main">
 				<h1>TJES Wolfknives Name <small>Database</small></h1>
 				<p>Before posting a made-up Wolfknives name, please:</p>
 				<ol>
@@ -79,7 +70,7 @@ mysqli_close($dbConn);
 						<tr>
 							<td><a href="controller.php?id=<?php echo $wolfknives[$i]->getId(); ?>"><?php echo $wolfknives[$i]->getName(); ?></a></td>
 							<td><?php echo $wolfknives[$i]->getSex(); ?></td>
-							<td class="text-center"><span class="glyphicon <?php if ($wolfknives[$i]->getPublish()==1){ ?>glyphicon-ok green<?php } else { ?>glyphicon-remove red<?php } ?>"></span></td>
+							<td class="text-center"><?php if ($wolfknives[$i]->getPublish()==1){ ?><i class="fa fa-check-circle green" aria-hidden="true"></i><?php } else { ?><i class="fa fa-ban red" aria-hidden="true"></i><?php } ?></td>
 						</tr>
 						<?php } if(count($wolfknives)==0){ ?>
 						<tr>
@@ -91,9 +82,8 @@ mysqli_close($dbConn);
 				</div><!-- /table-responsive -->
 			</div><!-- /.col-sm-8 -->
 		</div><!-- /.row -->
-		<?php require_once("../inc/footer.php"); ?>
 	</div><!-- /container -->
-	<?php require_once("../inc/footer_scripts.php"); ?>
+	<?php require_once("../inc/footer.php"); ?>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var cache = {},

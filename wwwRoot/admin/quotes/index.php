@@ -20,29 +20,22 @@ $quotes = $quoteSR->getQuotes();
 mysqli_close($dbConn);
 ?>
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>NYA Administration &gt; TJES Quote Database</title>
 		<?php include_once("../inc/meta-data.php"); ?>
 	</head>
 	<body>
-	<?php
-	require_once("../inc/nav_main.php");
-	DrawNavMain("Quotes");
-	?>
-	<div class="container">
+	<?php require_once("../inc/nav_main.php"); DrawNavMain("Quotes"); ?>
+	<main role="main" class="container">
 		<ol class="breadcrumb">
-			<li><a href="/admin/index.php">Home</a></li>
-			<li class="active">TJES Quotes</li>
+			<li class="breadcrumb-item"><a href="/admin/index.php">Home</a></li>
+			<li class="breadcrumb-item active">TJES Quotes</li>
 		</ol><!-- /breadcrumb -->
 		<div class="row">
-			<div class="col-sm-3 col-sm-offset-1">
+			<div class="col-sm-3 col-sm-offset-1 sidebar">
 				<h2>Show Only <small>Author</small></h2>
 				<form action="<?php echo basename($_SERVER['PHP_SELF']) ?>" method="post" name="quoteSearch" class="form-inline" role="form">
 					<div class="input-group">
@@ -57,11 +50,9 @@ mysqli_close($dbConn);
 					</div><!-- /input-group -->
 				</form>
 				<p>&nbsp;</p>
-				<div class="btn-group">
-					<a href="controller.php" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> <strong>Add a new quote</strong></a>
-				</div><!-- /btn-group -->
+				<p><a href="controller.php" class="btn btn-lg btn-success" role="button"><i class="fa fa-plus-circle"></i> Add New Quote</a></p>
 			</div><!-- /.col-sm-3 col-sm-offset-1 -->
-			<div class="col-sm-8">
+			<div class="col-sm-8 main">
 				<h1>TJES Quote <small>Database</small></h1>
 				<p>A list of guests on TJES.</p>
 				<p>Before posting a quote, please:</p>
@@ -87,7 +78,7 @@ mysqli_close($dbConn);
 						<tr>
 							<td><a href="controller.php?id=<?php echo $quotes[$i]->getId(); ?>">&quot;<?php echo $quotes[$i]->getBody(); ?>&quot;</a></td>
 							<td><?php echo $quotes[$i]->getAuthor(); ?></td>
-							<td class="text-center"><span class="glyphicon <?php if ($quotes[$i]->getPublish()==1){ ?>glyphicon-ok green<?php } else { ?>glyphicon-remove red<?php } ?>"></span></td>
+							<td class="text-center"><?php if ($quotes[$i]->getPublish()==1){ ?><i class="fa fa-check-circle green" aria-hidden="true"></i><?php } else { ?><i class="fa fa-ban red" aria-hidden="true"></i><?php } ?></td>
 						</tr>
 						<?php } if(count($quotes)==0){ ?>
 						<tr>
@@ -99,8 +90,7 @@ mysqli_close($dbConn);
 				</div><!-- /table-responsive -->
 			</div><!-- /.col-sm-8 -->
 		</div><!-- /.row -->
-		<?php require_once("../inc/footer.php"); ?>
-	</div><!-- /container -->
-	<?php require_once("../inc/footer_scripts.php"); ?>
+	</main><!-- /container -->
+	<?php require_once("../inc/footer.php"); ?>
 	</body>
 </html>
