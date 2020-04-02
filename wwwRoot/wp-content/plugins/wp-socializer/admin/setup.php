@@ -32,6 +32,7 @@ class WPSR_Admin_Setup{
             'feature' => true,
             'banner' => WPSR_ADMIN_URL . '/images/banners/setup.png',
             'link' => admin_url( 'admin.php?page=wp_socializer_setup' ),
+            'hide_in_nav' => true,
             'form' => array(
                 'id' => '',
                 'name' => '',

@@ -166,63 +166,88 @@ function bpsPro_root_precheck_download() {
 
 		$get_root_contents = @file_get_contents($root_htaccess_file);
 
-	if ( strpos( $get_root_contents, "BULLETPROOF" ) ) {
-		return;
-	}
-
-	if ( ! is_multisite() ) {
-
-		$wp_single_default = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*<IfModule\smod_rewrite\.c>\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule(.*)\s*<\/IfModule>\s*#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
-	
-		$wp_single_default_no_code_top = '/#\sBEGIN\sWordPress\s*<IfModule\smod_rewrite\.c>\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule(.*)\s*<\/IfModule>\s*#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
-	
-		$wp_single_default_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*<IfModule\smod_rewrite\.c>\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule(.*)\s*<\/IfModule>\s*#\sEND\sWordPress(\s*|){1,}/';
-
-		if ( preg_match( $wp_single_default, $get_root_contents, $matches ) || preg_match( $wp_single_default_no_code_top, $get_root_contents, $matches ) || preg_match( $wp_single_default_no_code_bottom, $get_root_contents, $matches ) ) {
-
-			// zip root htaccess file, display message with forum link and download button.
-			bps_zip_root_htaccess_file();
-			
-			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('Custom additional htaccess code was found in your current root htaccess file. Your root htaccess file has been backed up and zipped in this zip file: /bulletproof-security/admin/wizard/root-htaccess-file.zip. Click the Download Root htaccess File button to download your root-htaccess-file.zip file to your computer.', 'bulletproof-security').'<br>'.__('Click this forum link: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/setup-wizard-root-htaccess-file-backup/" target="_blank" style="text-decoration:underline;">'.__('Setup Wizard Root htaccess File Backup', 'bulletproof-security').'</a>'.__(' for help information about what this means and what to do.', 'bulletproof-security').'<br>'.__('If you see a 403 error and/or are unable to download the zip file then click here: ', 'bulletproof-security').'<a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/wizard/wizard.php#bps-tabs-2' ).'" target="_blank">'.__('Setup Wizard Options', 'bulletproof-security').'</a>'.__(' and select the Zip File Download Fix On setting for the Zile File Download Fix option. You should now be able to download the root-htaccess-file.zip file.', 'bulletproof-security').'</strong></font><br><div style="width:170px;font-size:1em;text-align:center;margin:10px 0px 0px 0px;padding:4px 6px 4px 6px;background-color:#e8e8e8;border:1px solid gray;"><a href="'.plugins_url( '/bulletproof-security/admin/wizard/root-htaccess-file.zip' ).'" style="font-size:1em;font-weight:bold;text-decoration:none;">'.__('Download Root htaccess File', 'bulletproof-security').'</a></div>';
-			echo $text;
-			echo $bps_bottomDiv;			
+		if ( strpos( $get_root_contents, "BULLETPROOF" ) ) {
+			return;
 		}
 
-	} else {
+		$gmt_offset = get_option( 'gmt_offset' ) * 3600;
+		$rootHtaccess = ABSPATH . '.htaccess';
+		$rootHtaccessBackupTime = WP_CONTENT_DIR . '/bps-backup/master-backups/root.htaccess-'.date( 'Y-m-d-g-i-s-a', time() + $gmt_offset );	
+		$wpadminHtaccess = ABSPATH . 'wp-admin/.htaccess';
 		
-		// WP 3.5+ Subfolder & Subdomain Sites
-		$subfolder_subdomain35 = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\sadd(.*)wp-admin\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){3}RewriteRule\s\.\s(.*)index\.php\s\[L\](\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';		
-
-		$subfolder_subdomain35_no_code_top = '/RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\sadd(.*)wp-admin\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){3}RewriteRule\s\.\s(.*)index\.php\s\[L\](\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';				
-
-		$subfolder_subdomain35_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\sadd(.*)wp-admin\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){3}RewriteRule\s\.\s(.*)index\.php\s\[L\](\s*|){1,}/';
-
-		// WP 3.4 or older Subfolder
-		$subfolder34 = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*#\sadd(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
-	
-		$subfolder34_no_code_top = '/#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*#\sadd(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
-
-		$subfolder34_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*#\sadd(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}/';
-
-		// WP 3.4 or older Subdomain
-		$subdomain34 = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
-
-		$subdomain34_no_code_top = '/#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';	
-	
-		$subdomain34_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}/';	
-	
-		if ( preg_match( $subfolder_subdomain35, $get_root_contents, $matches ) || preg_match( $subfolder_subdomain35_no_code_top, $get_root_contents, $matches ) || preg_match( $subfolder_subdomain35_no_code_bottom, $get_root_contents, $matches ) || preg_match( $subfolder34, $get_root_contents, $matches ) || preg_match( $subfolder34_no_code_top, $get_root_contents, $matches ) || preg_match( $subfolder34_no_code_bottom, $get_root_contents, $matches ) || preg_match( $subdomain34, $get_root_contents, $matches ) || preg_match( $subdomain34_no_code_top, $get_root_contents, $matches ) || preg_match( $subdomain34_no_code_bottom, $get_root_contents, $matches ) ) {
-
-			// zip root htaccess file, display message with forum link and download button.
-			bps_zip_root_htaccess_file();
-			
-			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('Custom additional htaccess code was found in your current root htaccess file. Your root htaccess file has been backed up and zipped in this zip file: /bulletproof-security/admin/wizard/root-htaccess-file.zip. Click the Download Root htaccess File button to download your root-htaccess-file.zip file to your computer.', 'bulletproof-security').'<br>'.__('Click this forum link: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/setup-wizard-root-htaccess-file-backup/" target="_blank" style="text-decoration:underline;">'.__('Setup Wizard Root htaccess File Backup', 'bulletproof-security').'</a>'.__(' for help information about what this means and what to do.', 'bulletproof-security').'<br>'.__('If you see a 403 error and/or are unable to download the zip file then click here: ', 'bulletproof-security').'<a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/wizard/wizard.php#bps-tabs-2' ).'" target="_blank">'.__('Setup Wizard Options', 'bulletproof-security').'</a>'.__(' and select the Zip File Download Fix On setting for the Zile File Download Fix option. You should now be able to download the root-htaccess-file.zip file.', 'bulletproof-security').'</strong></font><br><div style="width:170px;font-size:1em;text-align:center;margin:10px 0px 0px 0px;padding:4px 6px 4px 6px;background-color:#e8e8e8;border:1px solid gray;"><a href="'.plugins_url( '/bulletproof-security/admin/wizard/root-htaccess-file.zip' ).'" style="font-size:1em;font-weight:bold;text-decoration:none;">'.__('Download Root htaccess File', 'bulletproof-security').'</a></div>';
-			echo $text;
-			echo $bps_bottomDiv;			
+		if ( file_exists($wpadminHtaccess) ) {
+			$wpadminHtaccessBackupTime = WP_CONTENT_DIR . '/bps-backup/master-backups/wpadmin.htaccess-'.date( 'Y-m-d-g-i-s-a', time() + $gmt_offset );
+		} else {
+			$wpadminHtaccessBackupTime = 'NA';		
 		}
-	}
+
+		if ( ! is_multisite() ) {
+	
+			$wp_single_default = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*<IfModule\smod_rewrite\.c>\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule(.*)\s*<\/IfModule>\s*#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
+		
+			$wp_single_default_no_code_top = '/#\sBEGIN\sWordPress\s*<IfModule\smod_rewrite\.c>\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule(.*)\s*<\/IfModule>\s*#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
+		
+			$wp_single_default_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*<IfModule\smod_rewrite\.c>\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule(.*)\s*<\/IfModule>\s*#\sEND\sWordPress(\s*|){1,}/';
+	
+			if ( preg_match( $wp_single_default, $get_root_contents, $matches ) || preg_match( $wp_single_default_no_code_top, $get_root_contents, $matches ) || preg_match( $wp_single_default_no_code_bottom, $get_root_contents, $matches ) ) {
+	
+				// zip root htaccess file, display message with forum link and download button.
+				bps_zip_root_htaccess_file();
+				// root + wp-admin htaccess file backups with timestamp: root.htaccess-2017-11-02-3-00-00
+				if ( file_exists($rootHtaccess) ) {
+					copy($rootHtaccess, $rootHtaccessBackupTime);
+				}
+				if ( file_exists($wpadminHtaccess) ) {
+					copy($wpadminHtaccess, $wpadminHtaccessBackupTime);
+				}			
+				
+				echo $bps_topDiv;
+				$text = '<font color="green"><strong>'.__('Custom additional htaccess code was found in your current root htaccess file. Your root and wp-admin htaccess files have been backed up and zipped in this zip file: /bulletproof-security/admin/wizard/htaccess-files.zip. Click the Download Root htaccess File button below to download your htaccess-files.zip file to your computer.', 'bulletproof-security').'<br>'.__('Click this forum link: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/setup-wizard-root-htaccess-file-backup/" target="_blank" style="text-decoration:underline;">'.__('Setup Wizard Root and wp-admin htaccess File Backup', 'bulletproof-security').'</a>'.__(' for help information about what this means and what to do.', 'bulletproof-security').'<br>'.__('If you see a 403 error and/or are unable to download the zip file then click here: ', 'bulletproof-security').'<a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/wizard/wizard.php#bps-tabs-2' ).'" target="_blank">'.__('Setup Wizard Options', 'bulletproof-security').'</a>'.__(' and select the Zip File Download Fix On setting for the Zile File Download Fix option. You should now be able to download the htaccess-files.zip file. If you are still unable to download the zip file then click the forum link above for what to do next.', 'bulletproof-security').'</strong></font><br><div style="width:200px;font-size:1em;text-align:center;margin:10px 0px 5px 0px;padding:4px 6px 4px 6px;background-color:#e8e8e8;border:1px solid gray;"><a href="'.plugins_url( '/bulletproof-security/admin/wizard/htaccess-files.zip' ).'" style="font-size:1em;font-weight:bold;text-decoration:none;">'.__('Download htaccess-files.zip File', 'bulletproof-security').'</a></div><font color="blue"><strong>'.__('Additional Plain Text htaccess file backups: ', 'bulletproof-security').'</strong></font><br><strong>'.__('Root htaccess File: ', 'bulletproof-security').'</strong>'.$rootHtaccessBackupTime.'<br><strong>'.__('wp-admin htaccess File: ', 'bulletproof-security').'</strong>'.$wpadminHtaccessBackupTime;
+				echo $text;
+				echo $bps_bottomDiv;			
+			}
+	
+		} else {
+			
+			// WP 3.5+ Subfolder & Subdomain Sites
+			$subfolder_subdomain35 = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\sadd(.*)wp-admin\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){3}RewriteRule\s\.\s(.*)index\.php\s\[L\](\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';		
+	
+			$subfolder_subdomain35_no_code_top = '/RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\sadd(.*)wp-admin\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){3}RewriteRule\s\.\s(.*)index\.php\s\[L\](\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';				
+	
+			$subfolder_subdomain35_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\sadd(.*)wp-admin\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){3}RewriteRule\s\.\s(.*)index\.php\s\[L\](\s*|){1,}/';
+	
+			// WP 3.4 or older Subfolder
+			$subfolder34 = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*#\sadd(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
+		
+			$subfolder34_no_code_top = '/#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*#\sadd(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
+	
+			$subfolder34_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*#\sadd(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}/';
+	
+			// WP 3.4 or older Subdomain
+			$subdomain34 = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';
+	
+			$subdomain34_no_code_top = '/#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}/';	
+		
+			$subdomain34_no_code_bottom = '/[a-zA-Z0-9\#\^\/\$\:\.\[\]\<\>\*\=\%\{\}_\-\(\)\,\;@\\\\|\?\'\"\&\+\!]{1,}(\s*|){1,}#\sBEGIN\sWordPress\s*RewriteEngine\sOn\s*RewriteBase(.*)\s*RewriteRule(.*)\s*#\suploaded(.*)\s*RewriteRule(.*)\s*RewriteCond((.*)\s*){2}RewriteRule((.*)\s*){4}#\sEND\sWordPress(\s*|){1,}/';	
+		
+			if ( preg_match( $subfolder_subdomain35, $get_root_contents, $matches ) || preg_match( $subfolder_subdomain35_no_code_top, $get_root_contents, $matches ) || preg_match( $subfolder_subdomain35_no_code_bottom, $get_root_contents, $matches ) || preg_match( $subfolder34, $get_root_contents, $matches ) || preg_match( $subfolder34_no_code_top, $get_root_contents, $matches ) || preg_match( $subfolder34_no_code_bottom, $get_root_contents, $matches ) || preg_match( $subdomain34, $get_root_contents, $matches ) || preg_match( $subdomain34_no_code_top, $get_root_contents, $matches ) || preg_match( $subdomain34_no_code_bottom, $get_root_contents, $matches ) ) {
+	
+				// zip root htaccess file, display message with forum link and download button.
+				bps_zip_root_htaccess_file();
+				// root + wp-admin htaccess file backups with timestamp: root.htaccess-2017-11-02-3-00-00
+				if ( file_exists($rootHtaccess) ) {
+					copy($rootHtaccess, $rootHtaccessBackupTime);
+				}
+				if ( file_exists($wpadminHtaccess) ) {
+					copy($wpadminHtaccess, $wpadminHtaccessBackupTime);
+				}				
+
+				echo $bps_topDiv;
+				$text = '<font color="green"><strong>'.__('Custom additional htaccess code was found in your current root htaccess file. Your root and wp-admin htaccess files have been backed up and zipped in this zip file: /bulletproof-security/admin/wizard/htaccess-files.zip. Click the Download Root htaccess File button below to download your htaccess-files.zip file to your computer.', 'bulletproof-security').'<br>'.__('Click this forum link: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/setup-wizard-root-htaccess-file-backup/" target="_blank" style="text-decoration:underline;">'.__('Setup Wizard Root and wp-admin htaccess File Backup', 'bulletproof-security').'</a>'.__(' for help information about what this means and what to do.', 'bulletproof-security').'<br>'.__('If you see a 403 error and/or are unable to download the zip file then click here: ', 'bulletproof-security').'<a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/wizard/wizard.php#bps-tabs-2' ).'" target="_blank">'.__('Setup Wizard Options', 'bulletproof-security').'</a>'.__(' and select the Zip File Download Fix On setting for the Zile File Download Fix option. You should now be able to download the htaccess-files.zip file. If you are still unable to download the zip file then click the forum link above for what to do next.', 'bulletproof-security').'</strong></font><br><div style="width:200px;font-size:1em;text-align:center;margin:10px 0px 5px 0px;padding:4px 6px 4px 6px;background-color:#e8e8e8;border:1px solid gray;"><a href="'.plugins_url( '/bulletproof-security/admin/wizard/htaccess-files.zip' ).'" style="font-size:1em;font-weight:bold;text-decoration:none;">'.__('Download htaccess-files.zip File', 'bulletproof-security').'</a></div><font color="blue"><strong>'.__('Additional Plain Text htaccess file backups: ', 'bulletproof-security').'</strong></font><br><strong>'.__('Root htaccess File: ', 'bulletproof-security').'</strong>'.$rootHtaccessBackupTime.'<br><strong>'.__('wp-admin htaccess File: ', 'bulletproof-security').'</strong>'.$wpadminHtaccessBackupTime;
+				echo $text;
+				echo $bps_bottomDiv;			
+			}
+		}
 	}
 }
 

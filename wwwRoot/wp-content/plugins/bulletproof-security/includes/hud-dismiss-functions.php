@@ -8,6 +8,7 @@ if ( ! function_exists ('add_action') ) {
 
 // HUD Alerts in WP Dashboard
 // Reset|Recheck Dismiss Notices is in core-forms.php
+## 3.9: Commented out the Bonus Custom Code Dismiss Notice function and ModSecurity Check function.
 function bps_HUD_WP_Dashboard() {
 	
 	if ( current_user_can('manage_options') ) { 
@@ -16,7 +17,7 @@ function bps_HUD_WP_Dashboard() {
 		bps_check_permalinks_error();
 		bps_check_iis_supports_permalinks();
 		bps_hud_check_bpsbackup();
-		bpsPro_bonus_custom_code_dismiss_notices();
+		//bpsPro_bonus_custom_code_dismiss_notices();
 		bps_hud_PhpiniHandlerCheck();
 		bps_hud_check_sucuri();
 		bps_hud_check_wordpress_firewall2();
@@ -27,7 +28,7 @@ function bps_HUD_WP_Dashboard() {
 		bpsPro_hud_mscan_notice();
 		bpsPro_hud_jtc_lite_notice();
 		bpsPro_hud_rate_notice();
-		bpsPro_hud_mod_security_check();
+		//bpsPro_hud_mod_security_check();
 		bpsPro_hud_gdpr_compliance();
 		//bps_hud_check_public_username();
 	}
@@ -418,37 +419,38 @@ $user_id = $current_user->ID;
 
 // Heads Up Display w/ Dismiss - Sucuri Restrict wp-content access Hardening Option wp-content .htaccess file problem - breaks BPS and lots of other stuff
 // Unfortunately the limited whitelisting options provided by Sucuri in their settings don't provide any workable solutions for BPS.
+// Defender Security also does this retarded thing.
+## 3.5: updated this check due to changes in the Sucuri wp-content htaccess file.
+## 3.7: updated the error message to include Defender Security.
+## 3.8: updated the error message to include older versions of iThemes Security. Newer versions of iThemes Security now create root htaccess code that does not break things.
 function bps_hud_check_sucuri() {
 $filename = WP_CONTENT_DIR . '/.htaccess';
-$sucuri = 'sucuri-scanner/sucuri.php';
-$sucuri_active = in_array( $sucuri, apply_filters('active_plugins', get_option('active_plugins') ) );
 
-	if ( $sucuri_active == 1 && ! file_exists($filename) ) {
+	if ( ! file_exists($filename) ) {
 		return;	
 	}
 	
-	if ( function_exists('sucuriscan_harden_wpcontent') ) {
+	$file_contents = @file_get_contents($filename);
 	
-		if ( $sucuri_active == 1 || is_plugin_active_for_network( $sucuri ) ) {
+	if ( file_exists($filename) ) {
+		
+		if ( preg_match( '/(Require\sall\sdenied|Deny\sfrom\sall)/', $file_contents ) ) { 
 
-			if ( file_exists($filename) && preg_match( '/WP-content\sdirectory\sproperly\shardened/', sucuriscan_harden_wpcontent(), $matches ) ) { 
-
-				global $current_user;
-				$user_id = $current_user->ID;
-
-				if ( ! get_user_meta($user_id, 'bps_ignore_sucuri_notice') ) {
-			
-				if ( esc_html($_SERVER['QUERY_STRING']) == '' && basename(esc_html($_SERVER['REQUEST_URI'])) != 'wp-admin' ) {
-					$bps_base = basename(esc_html($_SERVER['REQUEST_URI'])) . '?';
-				} elseif ( esc_html($_SERVER['QUERY_STRING']) == '' && basename(esc_html($_SERVER['REQUEST_URI'])) == 'wp-admin' ) {
-					$bps_base = basename( str_replace( 'wp-admin', 'index.php?', esc_html($_SERVER['REQUEST_URI'])));
-				} else {
-					$bps_base = str_replace( admin_url(), '', esc_html($_SERVER['REQUEST_URI']) ) . '&';
-				}		
-			
-				$text = '<div class="update-nag" style="background-color:#dfecf2;border:1px solid #999;font-size:1em;font-weight:600;padding:2px 5px;margin-top:2px;-moz-border-radius-topleft:3px;-webkit-border-top-left-radius:3px;-khtml-border-top-left-radius:3px;border-top-left-radius:3px;-moz-border-radius-topright:3px;-webkit-border-top-right-radius:3px;-khtml-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);-moz-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);"><font color="#fb0101">'.__('Sucuri Restrict wp-content access Hardening Option problem detected', 'bulletproof-security').'</font><br>'.__('Using the Sucuri Restrict wp-content access Hardening Option breaks BPS Security Logging, Plugin Firewall, Uploads Anti-Exploit Guard & probably other things in BPS and other plugins as well.', 'bulletproof-security').'<br>'.__('To fix this problem click this link: ', 'bulletproof-security').'<a href="'.admin_url( 'admin.php?page=sucuriscan_hardening#hardening' ).'">'.__('Sucuri Hardening Options', 'bulletproof-security').'</a>'.__(' and click the Sucuri Restrict wp-content access Revert hardening button.', 'bulletproof-security').'<br>'.__('To Dismiss this Notice click the Dismiss Notice button below. To Reset Dismiss Notices click the Reset|Recheck Dismiss Notices button on the Custom Code page.', 'bulletproof-security').'<br><div style="float:left;margin:3px 0px 3px 0px;padding:2px 6px 2px 6px;background-color:#e8e8e8;border:1px solid gray;"><a href="'.$bps_base.'bps_sucuri_nag_ignore=0'.'" style="text-decoration:none;font-weight:600;">'.__('Dismiss Notice', 'bulletproof-security').'</a></div></div>';
-				echo $text;
-				}
+			global $current_user;
+			$user_id = $current_user->ID;
+	
+			if ( ! get_user_meta($user_id, 'bps_ignore_sucuri_notice') ) {
+		
+			if ( esc_html($_SERVER['QUERY_STRING']) == '' && basename(esc_html($_SERVER['REQUEST_URI'])) != 'wp-admin' ) {
+				$bps_base = basename(esc_html($_SERVER['REQUEST_URI'])) . '?';
+			} elseif ( esc_html($_SERVER['QUERY_STRING']) == '' && basename(esc_html($_SERVER['REQUEST_URI'])) == 'wp-admin' ) {
+				$bps_base = basename( str_replace( 'wp-admin', 'index.php?', esc_html($_SERVER['REQUEST_URI'])));
+			} else {
+				$bps_base = str_replace( admin_url(), '', esc_html($_SERVER['REQUEST_URI']) ) . '&';
+			}		
+		
+			$text = '<div class="update-nag" style="background-color:#dfecf2;border:1px solid #999;font-size:1em;font-weight:600;padding:2px 5px;margin-top:2px;-moz-border-radius-topleft:3px;-webkit-border-top-left-radius:3px;-khtml-border-top-left-radius:3px;border-top-left-radius:3px;-moz-border-radius-topright:3px;-webkit-border-top-right-radius:3px;-khtml-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);-moz-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);"><font color="#fb0101">'.__('An htaccess file has been detected in the wp-content folder that breaks BPS features and functionality', 'bulletproof-security').'</font><br>'.__('If you have or had the Sucuri, Defender or iThemes Security plugins installed, they create a wp-content htaccess file that breaks several things in BPS Pro and other plugins as well.', 'bulletproof-security').'<br>'.__('To fix the Sucuri problem go to the Sucuri Settings page, click the Hardening tab and click the Revert Hardening button for the Block PHP Files in WP-CONTENT Directory option setting.', 'bulletproof-security').'<br>'.__('To fix the Defender Security problem go to the Security Tweaks page, click the PHP Execution option setting and click the Revert button.', 'bulletproof-security').'<br>'.__('o fix the iThemes problem go to the System Tweaks page, uncheck the Disable PHP in Plugins option setting.', 'bulletproof-security').'<br>'.__('To Dismiss this Notice click the Dismiss Notice button below. To Reset Dismiss Notices click the Reset|Recheck Dismiss Notices button on the Custom Code page.', 'bulletproof-security').'<br><div style="float:left;margin:3px 0px 3px 0px;padding:2px 6px 2px 6px;background-color:#e8e8e8;border:1px solid gray;"><a href="'.$bps_base.'bps_sucuri_nag_ignore=0'.'" style="text-decoration:none;font-weight:600;">'.__('Dismiss Notice', 'bulletproof-security').'</a></div></div>';
+			echo $text;
 			}
 		}
 	}

@@ -16,6 +16,8 @@ class WPSR_Import_Export{
         
         return apply_filters( 'wpsr_mod_settings_list', array(
             'buttons' => 'wpsr_buttons',
+            'social_icons_settings' => 'wpsr_social_icons_settings',
+            'floating_sharebar_settings' => 'wpsr_floating_sharebar_settings',
             'button_settings' => 'wpsr_button_settings',
             'sharebar_settings' => 'wpsr_sharebar_settings',
             'followbar_settings' => 'wpsr_followbar_settings',

@@ -3,14 +3,14 @@
  * Plugin Name:       WP Socializer
  * Plugin URI:        https://www.aakashweb.com/wordpress-plugins/wp-socializer/
  * Description:       WP Socializer is an all in one complete social media plugin to add native social media buttons, icons, floating sharebar, follow us buttons, profile icons, mobile sharebar and selected text share popups easily with complete control and customization.
- * Version:           4.1.6
+ * Version:           5.1
  * Author:            Aakash Chakravarthy
  * Author URI:        https://www.aakashweb.com
  * Text Domain:       wpsr
  * Domain Path:       /languages
  */
 
-define( 'WPSR_VERSION', '4.1.6' );
+define( 'WPSR_VERSION', '5.1' );
 define( 'WPSR_PATH', plugin_dir_path( __FILE__ ) ); // All have trailing slash
 define( 'WPSR_URL', plugin_dir_url( __FILE__ ) );
 define( 'WPSR_ADMIN_URL', trailingslashit( plugin_dir_url( __FILE__ ) . 'admin' ) );
@@ -57,16 +57,18 @@ final class WP_Socializer{
         
         // Admin
         include_once( WPSR_PATH . 'admin/admin.php' );
-        include_once( WPSR_PATH . 'admin/buttons.php' );
-        include_once( WPSR_PATH . 'admin/sharebar.php' );
+        include_once( WPSR_PATH . 'admin/social_icons.php' );
+        include_once( WPSR_PATH . 'admin/floating_sharebar.php' );
         include_once( WPSR_PATH . 'admin/followbar.php' );
         include_once( WPSR_PATH . 'admin/text_sharebar.php' );
         include_once( WPSR_PATH . 'admin/mobile_sharebar.php' );
         include_once( WPSR_PATH . 'admin/widgets.php' );
+        include_once( WPSR_PATH . 'admin/buttons.php' );
+        include_once( WPSR_PATH . 'admin/sharebar.php' );
         include_once( WPSR_PATH . 'admin/import_export.php' );
         include_once( WPSR_PATH . 'admin/general_settings.php' );
         include_once( WPSR_PATH . 'admin/buttons_picker.php' );
-        include_once( WPSR_PATH . 'admin/setup.php' );
+        include_once( WPSR_PATH . 'admin/icons_editor.php' );
         
     }
     

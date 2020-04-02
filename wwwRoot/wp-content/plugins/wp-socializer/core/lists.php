@@ -29,8 +29,8 @@ class WPSR_Lists{
     public static function ext_res( $name = 'all' ){
         
         $res = apply_filters( 'wpsr_mod_ext_res', array(
-            'font-awesome-adm' => 'https://use.fontawesome.com/releases/v5.7.2/css/all.css',
-            'wp-socializer-cl' => 'https://raw.githubusercontent.com/vaakash/aakash-web/master/misc/wp-socializer/changelog/',
+            'font-awesome-adm' => 'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
+            'wp-socializer-cl' => 'https://raw.githubusercontent.com/vaakash/vaakash.github.io/master/misc/wp-socializer/changelogs/',
             'jquery' => 'https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',
             'help' => 'https://raw.githubusercontent.com/vaakash/aakash-web/master/misc/wp-socializer/help.html'
         ));
@@ -58,13 +58,9 @@ class WPSR_Lists{
             'fa5' => array(
                 'name' => 'Font awesome 5',
                 'type' => 'css',
-                'link' => 'https://use.fontawesome.com/releases/v5.7.2/css/all.css',
+                'link' => 'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
                 'deps' => array(),
-                'version' => WPSR_VERSION,
-                'data' => array(
-                    'key' => array( 'integrity', 'crossorigin' ),
-                    'value' => array( 'sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr', 'anonymous' )
-                )
+                'version' => WPSR_VERSION
             )
         ));
         
@@ -224,10 +220,21 @@ class WPSR_Lists{
                 'name' => 'Email',
                 'title' => __('Email this ', 'wpsr') . '',
                 'icon' => array('fa4'=> 'fa fa-envelope', 'fa5' => 'fa fa-envelope'),
-                'link' => 'mailto:?to=&subject={title}&body={excerpt}%20-%20{url}',
+                'link' => 'mailto:?to=&subject={title-plain}&body={excerpt-plain}%20-%20{url}',
+                'link_tsb' => 'mailto:?to=&subject={title}&body={excerpt}%20-%20{url}',
                 'options' => array(),
                 'features' => array( 'for_share', 'for_tsb' ),
                 'colors' => array( '#000' ),
+            ),
+            
+            'etsy' => array(
+                'name' => 'Etsy',
+                'title' => __('', 'wpsr') . 'Etsy',
+                'icon' => array('fa4'=> 'fa fa-etsy', 'fa5' => 'fab fa-etsy'),
+                'link' => 'https://www.etsy.com/',
+                'options' => array(),
+                'features' => array( 'for_profile' ),
+                'colors' => array( '#f1641e' ),
             ),
             
             'facebook' => array(
@@ -291,6 +298,26 @@ class WPSR_Lists{
                 'colors' => array( '#FF6500' ),
             ),
             
+            'houzz' => array(
+                'name' => 'Houzz',
+                'title' => __('', 'wpsr') . 'Houzz',
+                'icon' => array('fa4'=> 'fa fa-houzz', 'fa5' => 'fab fa-houzz'),
+                'link' => 'https://houzz.com',
+                'options' => array(),
+                'features' => array( 'for_profile' ),
+                'colors' => array( '#4dbc15' ),
+            ),
+
+            'html' => array(
+                'name' => 'Custom HTML',
+                'title' => __('', 'wpsr'),
+                'icon' => array('fa4'=> 'fa fa-code', 'fa5' => 'fa fa-code'),
+                'link' => 'https://aakashweb.com',
+                'options' => array(),
+                'features' => array( 'for_share' ),
+                'colors' => array( 'red' ),
+            ),
+
             'instagram' => array(
                 'name' => 'Instagram',
                 'title' => __('', 'wpsr') . 'Instagram',
@@ -537,7 +564,7 @@ class WPSR_Lists{
                 'title' => __('Tweet this !', 'wpsr') . '',
                 'icon' => array('fa4'=> 'fa fa-twitter', 'fa5' => 'fab fa-twitter'),
                 'link' => 'https://twitter.com/intent/tweet?text={title}%20-%20{url}%20{twitter-username}',
-                'link_tsb' => 'https://twitter.com/intent/tweet?text={title}%20-%20{url}%20{twitter-username}',
+                'link_tsb' => 'https://twitter.com/intent/tweet?text={excerpt}%20-%20{url}%20{twitter-username}',
                 'options' => array(),
                 'features' => array( 'for_share', 'for_profile', 'for_tsb' ),
                 'colors' => array( '#4da7de' ),
@@ -578,6 +605,7 @@ class WPSR_Lists{
                 'title' => __('', 'wpsr') . 'Weibo',
                 'icon' => array('fa4'=> 'fa fa-weibo', 'fa5' => 'fab fa-weibo'),
                 'link' => 'https://service.weibo.com/share/share.php?url={url}&title={title}',
+                'link_tsb' => 'https://service.weibo.com/share/share.php?url={url}&title={excerpt}',
                 'options' => array(),
                 'features' => array( 'for_share', 'for_tsb' ),
                 'colors' => array( '#E6162D' ),
@@ -588,8 +616,9 @@ class WPSR_Lists{
                 'title' => __('', 'wpsr') . 'WhatsApp',
                 'icon' => array('fa4'=> 'fa fa-whatsapp', 'fa5' => 'fab fa-whatsapp'),
                 'link' => 'https://api.whatsapp.com/send?text={title}%20{url}',
+                'link_tsb' => 'https://api.whatsapp.com/send?text={excerpt}%20{url}',
                 'options' => array(),
-                'features' => array( 'for_share' ),
+                'features' => array( 'for_share', 'for_tsb' ),
                 'colors' => array( '#60b82d' ),
             ),
             
@@ -665,14 +694,14 @@ class WPSR_Lists{
     }
     
     public static function defaults( $page ){
-        
+
         if( $page == 'buttons' ){
             return array(
-                'ft_status' => 'enable',
+                'ft_status' => 'disable',
                 'tmpl' => array()
             );
         }
-        
+
         if( $page == 'sharebar' ){
             return array(
                 'ft_status' => 'disable',
@@ -688,6 +717,7 @@ class WPSR_Lists{
                 'bg_color' => '#ffffff',
                 'border_color' => '#cccccc',
                 'init_state' => 'open',
+                'vl_mob_mode_pos' => 'left',
                 'min_on_width' => '0',
                 'loc_rules' => array(
                     'type' => 'show_all',
@@ -696,7 +726,7 @@ class WPSR_Lists{
                 )
             );
         }
-        
+
         if( $page == 'followbar' ){
             return array(
                 'ft_status' => 'disable',
@@ -720,7 +750,7 @@ class WPSR_Lists{
                 )
             );
         }
-        
+
         if( $page == 'text_sharebar' ){
             return array(
                 'ft_status' => 'disable',
@@ -737,7 +767,7 @@ class WPSR_Lists{
                 )
             );
         }
-        
+
         if( $page == 'mobile_sharebar' ){
             return array(
                 'ft_status' => 'disable',
@@ -754,7 +784,7 @@ class WPSR_Lists{
                 )
             );
         }
-        
+
         if( $page == 'buttons_template' ){
             return array(
                 'content' => 'eyIxIjp7InByb3BlcnRpZXMiOnt9LCJidXR0b25zIjpbXX19',
@@ -768,13 +798,80 @@ class WPSR_Lists{
                 'min_on_width' => '0'
             );
         }
-        
+
+        if( $page == 'social_icons' ){
+            return array(
+                'ft_status' => 'enable',
+                'tmpl' => array()
+            );
+        }
+
+        if( $page == 'social_icons_template' ){
+            return array(
+                'selected_icons' => 'W3siZmFjZWJvb2siOnsiaG92ZXJfdGV4dCI6IiIsInRleHQiOiIiLCJpY29uIjoiIn19LHsidHdpdHRlciI6eyJpY29uIjoiIiwidGV4dCI6IiIsImhvdmVyX3RleHQiOiIifX0seyJsaW5rZWRpbiI6eyJpY29uIjoiIiwidGV4dCI6IiIsImhvdmVyX3RleHQiOiIifX0seyJwaW50ZXJlc3QiOnsiaWNvbiI6IiIsInRleHQiOiIiLCJob3Zlcl90ZXh0IjoiIn19LHsicHJpbnQiOnsiaWNvbiI6IiIsInRleHQiOiIiLCJob3Zlcl90ZXh0IjoiIn19LHsicGRmIjp7Imljb24iOiIiLCJ0ZXh0IjoiIiwiaG92ZXJfdGV4dCI6IiJ9fV0=',
+                'layout' => '',
+                'icon_size' => '32px',
+                'icon_shape' => 'circle',
+                'hover_effect' => 'opacity',
+                'icon_color' => '#ffffff',
+                'icon_bg_color' => '',
+                'padding' => 'pad',
+                'share_counter' => 'total-individual',
+                'sc_style' => 'count-1',
+                'sc_total_position' => 'left',
+                'more_icons' => '0',
+                'center_icons' => '',
+                'heading' => '<h3>Share and Enjoy !</h3>',
+                'custom_html_above' => '',
+                'custom_html_below' => '',
+                'loc_rules' => array(
+                    'type' => 'show_all',
+                    'rule' => 'W10=',
+                    'devices' => 'all'
+                ),
+                'position' => 'below_posts',
+                'in_excerpt' => 'hide'
+            );
+        }
+
+        if( $page == 'floating_sharebar' ){
+            return array(
+                'ft_status' => 'disable',
+                'selected_icons' => 'W3siZmFjZWJvb2siOnsiaG92ZXJfdGV4dCI6IiIsImljb24iOiIifX0seyJ0d2l0dGVyIjp7ImhvdmVyX3RleHQiOiIiLCJpY29uIjoiIn19LHsibGlua2VkaW4iOnsiaG92ZXJfdGV4dCI6IiIsImljb24iOiIifX0seyJlbWFpbCI6eyJob3Zlcl90ZXh0IjoiIiwiaWNvbiI6IiJ9fSx7InBkZiI6eyJob3Zlcl90ZXh0IjoiIiwiaWNvbiI6IiJ9fSx7IndoYXRzYXBwIjp7ImhvdmVyX3RleHQiOiIiLCJpY29uIjoiIn19XQ==',
+                'icon_size' => '40px',
+                'icon_shape' => '',
+                'hover_effect' => 'opacity',
+                'icon_color' => '#ffffff',
+                'icon_bg_color' => '',
+                'padding' => '',
+                'style' => '',
+                'sb_bg_color' => '#1e73be',
+                'sb_position' => 'wleft',
+                'stick_element' => '.entry',
+                'offset' => '10px',
+                'movement' => 'move',
+                'share_counter' => 'total-individual',
+                'sc_style' => 'count-1',
+                'sc_total_position' => 'top',
+                'sc_total_color' => '#000000',
+                'responsive_width' => '600',
+                'responsive_action' => 'hide',
+                'init_state' => 'open',
+                'more_icons' => '0',
+                'loc_rules' => array(
+                    'type' => 'show_all',
+                    'rule' => 'W10=',
+                    'devices' => 'desktop_only'
+                )
+            );
+        }
+
         if( $page == 'gsettings_twitter' ){
             return array(
                 'twitter_username' => ''
             );
         }
-        
+
         if( $page == 'gsettings_facebook' ){
             return array(
                 'facebook_app_id' => '',
@@ -782,31 +879,31 @@ class WPSR_Lists{
                 'facebook_lang' => 'en_US'
             );
         }
-        
+
         if( $page == 'gsettings_googleplus' ){
             return array(
                 'googleplus_lang' => 'en-US'
             );
         }
-        
+
         if( $page == 'gsettings_linkedin' ){
             return array(
                 'linkedin_lang' => 'en_US'
             );
         }
-        
+
         if( $page == 'gsettings_sharethis' ){
             return array(
                 'st_prop_id' => ''
             );
         }
-        
+
         if( $page == 'gsettings_socialbuttons' ){
             return array(
                 'sb_comment_sec' => '#comments'
             );
         }
-        
+
         if( $page == 'gsettings_misc' ){
             return array(
                 'font_icon' => 'fa4',
@@ -814,9 +911,9 @@ class WPSR_Lists{
                 'skip_res_load' => ''
             );
         }
-        
+
         return array();
-        
+
     }
     
     public static function public_icons( $icon ){

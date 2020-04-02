@@ -50,7 +50,8 @@ class wpsr_service_html{
             array_push( $tags, '{' . $id . '}' );
             array_push( $replace_with, $val );
         }
-        $final_html = str_replace( $tags, $replace_with, $settings[ 'html' ] );
+        $html = do_shortcode( $settings[ 'html' ] );
+        $final_html = str_replace( $tags, $replace_with, $html );
         
         $out['html'] = balanceTags( $final_html );
         $out['includes'] = array();
@@ -118,7 +119,8 @@ wpsr_load_js( "wpsr_tbg_js", "' . WPSR_ADMIN_URL . 'js/trumbowyg/trumbowyg.min.j
         ';
         
         echo '<h4>' . __( 'Note', 'wpsr' ) . ':</h4>';
-        echo __( 'Placeholders <code>{url}</code> and <code>{title}</code> can be used in the HTML to replace them with post URL and title respectively', 'wpsr' );
+        echo '<p>' . __( 'Placeholders <code>{url}</code> and <code>{title}</code> can be used in the HTML to replace them with post URL and title respectively', 'wpsr' ) . '</p>';
+        echo '<p>' . __( 'Supports shortcodes.', 'wpsr' ) . '</p>';
         
     }
 

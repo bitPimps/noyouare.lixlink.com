@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function ss_admin_menu_l() {
-	$icon2   = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAAAAACo4kLRAAAA5UlEQVQY02P4DwS/251dwMC5/TeIzwASa4rcDAWRTb8hgkhiUFEGVDGIKAOaGFiUoR1NDCjazuC8uTusc2l6evrkNclJq9elZzRtdmZwWSPkxtNvxmlU76SqabWSw4Sz14XBZbb8qoIFm2WXreZfs15wttRmv2yg4CYVzpDNQMHpWps36zcLZEjXAwU3r8oRbgMKTlHZvFm7lcMoeBNQsNlks2sZUHAV97wlPAukgNYDBdeIKnAvBApuDucTCFgJEXTevKh89ubNEzZs3tzWvHlDP1DQGbvjsXoTa4BgDzrsgYwZHQBqzOv51ZaiYwAAAABJRU5ErkJggg==';
 	$iconpng = SS_PLUGIN_URL . 'images/sticon.png';
 	add_menu_page(
 		"Stop Spammers", // $page_title,
@@ -29,6 +28,14 @@ function ss_admin_menu_l() {
 		'ss_summary' // $function
 	);
 	add_submenu_page(
+	'stop_spammers', // plugins parent
+	"Premium — Stop Spammers", // $page_title,
+	'<span class="gopro">Premium Security</span>', // $menu_title,
+	'manage_options', // $capability,
+	'ss_premium', // $menu_slug,
+	'ss_premium' // function
+	);
+	add_submenu_page(
 		'stop_spammers', // plugins parent
 		"Protection Options — Stop Spammers", // $page_title,
 		'Protection Options', // $menu_title,
@@ -38,8 +45,8 @@ function ss_admin_menu_l() {
 	);
 	add_submenu_page(
 		'stop_spammers', // plugins parent
-		"Allow Lists — Stop Spammers", // $page_title,
-		'Allow Lists', // $menu_title,
+		"Allow Requests & Lists — Stop Spammers", // $page_title,
+		'Allow Reqests & Lists', // $menu_title,
 		'manage_options', // $capability,
 		'ss_allow_list', // $menu_slug,
 		'ss_allowlist_settings' // function
@@ -59,14 +66,6 @@ function ss_admin_menu_l() {
 		'manage_options', // $capability,
 		'ss_challenge', // $menu_slug,
 		'ss_challenges' // function
-	);
-	add_submenu_page(
-		'stop_spammers', // plugins parent
-		"Allow Requests — Stop Spammers", // $page_title,
-		"Allow Requests", // $menu_title,
-		'manage_options', // $capability,
-		'ss_allowrequests', // $menu_slug,
-		'ss_allowreq' // $function
 	);
 	add_submenu_page(
 		'stop_spammers', // plugins parent
@@ -108,14 +107,6 @@ function ss_admin_menu_l() {
 		'ss_option_maint', // $menu_slug,
 		'ss_option_maint' // function
 	);
-	add_submenu_page(
-		'stop_spammers', // plugins parent
-		"Beta: Threat Scan — Stop Spammers", // $page_title,
-		'Beta: Threat Scan', // $menu_title,
-		'manage_options', // $capability,
-		'ss_threat_scan', // $menu_slug,
-		'ss_threat_scan' // function
-	);
 	if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 		add_submenu_page(
 			'stop_spammers', // plugins parent
@@ -130,6 +121,13 @@ function ss_admin_menu_l() {
 
 function ss_summary() {
 	include_setting( "ss_summary.php" );
+}
+
+if ( ! function_exists( 'ss_premium.php' ) ) {
+function ss_premium( $args ) {
+  include_setting( "ss_premium.php" );
+  return array();
+  }
 }
 
 function ss_network() {
@@ -198,7 +196,7 @@ function include_setting( $file ) {
 	if ( file_exists( $ppath . $file ) ) {
 		require_once( $ppath . $file );
 	} else {
-		echo "<br />Missing file:$ppath $file <br />";
+		echo "<br />Missing file: $ppath $file <br />";
 	}
 	sfs_errorsonoff( 'off' );
 }

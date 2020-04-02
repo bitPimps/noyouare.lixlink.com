@@ -986,7 +986,7 @@ msgstr ""
 
 #: /cygdrive/c/language_folder/copyright_proof_admin.php:2397
 msgid ""
-"You have not entered a value for License Summary.  Press OK if this is "
+"You have not entered a value for License Abstract.  Press OK if this is "
 "intentional"
 msgstr ""
 
@@ -1611,7 +1611,7 @@ msgid "Original content here is published under these license terms"
 msgstr ""
 
 #: /cygdrive/c/language_folder/copyright_proof_live.php:707
-msgid "License Summary"
+msgid "License Abstract"
 msgstr ""
 
 #: /cygdrive/c/language_folder/CopyrightProof.php:368

@@ -170,7 +170,7 @@ class wpsr_admin_followbar{
         echo '<div id="fb_prev_wrap">' . $template[ 'prev' ] . '</div>';
         
         echo '<input type="hidden" id="fb_template_val" name="template" value="' . $values[ 'template' ] . '" />';
-        echo '<p align="center"><button class="button button-primary wpsr_ppe_fb_open" data-cnt-id="fb_template_val" data-prev-id="fb_prev_wrap"><i class="fa fa-pencil"></i> ' . __( 'Open editor', 'wpsr' ) . '</button></p>';
+        echo '<p align="center"><button class="button button-primary wpsr_ppe_fb_open" data-cnt-id="fb_template_val" data-prev-id="fb_prev_wrap"><i class="fa fa-pencil-alt"></i> ' . __( 'Open editor', 'wpsr' ) . '</button></p>';
         WPSR_Admin::box_wrap( 'close' );
         
         // Section 2

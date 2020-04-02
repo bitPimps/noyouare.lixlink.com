@@ -378,6 +378,7 @@ if ( $bpsPro_SLF_options['bps_slf_filter'] == 'On' ) {
 
 // Prevents other plugin and theme Styles from loading in BPS plugin pages
 // .53.8: Added Debug option
+// 3.5: Modified SLF filter code. 
 function bpsPro_style_loader_filter($tag){
 	
 	if ( preg_match( '/page=bulletproof-security/', esc_html($_SERVER['REQUEST_URI']), $matches) ) {
@@ -389,31 +390,25 @@ function bpsPro_style_loader_filter($tag){
 
 		if ( ! strpos( $tag, 'bulletproof-security' ) && ! strpos( $tag, 'wp-admin' ) && ! strpos( $tag, 'wp-includes' ) )
 
-			$tag = preg_replace( '/\.css/', ".css-script-nulled", $tag );
+			unset($tag);
 			
 			if ( $Debug_options['bps_debug'] == 'On' ) {
 			
-				if ( preg_match( '/\/(plugins|themes)\/.*\.css-script-nulled/', $tag, $matches ) ) {
+				if ( preg_match( '/\/(plugins|themes)\/.*\.css/', $tag, $matches ) ) {
 			
 					echo $topDiv;
-					echo '<font color="blue"><strong>'.__('BPS UI|UX Debug: SLF css Scripts Nulled', 'bulletproof-security').'</strong></font><br>';
-					print_r($matches[0]);
-					echo '</p></div>';
-				}
-
-				if ( ! preg_match( '/\/(plugins|themes)\/.*\.css-script-nulled/', $tag, $matches ) && preg_match( '/\/(plugins|themes)\/.*\.css/', $tag, $matches ) ) {						
-					echo $topDiv;
-					echo '<font color="blue"><strong>'.__('BPS UI|UX Debug: SLF css Scripts Not Nulled|Allowed', 'bulletproof-security').'</strong></font><br>';
+					echo '<font color="blue"><strong>'.__('BPS UI|UX Debug: SLF: CSS Script Loaded', 'bulletproof-security').'</strong></font><br>';
 					print_r($matches[0]);
 					echo '</p></div>';
 				}
 			}	
-		return $tag;
+		return @$tag;
 	}
 }
 
 // Prevents other plugin and theme Scripts from loading in BPS plugin pages
 // .53.8: Added Debug option
+// 3.5: Modified SLF filter code.
 function bpsPro_script_loader_filter($tag){
 
 	if ( preg_match( '/page=bulletproof-security/', esc_html($_SERVER['REQUEST_URI']), $matches) ) {
@@ -425,26 +420,19 @@ function bpsPro_script_loader_filter($tag){
 
 		if ( ! strpos( $tag, 'bulletproof-security' ) && ! strpos( $tag, 'wp-admin' ) && ! strpos( $tag, 'wp-includes' ) )
 
-			$tag = preg_replace( '/\.js/', ".js-script-nulled", $tag );
+			unset($tag);
 			
 			if ( $Debug_options['bps_debug'] == 'On' ) {
 			
-				if ( preg_match( '/\/(plugins|themes)\/.*\.js-script-nulled/', $tag, $matches ) ) {
+				if ( preg_match( '/\/(plugins|themes)\/.*\.js/', $tag, $matches ) ) {
 					
 					echo $topDiv;
-					echo '<font color="blue"><strong>'.__('BPS UI|UX Debug: SLF js Scripts Nulled', 'bulletproof-security').'</strong></font><br>';
-					print_r($matches[0]);
-					echo '</p></div>';
-				}
-
-				if ( ! preg_match( '/\/(plugins|themes)\/.*\.js-script-nulled/', $tag, $matches ) && preg_match( '/\/(plugins|themes)\/.*\.js/', $tag, $matches ) ) {	
-					echo $topDiv;
-					echo '<font color="blue"><strong>'.__('BPS UI|UX Debug: SLF js Scripts Not Nulled|Allowed', 'bulletproof-security').'</strong></font><br>';
+					echo '<font color="blue"><strong>'.__('BPS UI|UX Debug: SLF: js Script Loaded', 'bulletproof-security').'</strong></font><br>';
 					print_r($matches[0]);
 					echo '</p></div>';
 				}
 			}	
-		return $tag;
+		return @$tag;
 	}
 }
 
@@ -454,6 +442,7 @@ add_action( 'admin_enqueue_scripts', 'bpsPro_register_enqueue_scripts_styles' );
 // .53.8: BugFix: script handles & dependencies code was fubar. Added: ver Query Strings * load scripts in footer * Debug option
 // 2.3: Remove all version compare conditions for >= 3.8. Minimum WP version required is now WP 3.8.
 // 2.4: register and enqueue new BPS MScan AJAX script
+// 3.6: Encryption/Decryption added to evade/bypass the Mod Security CRS ruleset, which breaks numerous Forms throughout BPS.
 function bpsPro_register_enqueue_scripts_styles() {
 global $wp_scripts, $wp_styles, $bulletproof_security, $wp_version, $bps_version;
 
@@ -472,7 +461,10 @@ global $wp_scripts, $wp_styles, $bulletproof_security, $wp_version, $bps_version
 		wp_register_script('bps-tabs', plugins_url( '/bulletproof-security/admin/js/bps-ui-tabs.js' ), array( 'jquery', 'jquery-ui-tabs' ), $bps_version, true );
 		wp_register_script('bps-dialog', plugins_url( '/bulletproof-security/admin/js/bps-ui-dialog.js' ), array( 'jquery', 'jquery-ui-dialog', 'jquery-effects-core', 'jquery-effects-blind', 'jquery-effects-explode' ), $bps_version, true );	
 		wp_register_script('bps-accordion', plugins_url( '/bulletproof-security/admin/js/bps-ui-accordion.js' ), array( 'jquery', 'jquery-ui-accordion' ), $bps_version, true );
-	
+		## 3.6: Encryption js scripts added
+		wp_register_script('bps-encryption', plugins_url( '/bulletproof-security/admin/js/bps-encryption.js' ), array(), $bps_version, true );
+		wp_register_script('bps-crypto-js', plugins_url( '/bulletproof-security/admin/js/crypto-js/crypto-js.js' ), array(), $bps_version, true );	
+
 		// Register BPS Styles
 		switch ( $UIoptions['bps_ui_theme_skin'] ) {
     		case 'blue':
@@ -492,7 +484,9 @@ global $wp_scripts, $wp_styles, $bulletproof_security, $wp_version, $bps_version
 		wp_enqueue_script( 'bps-tabs' );
 		wp_enqueue_script( 'bps-dialog' );
 		wp_enqueue_script( 'bps-accordion' );
-
+		wp_enqueue_script( 'bps-encryption' );
+		wp_enqueue_script( 'bps-crypto-js' );
+		
 		// Enqueue BPS stylesheets
 		switch ( $UIoptions['bps_ui_theme_skin'] ) {
     		case 'blue':
@@ -509,7 +503,7 @@ global $wp_scripts, $wp_styles, $bulletproof_security, $wp_version, $bps_version
 		}
 		
 		// Dequeue any other plugin or theme scripts that should not be loading on BPS plugin pages
-		$script_handles = array( 'bps-mscan-ajax', 'bps-tabs', 'bps-dialog', 'bps-accordion', 'admin-bar', 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'jquery-ui-dialog', 'jquery-ui-widget', 'jquery-ui-mouse', 'jquery-ui-resizable', 'jquery-ui-draggable', 'jquery-ui-button', 'jquery-ui-position', 'jquery-ui-accordion', 'jquery-effects-core', 'jquery-effects-blind', 'jquery-effects-explode', 'common', 'utils', 'svg-painter', 'wp-auth-check', 'heartbeat', 'debug-bar' );
+		$script_handles = array( 'bps-mscan-ajax', 'bps-tabs', 'bps-dialog', 'bps-accordion', 'bps-encryption', 'bps-crypto-js', 'admin-bar', 'jquery', 'jquery-ui-core', 'jquery-ui-tabs', 'jquery-ui-dialog', 'jquery-ui-widget', 'jquery-ui-mouse', 'jquery-ui-resizable', 'jquery-ui-draggable', 'jquery-ui-button', 'jquery-ui-position', 'jquery-ui-accordion', 'jquery-effects-core', 'jquery-effects-blind', 'jquery-effects-explode', 'common', 'utils', 'svg-painter', 'wp-auth-check', 'heartbeat', 'debug-bar' );
 
 		$style_handles = array( 'bps-css', 'bps-css-38', 'admin-bar', 'colors', 'ie', 'wp-auth-check', 'debug-bar' );
 		
@@ -533,7 +527,7 @@ global $wp_scripts, $wp_styles, $bulletproof_security, $wp_version, $bps_version
 			}
 		
 			if ( $Debug_options['bps_debug'] == 'On' && 0 == $NSCD ) {
-				echo '<strong>'.__('No plugin or theme Scripts were Dequeued (prevented) from loading in BPS plugin pages', 'bulletproof-security') . '</strong><br>';
+				echo '<strong>'.__('No additional plugin or theme Scripts were found that needed to be Dequeued.', 'bulletproof-security') . '</strong><br>';
 			}
 			
 			$NSTD = 0;
@@ -551,7 +545,7 @@ global $wp_scripts, $wp_styles, $bulletproof_security, $wp_version, $bps_version
 			}	
 			
 			if ( $Debug_options['bps_debug'] == 'On' && 0 == $NSTD ) {			
-				echo '<strong>'.__('No plugin or theme Styles were Dequeued (prevented) from loading in BPS plugin pages', 'bulletproof-security') . '</strong><br>';
+				echo '<strong>'.__('No additional plugin or theme Styles were found that needed to be Dequeued.', 'bulletproof-security') . '</strong><br>';
 			}
 		
 		if ( $Debug_options['bps_debug'] == 'On' ) {
@@ -1196,7 +1190,8 @@ function bulletproof_security_options_validate_wizard_autofix($input) {
 function bulletproof_security_options_validate_SLF($input) {  
 	$options = get_option('bulletproof_security_options_SLF');  
 	$options['bps_slf_filter'] = wp_filter_nohtml_kses($input['bps_slf_filter']);
-
+	$options['bps_slf_filter_new'] = wp_filter_nohtml_kses($input['bps_slf_filter_new']);
+	
 	return $options;  
 }
 

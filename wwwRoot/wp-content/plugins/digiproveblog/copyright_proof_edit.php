@@ -11,16 +11,58 @@ include_once('copyright_proof_integrity.php');						// Functions for Integrity C
 
 function dprv_edit_enqueue_scripts()
 {
-	//$jsfile = plugins_url("copyright_proof_settings.js", __FILE__ );
-	//wp_register_script('dprv_settings', $jsfile, null, DPRV_VERSION, false);
-    //wp_enqueue_script('dprv_settings', $jsfile, null, DPRV_VERSION, false);
-
 	$jsfile = plugins_url("copyright_proof_cr_panel.js", __FILE__) . "?v=" . DPRV_VERSION;
-	//echo('<script type="text/javascript" src="' . $jsfile . '"></script>');
 	// TODO: Supply Dependency information instead of null below
-	wp_register_script('dprv_edit', $jsfile, null, DPRV_VERSION, false);
-    wp_enqueue_script('dprv_edit', $jsfile, null, DPRV_VERSION, false);
+	//wp_register_script('dprv_edit', $jsfile, null, DPRV_VERSION, false);  // No need for DPRV_VERSION is already in filepath
+	wp_register_script('dprv_edit', $jsfile, null, false, false);
+    //wp_enqueue_script('dprv_edit', $jsfile, null, DPRV_VERSION, false);
+    wp_enqueue_script('dprv_edit', $jsfile, null, false, false);
 }
+
+// This code correctly loads our js file only when block-editor active.
+function dprv_block_edit_enqueue()
+{
+	$jsfile = plugins_url("copyright_proof_block_edit.js", __FILE__) . "?v=" . DPRV_VERSION;
+    wp_register_script('dprv_block_edit', $jsfile, null, false, false);
+	wp_enqueue_script('dprv_block_edit', $jsfile, array('wp-notices'), false, false);
+}
+add_action( 'enqueue_block_editor_assets', 'dprv_block_edit_enqueue');
+
+/*
+///  Gets and populates dprv_subscription_type, dprv_subscription_expiry, dprv_subscription_message
+function dprv_checkPlan (&$dprv_subscription_type, &$dprv_subscription_expiry, &$dprv_subscription_message)
+{
+ 	$log = new DPLog();  
+	$log->lwrite("dprv_checkPlan starts");
+
+	$dprv_subscription_type = get_option('dprv_subscription_type');
+	$dprv_subscription_expiry = get_option('dprv_subscription_expiry');
+	$dprv_subscription_expired = "No";
+	$dprv_expiry_timestamp = strtotime($dprv_subscription_expiry . ' 23:59:59 +0000') + 864000;		// add 10-day grace period (Also handles any unforeseen timezone issues)
+	if ($dprv_expiry_timestamp != false && $dprv_expiry_timestamp != -1 && time() > $dprv_expiry_timestamp)
+	{
+		$dprv_subscription_expired = "Yes";
+	}
+	$dprv_days_to_expiry = floor((strtotime($dprv_subscription_expiry . ' 23:59:59 +0000') - time())/86400);
+	$log->lwrite("dprv_days_to_expiry = " . $dprv_days_to_expiry);
+	if ($dprv_subscription_type == "Basic" || $dprv_subscription_type == "")
+	{
+		$dprv_subscription_message = "This feature is for subscribers. Please consider upgrading to Personal or higher level";
+	}
+	else 
+	{
+		if ($dprv_subscription_expired == "Yes")
+		{
+			$dprv_subscription_message = "This feature is for current subscribers. Please consider renewing your subscription";
+		}
+		else
+		{
+			return true;
+		}
+	}
+	return false;
+}
+*/
 
 
 function dprv_postbox()
@@ -46,15 +88,9 @@ function dprv_show_postbox($post_info)
 			//]]>
 			</script>
 			');
-	//$script_name = pathinfo($_SERVER['PHP_SELF'], PATHINFO_BASENAME);
-	//$posDot = strrpos($script_name,'.');
-	//if ($posDot != false)
-	//{
-	//	$script_name = substr($script_name, 0, $posDot);
-	//}
 
 	$script_name = dprv_get_script_name();
-	$log->lwrite("dprv_settings script_name is $script_name");
+	//$log->lwrite("dprv_settings script_name is $script_name");
 
 	// SET START VALUES
 
@@ -112,7 +148,6 @@ function dprv_show_postbox($post_info)
 		$dprv_post_info = dprv_wpdb("get_row", $sql, $post_id);
 		if (!is_null($dprv_post_info) && count($dprv_post_info) > 0)
 		{
-			//if ($dprv_post_info["digiprove_this_post"] == true)
 			if ((bool)$dprv_post_info["digiprove_this_post"] == true)
 			{
 				$dprv_digiprove_this_post = "Yes";
@@ -121,7 +156,6 @@ function dprv_show_postbox($post_info)
 			{
 				$dprv_digiprove_this_post = "No";
 			}
-			//if ($dprv_post_info["this_all_original"] == true)
 			if ((bool)$dprv_post_info["this_all_original"] == true)
 			{
 				$dprv_this_all_original = "Yes";
@@ -210,12 +244,45 @@ function dprv_show_postbox($post_info)
 		}
 	}
 	// OK Values have been set, start preparing HTML
+
+	// Default Values
+
+	$log->lwrite("setting default values");
+	/*
+	// Code below introduced in 4.05 with intention of introducing subscriber-only functions iv Edit, but was not deployed
+	$dprv_subscription_type = "";
+	$dprv_subscription_expiry = "";
+	$dprv_subscription_message = "";
+	
+	$dprv_subscription_valid = dprv_checkPlan($dprv_subscription_type, $dprv_subscription_expiry, $dprv_subscription_message);
+
+	$subscription_enabled_se = '';
+	$subscription_enabled_tb = '';
+	$subscription_enabled_cb = '';
+	$sub_enabled_title = '';
+	$sub_enabled_onclick = '';
+	$sub_enabled_color = '';
+	$sub_enabled_style = '';
+	$sub_bg_style = '';
+
+	if ($dprv_subscription_valid == false)
+	{
+		$subscription_enabled_se = ' onclick="return false" onchange="this.selectedIndex=0;"';
+		$subscription_enabled_tb = ' onclick="alert(\''. $dprv_subscription_message . '\');return false"';
+		$subscription_enabled_cb = ' onclick="return false" onchange="this.checked=false;"';
+		$sub_enabled_title = ' title="' . $dprv_subscription_message . '"';
+		//$sub_enabled_onclick = ' onclick="dprv_SubscribersOnly(this.id);"';
+		$sub_enabled_color = ' style="color:#CCCCCC;"';
+		$sub_enabled_style = 'color:#CCCCCC;';
+		$sub_bg_style = ' style="background-color:#CCCCCC;"';
+	}
+	*/
+
 	$dprv_this_yes_checked = " checked='checked'";
 	$dprv_this_no_checked = "";
 	if ($dprv_digiprove_this_post == 'No')
 	{
 
-		//$dprv_this_yes_checked = " checked='checked'";
 		$dprv_this_yes_checked = "";
 		$dprv_this_no_checked = " checked='checked'";
 	}
@@ -260,7 +327,7 @@ function dprv_show_postbox($post_info)
 		}
 	}
 	$a = "<table style='padding:6px;  padding-top:0px; width:100%'><tbody>";
-	$a .= "<tr><td style='width:190px; height:30px'>" . sprintf(__("Digiprove this %s", "dprv_cp"), $post_type_label) . ":</td>";
+	$a .= "<tr><td style='width:180px; height:30px'>" . sprintf(__("Digiprove this %s", "dprv_cp"), $post_type_label) . ":</td>";
 	$a .= "<td valign='top'><input type='radio' id='dprv_this_yes' name='dprv_this' value='Yes'" . $dprv_this_yes_checked . " onclick='dprv_TogglePanel()'/>" . __("Yes", "dprv_cp") . "&nbsp;&nbsp;&nbsp;&nbsp;<input type='radio' id='dprv_this_no' name='dprv_this' value='No'" . $dprv_this_no_checked . " onclick='dprv_TogglePanel()'/>" . __("No", "dprv_cp") . "</td>";
 	$a .= "<td valign='top' colspan='2'><div id='dprv_last_result_notice' style='display:table'></div>" . $dprv_last_digiprove_info . "<input type='hidden' id='dprv_now' name='dprv_now' value='No'/>";
 	/*
@@ -305,11 +372,40 @@ function dprv_show_postbox($post_info)
 	$a .= "</td></tr></tbody></table>";
 
 	$a .= "<table id='dprv_copyright_panel_body' style='padding:4px; padding-top:0px; width:100%'><tbody>";
-	$a .= "<tr><td style='width:190px;'>" . __("Is content all yours?", "dprv_cp") . "</td>";
-	$a .= "<td style='width:280px'><input type='radio' id='dprv_all_original_yes' name='dprv_all_original' value='Yes'" . $dprv_all_original_yes_checked . " onclick='dprv_ToggleAttributions()'/>" . __("Yes", "dprv_cp") . "&nbsp;&nbsp;&nbsp;&nbsp;<input type='radio' id='dprv_all_original_no' name='dprv_all_original' value='No'" . $dprv_all_original_no_checked . " onclick='dprv_ToggleAttributions()'/>" . __("No", "dprv_cp") . "</td>";
-	$a .= "<td style='width:140px'></td><td style='min-width:110px'></td></tr>";
+	$a .= "<tr><td style='width:180px;'>" . __("Is content all yours?", "dprv_cp") . "</td>";
+	$a .=     "<td style='width:280px'>";
+	$a .=        "<input type='radio' id='dprv_all_original_yes' name='dprv_all_original' value='Yes'" . $dprv_all_original_yes_checked . " onclick='dprv_ToggleAttributions()'/>" . __("Yes", "dprv_cp") . "&nbsp;&nbsp;&nbsp;&nbsp;<input type='radio' id='dprv_all_original_no' name='dprv_all_original' value='No'" . $dprv_all_original_no_checked . " onclick='dprv_ToggleAttributions()'/>" . __("No", "dprv_cp");
+	$a .=     "</td>";
+	$a .=     "<td style='width:140px'></td>";
+	$a .=     "<td style='min-width:110px; padding-left:10px'></td>";
+	$a .= "</tr>";
+	$dprv_attribution_caption = __("Acknowledgements", "dprv_cp");
+	$dprv_this_attributions = stripslashes($dprv_this_attributions);
+	if (substr($dprv_this_attributions, 0, 1) == "[")
+	{
+		$ptr = strpos($dprv_this_attributions, "]");
+		if ($ptr > 1)
+		{
+			$dprv_attribution_caption = substr($dprv_this_attributions, 1, ($ptr-1));
+		}
+		if ($ptr > 0)
+		{
+			$dprv_this_attributions = substr($dprv_this_attributions, ($ptr+1));
+		}
+	}
+
 	$a .= "<tr id='dprv_attributions_0' style='display:" . $dprv_attributionDisplay . "'><td style='height:6px'></td></tr>";
-	$a .= "<tr id='dprv_attributions_1' style='display:" . $dprv_attributionDisplay . "'><td valign='top'>" . __("Acknowledgements / Attributions", "dprv_cp") . "</td><td colspan='3'><textarea id='dprv_attributions' name='dprv_attributions' rows='1' style='width:100%'>" . htmlspecialchars(stripslashes($dprv_this_attributions), ENT_QUOTES, 'UTF-8') . "</textarea></td></tr>";
+	$a .= "<tr id='dprv_attributions_1' style='display:" . $dprv_attributionDisplay . "'>";
+	$a .=     "<td valign='top'>" . __("Acknowledgements / Attributions", "dprv_cp");
+	$a .=     "</td>";
+	$a .=     "<td valign='top'>";
+	$a .=         __("Caption", "dprv_cp") . ":&nbsp";
+	$a .=        "<input type='text' title='" . __("Attribution Caption", "dprv_cp") . "' id='dprv_attribution_caption' name='dprv_attribution_caption' value='" . $dprv_attribution_caption . "'/>";
+	$a .=     "</td>";
+
+	$a .=     "<td colspan='2'>";
+	$a .=         "<textarea placeholder='" . __("Enter your attribution notice here", "dprv_cp") . "' id='dprv_attributions' name='dprv_attributions' rows='1' style='width:100%'>" . htmlspecialchars($dprv_this_attributions, ENT_QUOTES, 'UTF-8') . "</textarea>";
+	$a .=     "</td></tr>";
 	
 	$a .= "<tr><td style='height:4px'></td></tr>";
 	$a .= "<tr><td style='height:20px'>" . __("License Type", "dprv_cp") . ":</td><td>";
@@ -340,6 +436,7 @@ function dprv_show_postbox($post_info)
 	$a .= "<tr><td>" . __("License Caption", "dprv_cp") . ":</td>";
 	$a .= "<td colspan='3'>";
 	$a .= "<select id='dprv_license_caption' name='dprv_license_caption' style='width:200px; display:" . $inputDisplay . "'>";
+
 	$selected = "";
 	if ($dprv_this_license_caption ==  __("Some Rights Reserved", "dprv_cp"))
 	{
@@ -353,9 +450,17 @@ function dprv_show_postbox($post_info)
 	}
 	$a .= "<option value='" . __("All Rights Reserved", "dprv_cp") . "'" . $selected . ">" . __("All Rights Reserved", "dprv_cp") . "</option>";
 	$a .= "</select>";
+	$a .= "<span id='dprv_create_own_caption'>&nbsp;&nbsp;&nbsp;&nbsp;" . __("Or create your own", "dprv_cp") . ": ";
+	$dprv_license_caption_input = "";
+	if ($dprv_this_license_caption != __("Some Rights Reserved", "dprv_cp") && $dprv_this_license_caption != __("All Rights Reserved", "dprv_cp"))
+	{
+		$dprv_license_caption_input = $dprv_this_license_caption;
+	}
+	$a .= "<input type='text' id='dprv_license_caption_input' name='dprv_license_caption_input' value='" . $dprv_license_caption_input . "' onchange='dprv_ToggleLicenseCaptionInputChanged()'/>";
+	$a .= "</span>";
 	$a .= "<span id='dprv_license_caption_label' style='width:100%; display:" . $other_labelDisplay . "'>" . htmlspecialchars($dprv_this_license_caption, ENT_QUOTES, 'UTF-8') . "</span>";
+
 	$a .= "</td></tr>";
-	
 	
 	$a .= "<tr><td style='height:4px'></td></tr>";
 	$a .= "<tr><td valign='top'>" . __("License Abstract", "dprv_cp") . ":</td>";
@@ -369,15 +474,13 @@ function dprv_show_postbox($post_info)
 	$a .= "<a id='dprv_license_url_link' name='dprv_license_url_link' href='" . $dprv_this_license_url . "' target='_blank' style='display:" . $other_labelDisplay . "'>" . htmlspecialchars(stripslashes($dprv_this_license_url), ENT_QUOTES, 'UTF-8') . "</a>";
 	$a .= "</td></tr>";
 	$a .= "</tbody></table>";
+	$log->lwrite($a);
 	echo $a;
 	
-	//$jsfile = plugins_url("copyright_proof_cr_panel.js", __FILE__) . "?v=" . DPRV_VERSION;
-	//echo('<script type="text/javascript" src="' . $jsfile . '"></script>');
-
-	// Following required for correct management of F5 refresh
+	// Following required inline for correct management of F5 refresh
 	echo ("<script type='text/javascript'>
 				<!--
-				// These functions all contained in copyright_proof_cr_panel.js (loaded just above)
+				// These functions all contained in copyright_proof_cr_panel.js (loaded above in dprv_edit_enqueue_scripts())
 				dprv_TogglePanel();
 				dprv_ToggleAttributions();
 				dprv_ToggleDefault();
@@ -439,7 +542,7 @@ function dprv_verify_box()
 	$dprv_days_to_expiry = floor((strtotime($dprv_subscription_expiry . ' 23:59:59 +0000') - time())/86400);
 	$log->lwrite("dprv_days_to_expiry = " . $dprv_days_to_expiry);
 
-	
+	// What is intention of this line?
 	if ($dprv_subscription_type == "Basic" || $dprv_subscription_type == "" || $dprv_subscription_type == "Personal" || $dprv_subscription_expired == "Yes")
 
 
@@ -724,10 +827,23 @@ function dprv_add_digiprove_submit_button()
 	if ($dprv_publish_text != __('Digiprove &amp; Submit for Review', 'dprv_cp'))    // At least for now, don't have Digiproving of contributor submissions
 	{
 		$today_count = 0;	// default value
-		if (get_option('dprv_last_date') == date("Ymd"))
+
+		$dprv_last_date = get_option('dprv_last_date');
+		if (gettype($dprv_last_date) == "string")		// was stored as string yyyymmdd until 4.07
+		{
+			// converting dprv_last_date from string to date object in UTC
+			$dprv_last_date = date_create($dprv_last_date, timezone_open("UTC"));
+		}
+		$dprv_today_UTC = date_create(null, timezone_open("UTC"));
+		// Convert last date to UTC just in case
+		date_timezone_set($dprv_last_date, timezone_open("UTC"));
+
+		//if (get_option('dprv_last_date') == date("Ymd"))
+		if (date_format($dprv_last_date, 'Y-m-d') == date_format($dprv_today_UTC, 'Y-m-d'))
 		{
 			$today_count = intval(get_option('dprv_last_date_count'));
 		}
+
 		$dprv_subscription_type = get_option('dprv_subscription_type');
 		$dprv_max_file_count = 0;
         $dprv_back_digiprove_allowance = 0;
@@ -1233,9 +1349,20 @@ function dprv_digiprove_post($dprv_post_id)
 	}
 
 	$today_count = 0;	// default value
-	if (get_option('dprv_last_date') != date("Ymd"))
+
+	$dprv_last_date = get_option('dprv_last_date');
+	if (gettype($dprv_last_date) == "string")		// was stored as string yyyymmdd until 4.07
 	{
-		update_option('dprv_last_date', date("Ymd"));
+		// converting dprv_last_date from string to date object in UTC
+		$dprv_last_date = date_create($dprv_last_date, timezone_open("UTC"));
+	}
+	$dprv_today_UTC = date_create(null, timezone_open("UTC"));
+	// Convert last date to UTC just in case (should always be UTC)
+	date_timezone_set($dprv_last_date, timezone_open("UTC"));
+
+	if (date_format($dprv_last_date, 'Y-m-d') != date_format($dprv_today_UTC, 'Y-m-d'))
+	{
+		update_option('dprv_last_date', $dprv_today_UTC);
 		update_option('dprv_last_date_count', 0);
 	}
 	else
@@ -1549,7 +1676,9 @@ function dprv_record_copyright_details($dprv_post_id)
 	$attributions = "";
 	if (isset($_POST['dprv_attributions']))
 	{
-		$attributions = $_POST['dprv_attributions'];
+		// prefix with attribution caption
+		$attributions = "[" . $_POST['dprv_attribution_caption'] . "]" . $_POST['dprv_attributions'];
+		$log->lwrite ("saving " . $attributions);
 	}
 
 	$dprv_using_default_license = true;
@@ -1569,7 +1698,13 @@ function dprv_record_copyright_details($dprv_post_id)
 	else
 	{
 		$license = $_POST['dprv_license_input'];
+		///////////////////////////////////////////////////////////////
 		$custom_license_caption = $_POST['dprv_license_caption'];
+		if (isset($_POST['dprv_license_caption_input']) && $_POST['dprv_license_caption_input'] != "")
+		{
+			$custom_license_caption = $_POST['dprv_license_caption_input'];
+		}
+		//////////////////////////////////////////////////////////////
 		$custom_license_abstract = $_POST['dprv_license_abstract'];
 		$custom_license_url = $_POST['dprv_license_url_input'];
 	}
@@ -1815,6 +1950,18 @@ function dprv_certify($dprv_post_id, $title, $content, &$digital_fingerprint, &$
 	{
 		$sql="SELECT * FROM " . get_option('dprv_prefix') . "dprv_posts WHERE id = %d";
 		$dprv_post_info = dprv_wpdb("get_row", $sql, $dprv_post_id);
+
+		if (is_null($dprv_post_info))
+		{
+			$log->lwrite("dprv_post_info is null");
+		}
+		else 
+		{
+			$log->lwrite("count(dprv_post_info) = " . count($dprv_post_info));
+		}
+		$log->lwrite("Compare " . $digital_fingerprint);
+		$log->lwrite(" to     " . $dprv_post_info["digital_fingerprint"]);
+
 		if (!is_null($dprv_post_info) && count($dprv_post_info) > 0 && $digital_fingerprint == $dprv_post_info["digital_fingerprint"])
 		{
 			$dprv_last_time = strtotime($dprv_post_info["cert_utc_date_and_time"]);

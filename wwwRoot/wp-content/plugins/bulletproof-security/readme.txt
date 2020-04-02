@@ -3,8 +3,8 @@ Contributors: AITpro
 Donate link: https://wordpress.org/support/view/plugin-reviews/bulletproof-security?rate=5#postform
 Tags: security, secure, malware scanner, login security, firewall, security plugin, wordpress security, login, bruteforce, backup, exploit, infection, protection, virus, anti-virus, logout, spam, anti-spam
 Requires at least: 3.8 
-Tested up to: 5.1.1
-Stable tag: 3.4
+Tested up to: 5.3
+Stable tag: 3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,9 @@ WordPress Security Protection: Malware scanner, Firewall, Login Security, DB Bac
 == Description ==
 
 WordPress Security Protection: Malware scanner, Firewall, Login Security, DB Backup, Anti-Spam & much more. View Security feature highlights below. View BulletProof Security feature details under the FAQ help section below. Secure your WordPress website even further by adding additional BulletProof Security Bonus Custom Code. See BulletProof Security Bonus Custom Code under the FAQ help section below. Effective, Reliable & Easy to use WordPress Security Plugin.
+
+= BulletProof Security Installation and Setup Video Tutorial =
+https://www.youtube.com/watch?v=FMv58aLUMT0
 
 = BulletProof Security Feature Highlights =
 
@@ -66,9 +69,6 @@ WordPress Security Protection: Malware scanner, Firewall, Login Security, DB Bac
 * UI Theme Skin Changer (3 Theme Skins)
 * Extensive System Info
 * <a href="https://www.ait-pro.com/bps-features/" title="BulletProof Security Features" rel="nofollow" target="_blank">View All BulletProof Security Pro Feature Details</a>
-
-= BulletProof Security Installation and Setup Video Tutorial =
-https://www.youtube.com/watch?v=qTX-SjOVZdw
 
 = BulletProof Security Recommended Video Tutorials =
 * <a href="https://forum.ait-pro.com/video-tutorials/#custom-code" title="BulletProof Security Custom Code Video Tutorial" rel="nofollow" target="_blank">BulletProof Security Custom Code Video Tutorial</a>

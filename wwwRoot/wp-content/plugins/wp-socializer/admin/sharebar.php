@@ -15,10 +15,11 @@ class wpsr_admin_sharebar{
     function register( $pages ){
         
         $pages[ 'sharebar' ] = array(
-            'name' => 'Floating sharebar',
+            'name' => 'Floating sharebar (Deprecated)',
             'banner' => WPSR_ADMIN_URL . '/images/banners/floating-sharebar.svg',
             'page_callback' => array( $this, 'page' ),
             'feature' => true,
+            'class' => 'old_ft',
             'form' => array(
                 'id' => 'sharebar_settings',
                 'name' => 'sharebar_settings',
@@ -179,6 +180,15 @@ class wpsr_admin_sharebar{
                 'placeholder' => __( 'Enter CSS class name separated by comma', 'wpsr' ),
             ))),
             
+            array( __( 'Open/close button when in mobile mode', 'wpsr' ), WPSR_Admin::field( 'select', array(
+                'name' => 'vl_mob_mode_pos',
+                'value' => $values['vl_mob_mode_pos'], 
+                'list' => array(
+                    'left' => __( 'Left side', 'wpsr'),
+                    'right' => __( 'Right side', 'wpsr')
+                ),
+            )), 'data-conditioner data-condr-input="[name=type]" data-condr-value="vertical" data-condr-action="simple?show:hide" data-condr-events="change" '),
+
             array( __( 'Minimize when screen width is less than', 'wpsr' ), WPSR_Admin::field( 'text', array(
                 'name' => 'min_on_width',
                 'value' => $values['min_on_width'],
@@ -219,9 +229,14 @@ class wpsr_admin_sharebar{
         
     }
     
-    
     function page(){
-        
+
+        echo '<div class="notice notice-error">
+        <p>Classic sharebar feature is now deprecated and will be removed in the next version. It is replaced with a brand new "Floating sharebar" feature.</p>
+        <p>Please enable the new sharebar in the settings page and migrate your old configuration.</p>
+        <p><a href="' . admin_url( 'admin.php?page=wp_socializer&tab=floating_sharebar') . '" class="button button-primary">Open new floating sharebar settings</a></p>
+       </div>';
+
         WPSR_Admin::settings_form( 'sharebar' );
         
     }

@@ -15,10 +15,11 @@ class wpsr_admin_buttons{
     function register( $pages ){
         
         $pages[ 'buttons' ] = array(
-            'name' => 'Share buttons',
+            'name' => 'Share buttons (Deprecated)',
             'banner' => WPSR_ADMIN_URL . '/images/banners/share-buttons.svg',
             'page_callback' => array( $this, 'page' ),
             'feature' => true,
+            'class' => 'old_ft',
             'form' => array(
                 'id' => 'button_settings',
                 'name' => 'button_settings',
@@ -136,9 +137,14 @@ class wpsr_admin_buttons{
         
     }
     
-    
     function page(){
-        
+
+        echo '<div class="notice notice-error">
+        <p>Classic share buttons feature is now deprecated and will be removed in the next version. It is replaced with a brand new "Social icons" feature.</p>
+        <p>Please enable the new social icons in the settings page and migrate your old configuration.</p>
+        <p><a href="' . admin_url( 'admin.php?page=wp_socializer&tab=social_icons') . '" class="button button-primary">Open new social icons settings</a></p>
+       </div>';
+
         // Add settings form
         WPSR_Admin::settings_form( 'buttons' );
         

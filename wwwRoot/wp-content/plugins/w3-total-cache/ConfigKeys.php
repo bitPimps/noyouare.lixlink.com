@@ -41,6 +41,10 @@ $keys = array(
 		'type' => 'boolean',
 		'default' => false
 	),
+	'dbcache.debug_purge' => array(
+		'type' => 'boolean',
+		'default' => false
+	),
 	'dbcache.enabled' => array(
 		'type' => 'boolean',
 		'default' => false
@@ -82,6 +86,10 @@ $keys = array(
 	'dbcache.memcached.password' => array(
 		'type' => 'string',
 		'default' => ''
+	),
+	'dbcache.memcached.binary_protocol' => array(
+		'type' => 'boolean',
+		'default' => true
 	),
 	'dbcache.redis.persistent' => array(
 		'type' => 'boolean',
@@ -153,6 +161,50 @@ $keys = array(
 		)
 	),
 
+	'lazyload.enabled' => array(
+		'type' => 'boolean',
+		'default' => false
+	),
+	'lazyload.process_img' => array(
+		'type' => 'boolean',
+		'default' => true
+	),
+	'lazyload.process_background' => array(
+		'type' => 'boolean',
+		'default' => true
+	),
+	'lazyload.exclude' => array(
+		'type' => 'array',
+		'default' => array(
+			'avia-bg-style-fixed',
+			'data-bgposition=',
+			'data-envira-src=',
+			'data-large_image=',
+			'data-lazy-original=',
+			'data-lazy-src=',
+			'data-lazyload=',
+			'data-lazysrc=',
+			'data-no-lazy=',
+			'data-src=',
+			'data-srcset=',
+			'fullurl=',
+			'lazy-slider-img=',
+			'loading="eager"',
+			'no-lazy',
+			'rev-slidebg',
+			'skip-lazy',
+			'soliloquy-image',
+			'swatch-img',
+			'w3-total-cache',
+			'woocommerce/assets/images/placeholder.png',
+			'wpcf7_captcha',
+		)
+	),
+	'lazyload.embed_method' => array(
+		'type' => 'string',
+		'default' => 'async_head'
+	),
+
 	'objectcache.configuration_overloaded' => array(
 		'type' => 'boolean',
 		'default' => false
@@ -162,6 +214,10 @@ $keys = array(
 		'default' => false
 	),
 	'objectcache.debug' => array(
+		'type' => 'boolean',
+		'default' => false
+	),
+	'objectcache.debug_purge' => array(
 		'type' => 'boolean',
 		'default' => false
 	),
@@ -206,6 +262,10 @@ $keys = array(
 	'objectcache.memcached.password' => array(
 		'type' => 'string',
 		'default' => ''
+	),
+	'objectcache.memcached.binary_protocol' => array(
+		'type' => 'boolean',
+		'default' => true
 	),
 	'objectcache.redis.persistent' => array(
 		'type' => 'boolean',
@@ -274,6 +334,10 @@ $keys = array(
 		'type' => 'boolean',
 		'default' => false
 	),
+	'pgcache.debug_purge' => array(
+		'type' => 'boolean',
+		'default' => false
+	),
 	'pgcache.engine' => array(
 		'type' => 'string',
 		'default' => 'file_generic'
@@ -315,6 +379,10 @@ $keys = array(
 	'pgcache.memcached.password' => array(
 		'type' => 'string',
 		'default' => ''
+	),
+	'pgcache.memcached.binary_protocol' => array(
+		'type' => 'boolean',
+		'default' => true
 	),
 	'pgcache.redis.persistent' => array(
 		'type' => 'boolean',
@@ -595,6 +663,34 @@ $keys = array(
 		'type' => 'boolean',
 		'default' => false
 	),
+	'stats.slot_seconds' => array(
+		'type' => 'integer',
+		'default' => 60,
+	),
+	'stats.slots_count' => array(
+		'type' => 'integer',
+		'default' => 60,
+	),
+	'stats.cpu.enabled' => array(
+		'type' => 'boolean',
+		'default' => false
+	),
+	'stats.access_log.enabled' => array(
+		'type' => 'boolean',
+		'default' => false
+	),
+	'stats.access_log.filename' => array(
+		'type' => 'string',
+		'default' => ''
+	),
+	'stats.access_log.format' => array(
+		'type' => 'string',
+		'default' => '%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"'
+	),
+	'stats.access_log.webserver' => array(
+		'type' => 'string',
+		'default' => ''
+	),
 
 	'minify.configuration_overloaded' => array(
 		'type' => 'boolean',
@@ -653,6 +749,10 @@ $keys = array(
 	'minify.memcached.password' => array(
 		'type' => 'string',
 		'default' => ''
+	),
+	'minify.memcached.binary_protocol' => array(
+		'type' => 'boolean',
+		'default' => true
 	),
 	'minify.redis.persistent' => array(
 		'type' => 'boolean',
@@ -1907,7 +2007,14 @@ $keys = array(
 		'type' => 'string',
 		'default' => ''
 	),
-
+	'browsercache.security.fp' => array(
+		'type' => 'boolean',
+		'default' => false
+	),
+	'browsercache.security.fp.values' => array(
+		'type' => 'array',
+		'default' => array()
+	),
 
 
 	'mobile.configuration_overloaded' => array(
@@ -2180,10 +2287,6 @@ $keys = array(
 	),
 
 
-	'common.support' => array(
-		'type' => 'string',
-		'default' => ''
-	),
 	'common.track_usage' => array(
 		'type' => 'boolean',
 		'default' => false
@@ -2260,10 +2363,6 @@ $keys = array(
 		'type' => 'integer',
 		'default' => 300
 	),
-	'timelimit.cdn_container_create' => array(
-		'type' => 'integer',
-		'default' => 300
-	),
 	'timelimit.domain_rename' => array(
 		'type' => 'integer',
 		'default' => 120
@@ -2285,11 +2384,14 @@ $keys = array(
 	'extensions.active' => array(
 		'type' => 'array',
 		'default' => array(
-			'newrelic' => 'w3-total-cache/Extension_NewRelic_Plugin.php',
 			'fragmentcache' => 'w3-total-cache/Extension_FragmentCache_Plugin.php'
 		)
 	),
 	'extensions.active_frontend' => array(
+		'type' => 'array',
+		'default' => array()
+	),
+	'extensions.active_dropin' => array(
 		'type' => 'array',
 		'default' => array()
 	),

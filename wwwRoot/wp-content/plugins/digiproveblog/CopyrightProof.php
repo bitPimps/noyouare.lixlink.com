@@ -3,12 +3,12 @@
 Plugin Name: Copyright Proof
 Plugin URI: https://www.digiprove.com/copyright_proof_wordpress_plugin.aspx
 Description: Digitally certify your posts to prove copyright ownership, generate copyright notice and license statement, copy-protect text and images, and monitor/log/alert attempted content theft.  Digiprove certifications are verifiable.
-Version: 4.04
+Version: 4.08
 Author: Digiprove
 Author URI: https://www.digiprove.com/
 License: GPL
 */
-/*  Copyright 2008-2014  Digiprove (email : cian.kinsella@digiprove.com)
+/*  Copyright 2008-2019  Digiprove (email : cian.kinsella@digiprove.com)
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -31,9 +31,10 @@ License: GPL
 // in the development of this plug-in
 	// Declare and initialise global constants:
 	
-    define("DPRV_VERSION", "4.04");
+    define("DPRV_VERSION", "4.08");
 	define("DPRV_WWW", "www.digiprove.com");
 
+	// TODO - include these modules conditionally
 	include_once('Digiprove.php');									// Digiprove SDK functions
     include_once('copyright_proof_admin.php');						// Functions for Settings panel
 	include_once('copyright_proof_edit.php');						// Functions for Creating and Editing content
@@ -126,7 +127,6 @@ License: GPL
     return '<pre>' . print_r($wp_filter[$hook], true) . '</pre>';
 }
 
-
 	// Hooks for Integrity checking:
 	// TODO - Reinstate these hooks when implementing integrity checking
 	// add_action('post_submitbox_misc_actions', 'dprv_verify_box');			// Displays verify info on edit screen
@@ -211,7 +211,7 @@ License: GPL
 	function dprv_activate()
 	{
 		// TODO: set error handler to dprvErrors if in existence for this function
-		$log = new DPLog();  
+		$log = new DPLog();
 		$log->lwrite("");
 		$log->lwrite("VERSION " . DPRV_VERSION . " ACTIVATED");
 		update_option('dprv_activated_version', DPRV_VERSION);	// If different to installed, activation steps will take place
@@ -243,6 +243,8 @@ License: GPL
 		add_option('dprv_c_notice', 'DisplayAll');
 		add_option('dprv_submitter_is_author', 'No');
 		add_option('dprv_submitter_has_copyright', 'No');
+		add_option('dprv_notices_no_translate', true);
+		add_option('dprv_notices_lang', 'en');
 		add_option('dprv_notice_size', '');
 		add_option('dprv_license', '0');
 		add_option('dprv_frustrate_copy', '');
@@ -280,7 +282,9 @@ License: GPL
 		add_option('dprv_pending_message', '');		        // A message which has yet to be displayed in message box (usually same as dprv_last_result)
 		add_option('dprv_pending_messages', array());		// to replace dprv_pending_message - an array of messages not yet displayed
 		add_option('dprv_pending_levels', array());		        // An array of levels ("info", "success", "warning", "error" relating to the pending message of same index in dprv_pending_messages
-		add_option('dprv_last_date','');
+		//add_option('dprv_last_date','');
+		$dprv_today_UTC = date_create(null, timezone_open("UTC"));
+		add_option('dprv_last_date', $dprv_today_UTC);		// Will do nothing if the option already exists which is fine
 		add_option('dprv_last_date_count','0');
         add_option('dprv_back_digiproved_count', '0');      // How many posts/pages have already been back-digiproved
 		add_option('dprv_event', '');				        // Place for error messages to be recorded, may be notified via API eventually
@@ -690,7 +694,7 @@ function dprv_make_notice_div()
 	global $dprv_msgs, $dprv_levels;
 	for ($x=0; $x<count($dprv_msgs); $x++)
 	{
-		$log->lwrite("x = $x msg = $dprv_msgs[$x] level= $dprv_levels[$x]");
+		$log->lwrite("old way x = $x msg = $dprv_msgs[$x] level= $dprv_levels[$x]");
 		print ("<div class='notice notice-" . $dprv_levels[$x] . "'><p>" . $dprv_msgs[$x] . "</p></div>");   // paragraphs required to render message background
 	}
 	// clear arrays now
@@ -717,7 +721,7 @@ function dprv_print_notices()
 	$dprv_levels = get_option('dprv_pending_levels');
 	for ($x=0; $x<count($dprv_msgs); $x++)
 	{
-		$log->lwrite("x = $x msg = $dprv_msgs[$x] level= $dprv_levels[$x]");
+		$log->lwrite("new way x = $x msg = $dprv_msgs[$x] level= $dprv_levels[$x]");
 		print ("<div class='notice notice-" . $dprv_levels[$x] . "'><p>" . $dprv_msgs[$x] . "</p></div>");   // paragraphs required to render message background
 	}
 	// clear arrays now
@@ -1326,18 +1330,19 @@ add_action( 'admin_notices', 'dprv_print_notices' );
 	}
 
     $dprv_back_digiprove_allowances = array();
-    //function dprv_entitlements($dprv_subscription_type, &$dprv_max_file_count, &$dprv_back_digiprove_allowance)
     function dprv_entitlements($dprv_subscription_type, &$dprv_max_file_count, &$dprv_back_digiprove_allowance, &$dprv_free_daily_limit)
     {
 	    // Declare and initialise subscription plan permissions:
-	    //$dprv_daily_limits = array (5,20,100,500,-1);               // Maximum Digiproves per day (-1 = unlimited)
 	    $dprv_daily_limits = array (10,50,200,2000,-1);               // Maximum Digiproves / Autoprotects per day (-1 = unlimited)
         $dprv_max_file_counts = array (0,10,40,100,999);            // Maximum number of media files in a post
         $dprv_back_digiprove_allowances = array(30,150,-1,-1,-1);   // Maximum number of back-Digiproves (batch Digiproving of older posts)
+
+		// Default Basic/Free/Pay as you go
 		$dprv_free_daily_limit = $dprv_daily_limits[0];
 	    $dprv_today_limit = $dprv_daily_limits[0];
 	    $dprv_max_file_count = $dprv_max_file_counts[0];
         $dprv_back_digiprove_allowance = $dprv_back_digiprove_allowances[0];
+
 	    switch ($dprv_subscription_type)
 	    {
 		    case "Personal":

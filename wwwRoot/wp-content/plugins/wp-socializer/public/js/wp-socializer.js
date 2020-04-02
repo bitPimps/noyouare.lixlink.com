@@ -96,9 +96,6 @@ document.addEventListener( 'DOMContentLoaded', function(){
                 }
             }
             
-            if( the_sb && window.innerWidth <= 800 ){
-                wpsr_helpers.addClass( the_sb, hide_class );
-            }
         }
         
         sb_resize();
@@ -167,11 +164,11 @@ document.addEventListener( 'DOMContentLoaded', function(){
         
         var replace_link = function( link ){
             var to_replace = {
-                '{title}': tsb_attr.ptitle,
+                '{title}': escape(tsb_attr.ptitle),
                 '{url}': tsb_attr.purl,
                 '{s-url}': tsb_attr.psurl,
                 '{twitter-username}': tsb_attr.ptuname,
-                '{excerpt}': sel_link_text()
+                '{excerpt}': escape(sel_link_text())
             };
             
             for( var key in to_replace ){
@@ -278,26 +275,27 @@ document.addEventListener( 'DOMContentLoaded', function(){
     }
     
     // Features with minimize on width enabled
-    mow = document.querySelectorAll( '[data-minonwidth]' );
+    rspw = document.querySelectorAll( '[data-respwidth]' );
     
-    var mow_resize = function( ele, window_width ){
-        var min_on_width = ele.getAttribute( 'data-minonwidth' );
-        if( min_on_width > 0 ){
-            if( window_width <= min_on_width ){
-                wpsr_helpers.addClass( ele, 'wpsr-mow' );
+    var resp_resize = function( ele, window_width ){
+        var resp_width = ele.getAttribute( 'data-respwidth' );
+        if( resp_width > 0 ){
+            var resp_class = ele.getAttribute( 'data-respclass' );
+            if( window_width <= resp_width ){
+                wpsr_helpers.addClass( ele, resp_class );
             }else{
-                wpsr_helpers.removeClass( ele, 'wpsr-mow' );
+                wpsr_helpers.removeClass( ele, resp_class );
             }
         }
     }
     
-    if( mow.length > 0 ){
+    if( rspw.length > 0 ){
         
         [ 'resize', 'load' ].forEach(function( the_event ){
             window.addEventListener( the_event, function(){
-                for( i = 0; i < mow.length; i++ ){
-                    var mowEle = mow[ i ];
-                    mow_resize( mowEle, window.innerWidth );
+                for( i = 0; i < rspw.length; i++ ){
+                    var rspwEle = rspw[ i ];
+                    resp_resize( rspwEle, window.innerWidth );
                 }
             });
         });

@@ -64,6 +64,8 @@ jQuery(document).ready(function(){
         
         wpsr_init_image_selects();
         
+        set_sharebar_preview();
+
     }
     
     var loc_generate_rules = function(){
@@ -149,7 +151,6 @@ jQuery(document).ready(function(){
         loc_sub_criteria();
         loc_generate_rules();
     }
-
 
     var loc_remove_rule = function( btn ){
         $rule = btn.parent();
@@ -451,6 +452,19 @@ jQuery(document).ready(function(){
         window.wpsr_bp = false;
     }
     
+    var set_sharebar_preview = function(){
+        var $type = $('#sharebar_settings select[name="type"]');
+        var $vedit = $('.vedit_wrap');
+        if( $type.length == 0 ){
+            return false;
+        }
+        if( $type.val() == 'vertical' ){
+            $vedit.addClass('vertical');
+        }else{
+            $vedit.removeClass('vertical');
+        }
+    }
+
     // Attach the events
     
     $(document).on( 'click', '.btn_selector .sbox_action', function(){
@@ -734,6 +748,10 @@ jQuery(document).ready(function(){
         wpsr_sharebar_preview_close();
     });
     
+    $(document).on('change', '#sharebar_settings select[name="type"]', function(){
+        set_sharebar_preview();
+    });
+
     //social icons item properties
     $current_item = '';
     
@@ -1058,11 +1076,6 @@ jQuery(document).ready(function(){
         $(this).addClass( 'templ_tab_active' );
     });
     
-    $( document ).on( 'click', '.postbox h3', function(){
-        $(this).next().fadeToggle( 'fast' );
-        $(this).toggleClass( 'pbclosed' );
-    });
-    
     // Popup editor on click events
     $( document ).on( 'click', '.wpsr_ppe_save', function(){
         mode = $(this).data( 'mode' );
@@ -1172,6 +1185,183 @@ jQuery(document).ready(function(){
         btn.attr( 'href', btn.data( 'link' ) + $(this).val() );
     });
     
+
+    // V5
+    $( document ).on( 'keyup', '.sip_filter', function(){
+        $list = $( '.sip_selector' );
+        if( $list.length > 0 ){
+            val = $( this ).val();
+            
+            $list.children().each(function(){
+                $item = $(this);
+                text = $item.text().toLowerCase();
+                if( text.search( val.toLowerCase() ) == -1 ){
+                    $item.hide();
+                }else{
+                    $item.show();
+                }
+            });
+        }
+    });
+
+    $( document ).on( 'click', '.sip_selector li', function(){
+        var $sie_list = window.sie_active_editor.find( '.sie_selected' );
+        $(this).clone().appendTo( $sie_list );
+        sie_update_selection();
+        sic_close_popup();
+    });
+
+    $( document ).on( 'click', '.sic_close_btn', function(){
+        sic_close_popup();
+    });
+
+    $( document ).on( 'click', '.sie_open_picker_btn', function( e ){
+        e.preventDefault();
+        window.sie_active_editor = $(this).closest( '.sie_wrap' );
+        $('.sip_picker').fadeIn();
+    });
+
+    $( document ).on( 'click', '.sie_delete_btn', function(){
+        $(this).parent().remove();
+        sie_update_selection();
+    });
+
+    $( document ).on( 'click', '.sie_settings_btn', function(){
+        $icon = $(this).parent();
+        $data = $icon.data();
+        window.sie_current_icon = $icon;
+
+        $popup = $( '.sie_icon_settings' ).show();
+        $popup.find( 'h3' ).text( sip_icons[ $icon.data( 'id' ) ][ 'name' ] + ' icon (Advanced settings)' );
+        $cnt = $( '.sie_icon_settings section' ).empty().append( '<table class="form-table"></table>' );
+        $tbl = $cnt.find( 'table' );
+        
+        for( opt in $data ){
+            
+            if( opt.search( 'icns' ) != -1 ){
+                
+                opt_val = $data[ opt ];
+                the_opt = opt.replace( 'icns_', '' );
+                
+                if( typeof sip_icon_settings[ the_opt ] === 'undefined' )
+                    continue;
+                
+                $wrap = $( '<tr><th></th><td></td></tr>' );
+                $checkbox = $( '<input type="checkbox" value="1" class="sie_is_input" data-type="checkbox" />' );
+                $text = $( '<input type="text" class="widefat sie_is_input" data-type="text" />' );
+                $textarea = $( '<textarea class="widefat sie_is_input" data-type="textarea"></textarea>' );
+                
+                helper = sip_icon_settings[ the_opt ][ 'helper' ];
+                type = sip_icon_settings[ the_opt ][ 'type' ];
+                placeholder = ( 'placeholder' in sip_icon_settings[ the_opt ] ) ? sip_icon_settings[ the_opt ][ 'placeholder' ] : '';
+                
+                $the_input = $( '<i/>' );
+                
+                if( type == 'checkbox' ){
+                    if( opt_val == '1' || opt_val == 'true' )
+                        $checkbox.attr('checked', 'checked');
+                    
+                    $the_input = $checkbox.attr( 'data-id', the_opt );
+                }
+                
+                if( type == 'text' ){
+                    $the_input = $text.val( opt_val ).attr( 'data-id', the_opt );
+                }
+                
+                if( type == 'textarea' ){
+                    $the_input = $textarea.val( opt_val ).attr( 'data-id', the_opt );
+                }
+
+                $wrap.find( 'th' ).append( helper );
+                $wrap.find( 'td' ).append( $the_input );
+                
+                if( placeholder != '' )
+                    $wrap.find( 'td' ).append( '<small>' + placeholder + '</small>' );
+                
+                $tbl.append( $wrap );
+                
+            }
+        }
+    });
+
+    $( document ).on( 'click', '.sie_save_settings_btn', function( e ){
+        e.preventDefault();
+
+        $icon = window.sie_current_icon;
+
+        if( $icon.length ){
+            $popup = $( this ).closest( '.sie_icon_settings' );
+            $inputs = $popup.find( '.sie_is_input' );
+
+            $inputs.each( function(){
+
+                $i = $( this );
+                id = $i.data( 'id' );
+                type = $i.data( 'type' );
+                value = '';
+
+                if( type == 'checkbox' && $i.is( ':checked' ) )
+                    value = '1';
+
+                if( type == 'text' )
+                    value = $i.val();
+
+                if( type == 'textarea' )
+                    value = $i.val();
+
+                $icon.data( 'icns_' + id, value );
+
+            });
+
+        }
+
+        sic_close_popup();
+        sie_update_selection();
+
+    });
+
+    $( '.sie_selected' ).sortable({
+        stop: function(){
+            sie_update_selection();
+        }
+    }).disableSelection();
+
+    var sic_close_popup = function(){
+        $( '.sic_backdrop' ).fadeOut();
+    }
+
+    var sie_update_selection = function(){
+
+        $('.sie_selected').each(function(){
+
+            var selected_icons = [];
+            var $selected_icons_input = $(this).closest('.sie_wrap').find('.sie_selected_icons');
+
+            $(this).find('li').each(function(){
+                var id = $(this).data( 'id' );
+                var datas = $(this).data();
+                var icon = {};
+                icon[ id ] = {};
+    
+                for( d in datas ){
+                    if( d.search( 'icns_' ) != -1 ){
+                        setting = d.replace( 'icns_', '' );
+                        val = datas[ d ];
+    
+                        icon[ id ][ setting ] = val;
+                    }
+                }
+    
+                selected_icons.push( icon );
+            });
+
+            console.log( selected_icons );
+            $selected_icons_input.val( btoa( JSON.stringify( selected_icons ) ) );
+
+        });
+
+    }
+
     // Initinitinitinitinit
     init();
     

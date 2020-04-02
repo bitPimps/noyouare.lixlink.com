@@ -1,4 +1,6 @@
 <?php
+	$log = new DPLog();  
+    $log->lwrite("copyright_live_starts");
 // FUNCTIONS CALLED WHEN SERVING PAGES
 include_once('copyright_proof_integrity.php');						// Functions for Integrity Checking
 function dprv_log_event()
@@ -38,7 +40,7 @@ if (get_option('dprv_record_IP') != "off")
 }
 function dprv_enqueue_live()
 {
-   	$jsfile = plugins_url("copyright_proof_live.js", __FILE__ );
+	$jsfile = plugins_url("copyright_proof_live.js", __FILE__ );
 	wp_register_script('copyright_proof_live', $jsfile, null, DPRV_VERSION, false);
     $vars_for_js = array(
                             'record_IP' => get_option('dprv_record_IP'),
@@ -51,7 +53,7 @@ function dprv_enqueue_live()
     wp_enqueue_script('copyright_proof_live', $jsfile, null, DPRV_VERSION, false);
 
     $dprv_frustrate_copy = get_option('dprv_frustrate_copy');
-	if ($dprv_frustrate_copy == "Yes")
+	if ($dprv_frustrate_copy == "Yes" && !current_user_can( 'edit_posts' ) && !current_user_can( 'edit_posts' ))
 	{
    		$jsfile = plugins_url("frustrate_copy.js", __FILE__ );
 		wp_register_script('frustrate_copy', $jsfile, null, DPRV_VERSION, false);
@@ -297,20 +299,17 @@ function dprv_display_content($content)
 			$dprv_this_default_license = "No";
 			$dprv_this_license = $dprv_post_info["license"];
 		}
-        $log->lwrite("dprv_this_default_license = $dprv_this_default_license");
         //$log->lwrite("dprv_this_default_license = $dprv_this_default_license");
 		
 		$dprv_number = "" . intval($dprv_this_license);
 		if ($dprv_number != $dprv_this_license && $dprv_post_info["using_default_license"] == false)	// Default license set to Yes trumps individual settings
 		{
-			$log->lwrite("custom license");
 			$dprv_this_license_caption = $dprv_post_info["custom_license_caption"];
 			$dprv_this_license_abstract = $dprv_post_info["custom_license_abstract"];
 			$dprv_this_license_url = $dprv_post_info["custom_license_url"];
 		}
 		else
 		{
-			$log->lwrite("not custom license");
 			for ($i=0; $i<count($dprv_licenseIds); $i++)
 			{
 				if ($dprv_this_license == $dprv_licenseIds[$i])
@@ -350,15 +349,35 @@ function dprv_display_content($content)
 		$dprv_certificate_url = $dprv_post_info["certificate_url"];
 		$dprv_first_year = $dprv_post_info["first_year"];
         $log->lwrite("dprv_this_license_caption = $dprv_this_license_caption");
+
+		$dprv_attribution_caption = __("Acknowledgements", "dprv_cp");
+		$dprv_this_attributions = stripslashes($dprv_this_attributions);
+		if (substr($dprv_this_attributions, 0, 1) == "[")
+		{
+			$ptr = strpos($dprv_this_attributions, "]");
+			$log->lwrite ("ptr=" . $ptr);
+			if ($ptr > 1)
+			{
+				$dprv_attribution_caption = substr($dprv_this_attributions, 1, ($ptr-1));
+			}
+			if ($ptr > 0)
+			{
+				$dprv_this_attributions = substr($dprv_this_attributions, ($ptr+1));
+			}
+		}
+
         if ($dprv_amp_content)
         {
-		    $dprv_notice = dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
+		    //$dprv_notice = dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
+		    $dprv_notice = dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_attribution_caption, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
             $content .=  $dprv_notice;
         }
         else
         {
-		    $dprv_notice = dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
-            $content .=  $dprv_notice;
+		    //$dprv_notice = dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
+		    $dprv_notice = dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_attribution_caption, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
+            $log->lwrite("dprv_notice = " . $dprv_notice);
+			$content .=  $dprv_notice;
        	    $content .= $dprv_license_html;
 		}
 	}
@@ -368,7 +387,8 @@ function dprv_display_content($content)
 		if ($dprv_certificate_id != false && $dprv_certificate_id != "")
 		{
 			$log->lwrite("but there was an old notice - will make a new one with variables from that");
-			$dprv_notice = dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
+			$dprv_attribution_caption = __("Acknowledgements", "dprv_cp");
+			$dprv_notice = dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, false, $dprv_first_year, $dprv_this_license, $dprv_this_license_caption, $dprv_this_license_abstract, $dprv_this_license_url, $dprv_this_all_original, $dprv_attribution_caption, $dprv_this_attributions, $dprv_post_id, $dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message);
 			$content .= $dprv_notice;
            	$content .= $dprv_license_html;
 		}
@@ -387,6 +407,7 @@ function dprv_footer()
 		echo (sprintf(__('All original content on these pages is fingerprinted and certified by %s', 'dprv_cp'), "<a href='//www.digiprove.com' target='_blank'>Digiprove</a>"));
 	}
 }
+
 function dprv_integrity_statement($dprv_post_id, &$dprv_integrity_headline,  &$dprv_integrity_message)
 {
 	global $wpdb, $post;
@@ -566,7 +587,7 @@ function dprv_integrity_statement($dprv_post_id, &$dprv_integrity_headline,  &$d
 }
 
 
-function dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, $preview, $dprv_first_year, $licenseType, $licenseCaption, $licenseAbstract, $licenseURL, $all_original, $attributions, $dprv_post_id, &$dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message)
+function dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, $preview, $dprv_first_year, $licenseType, $licenseCaption, $licenseAbstract, $licenseURL, $all_original, $dprv_attribution_caption, $attributions, $dprv_post_id, &$dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message)
 {
 	$log = new DPLog(); 
 	$log->lwrite("composeNotice starts, licenseType = " . $licenseType);
@@ -670,8 +691,20 @@ function dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv
 
 		// TODO - put date and time into locale of user
 		/* translators: the language code that will be used for the lang attribute of the Digiprove notice - http://www.w3.org/TR/html4/struct/dirlang.html#adef-lang */
-		$lang = __('en', 'dprv_cp');
-		$DigiproveNotice = '<' . $dprv_container . ' id="dprv_cp-v' . DPRV_VERSION . '" lang="' . $lang . '" xml:lang="' . $lang . '" class="notranslate" style="' . $container_style . '" title="' . sprintf(__('certified %1$s by Digiprove certificate %2$s', 'dprv_cp'),  $dprv_utc_date_and_time, $dprv_certificate_id) . '" >';
+		
+		$lang = get_option('dprv_notices_lang');
+		if (empty($lang) || trim($lang) == "")
+		{
+			$lang = 'en';			// default value
+		}
+
+		$no_translate = ' class="notranslate" translate="no"';
+		if (get_option('dprv_notices_no_translate') == false)
+		{
+			$no_translate = "";
+		}
+		//$DigiproveNotice = '<' . $dprv_container . ' id="dprv_cp-v' . DPRV_VERSION . '" lang="' . $lang . '" xml:lang="' . $lang . '" class="notranslate" style="' . $container_style . '" title="' . sprintf(__('certified %1$s by Digiprove certificate %2$s', 'dprv_cp'),  $dprv_utc_date_and_time, $dprv_certificate_id) . '" >';
+		$DigiproveNotice = '<' . $dprv_container . ' id="dprv_cp-v' . DPRV_VERSION . '" lang="' . $lang . '" xml:lang="' . $lang . '"' . $no_translate . ' style="' . $container_style . '" title="' . sprintf(__('certified %1$s by Digiprove certificate %2$s', 'dprv_cp'),  $dprv_utc_date_and_time, $dprv_certificate_id) . '" >';
 
 		$DigiproveNotice .= '<a href="' . $dprv_certificate_url . '" target="_blank" rel="copyright" style="height:' . $dprv_a_height . '; line-height: ' . $dprv_a_height . '; border:0px; padding:0px; margin:0px; float:none; display:inline;background:transparent none; line-height:normal; font-family: Tahoma, MS Sans Serif; font-style:normal; font-weight:normal; font-size:' . $dprv_font_size . ';">';
 		
@@ -684,7 +717,7 @@ function dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv
 		{
 			$DigiproveNotice .= 'onmouseover="this.style.color=\'' . $dprv_hover_color . '\';" onmouseout="this.style.color=\'' . $dprv_notice_color . '\';"';
 		}
-		$DigiproveNotice .= '>' . $dprv_notice;
+		$DigiproveNotice .= '>' . stripslashes($dprv_notice);
 		$dprv_c_notice = get_option('dprv_c_notice');
 		if ($dprv_c_notice != "NoDisplay")
 		{
@@ -737,19 +770,24 @@ function dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv
 			if (strlen($attributions) < 45)
 			{
 				$DigiproveNotice .= "title=\"" . __("Attributions - owner(s) of some content", "dprv_cp") . "\">";
-				$DigiproveNotice .=  __("Acknowledgements", "dprv_cp") . ":&nbsp;" . nl2HTML(htmlspecialchars(stripslashes($attributions), ENT_QUOTES, 'UTF-8')) . "</div>";
+				//$DigiproveNotice .=  __("Acknowledgements", "dprv_cp") . ":&nbsp;" . nl2HTML(htmlspecialchars(stripslashes($attributions), ENT_QUOTES, 'UTF-8')) . "</div>";
+				$DigiproveNotice .=  $dprv_attribution_caption . ":&nbsp;" . nl2HTML(htmlspecialchars(stripslashes($attributions), ENT_QUOTES, 'UTF-8')) . "</div>";
 			}
 			else
 			{
-				$DigiproveNotice .= "title=\"" . __("Attributions - owner(s) of some content - click to see full text", "dprv_cp") . "\" onclick=\"dprv_DisplayAttributions('" . __("Acknowledgements", "dprv_cp") . ":&nbsp;" . nl2HTML(htmlspecialchars($attributions, ENT_QUOTES, 'UTF-8')) . "')\" " . $mouseover . ">";
-				$DigiproveNotice .=  __("Acknowledgements", "dprv_cp") . ":&nbsp;" . nl2HTML(htmlspecialchars(stripslashes(substr($attributions, 0, 37)), ENT_QUOTES, 'UTF-8')) . __(" more...", "dprv_cp") . "</div>";
+				//$DigiproveNotice .= "title=\"" . __("Attributions - owner(s) of some content - click to see full text", "dprv_cp") . "\" onclick=\"dprv_DisplayAttributions('" . __("Acknowledgements", "dprv_cp") . ":&nbsp;" . nl2HTML(htmlspecialchars($attributions, ENT_QUOTES, 'UTF-8')) . "')\" " . $mouseover . ">";
+				$DigiproveNotice .= "title=\"" . __("Attributions - owner(s) of some content - click to see full text", "dprv_cp") . "\" onclick=\"dprv_DisplayAttributions('" . $dprv_attribution_caption . ":&nbsp;" . nl2HTML(htmlspecialchars($attributions, ENT_QUOTES, 'UTF-8')) . "')\" " . $mouseover . ">";
+				//$DigiproveNotice .=  __("Acknowledgements", "dprv_cp") . ":&nbsp;" . nl2HTML(htmlspecialchars(stripslashes(substr($attributions, 0, 37)), ENT_QUOTES, 'UTF-8')) . __(" more...", "dprv_cp") . "</div>";
+				$DigiproveNotice .= $dprv_attribution_caption . ":&nbsp;" . nl2HTML(htmlspecialchars(stripslashes(substr($attributions, 0, 37)), ENT_QUOTES, 'UTF-8')) . __(" more...", "dprv_cp") . "</div>";
+
 			}
 		}
 		//$log->lwrite("licenseType = " . $licenseType . ", licenseCaption=" . $licenseCaption);
 		if ($licenseType != false && $licenseType != "" && $licenseType != "Not Specified")
 		{
 			$DigiproveNotice .= "<a title='" . __("Click to see details of license", "dprv_cp") . "' href=\"javascript:dprv_DisplayLicense('" . $dprv_post_id . "')\" style=\"" . $span_style . "\" " . $mouseover . " target=\"_self\">";
-			$DigiproveNotice .= $licenseCaption;
+			//$DigiproveNotice .= $licenseCaption;
+			$DigiproveNotice .= stripslashes($licenseCaption);
 			$DigiproveNotice .= "</a>";
 			// Need to replace transparency with inversion of text color (as license_panel is a layer):
 			if (strpos($background_css, "transparent") != false)
@@ -766,13 +804,14 @@ function dprv_composeNotice($dprv_certificate_id, $dprv_utc_date_and_time, $dprv
 				$background_css = 'background:' . $background_color . ' none; opacity:0.9; filter:alpha(opacity=90);';
 				//$log->lwrite("calculated background color of " . $background_color . " from foreground " . $dprv_notice_color);
 			}
-			$dprv_license_html = '<div id="license_panel' . $dprv_post_id . '" style="position: absolute; display:none ; font-family: Tahoma, MS Sans Serif; font-style:normal; font-size:' . $dprv_font_size . '; font-weight:normal; color:' . $dprv_notice_color . ';' . $dprv_border_css . ' float:none; max-width:640px; text-decoration:none; letter-spacing:normal; line-height:' . $dprv_line_height . '; vertical-align:' . $dprv_txt_valign . '; padding:0px;' . $background_css . '">';
+			//$dprv_license_html = '<div id="license_panel' . $dprv_post_id . '" style="position: absolute; display:none ; font-family: Tahoma, MS Sans Serif; font-style:normal; font-size:' . $dprv_font_size . '; font-weight:normal; color:' . $dprv_notice_color . ';' . $dprv_border_css . ' float:none; max-width:640px; text-decoration:none; letter-spacing:normal; line-height:' . $dprv_line_height . '; vertical-align:' . $dprv_txt_valign . '; padding:0px;' . $background_css . '">';
+			$dprv_license_html = '<div id="license_panel' . $dprv_post_id . '" lang="' . $lang . '" xml:lang="' . $lang . '"' . $no_translate . ' style="position: absolute; display:none ; font-family: Tahoma, MS Sans Serif; font-style:normal; font-size:' . $dprv_font_size . '; font-weight:normal; color:' . $dprv_notice_color . ';' . $dprv_border_css . ' float:none; max-width:640px; text-decoration:none; letter-spacing:normal; line-height:' . $dprv_line_height . '; vertical-align:' . $dprv_txt_valign . '; padding:0px;' . $background_css . '">';
 			$dprv_license_html .= '<table class="dprv" style="line-height:17px;margin:0px;background-color:transparent;font-family: Tahoma, MS Sans Serif; font-style:normal; font-weight:normal; font-size:' . $dprv_font_size . '; color:' . $dprv_notice_color . '"><tbody>';
 			$dprv_license_html .= '<tr><td colspan="2" style="background-color:transparent;border:0px;font-weight:bold;padding:0px;padding-left:6px; text-align:left">' . __("Original content here is published under these license terms", "dprv_cp") . ':</td><td style="width:20px;background-color:transparent;border:0px;padding:0px"><span style="float:right; background-color:black; color:white; width:20px; text-align:center; cursor:pointer" onclick="dprv_HideLicense(\'' . $dprv_post_id . '\')">&nbsp;X&nbsp;</span></td></tr>';
 			$dprv_license_html .= '<tr><td colspan="3" style="height:4px;padding:0px;background-color:transparent;border:0px"></td></tr>';
 			$dprv_license_html .= '<tr><td style="width:130px;background-color:transparent;padding:0px;padding-left:4px;border:0px; text-align:left">' . __('License Type', 'dprv_cp') . ':</td><td style="width:300px;background-color:transparent;border:0px;padding:0px; text-align:left">' . htmlspecialchars(stripslashes($licenseType), ENT_QUOTES, "UTF-8") . '</td><td style="border:0px; background-color:transparent"></td></tr>';
 			$dprv_license_html .= '<tr><td colspan="3" style="height:4px;background-color:transparent;padding:0px;border:0px"></td></tr>';
-			$dprv_license_html .= '<tr><td style="background-color:transparent;padding:0px;padding-left:4px;border:0px; vertical-align:top; text-align:left">' . __('License Summary', 'dprv_cp') . ':</td><td colspan="2" style="background-color:transparent;border:0px;padding:0px; vertical-align:top; text-align:left">' . htmlspecialchars(stripslashes($licenseAbstract), ENT_QUOTES, "UTF-8") . '</td></tr>';
+			$dprv_license_html .= '<tr><td style="background-color:transparent;padding:0px;padding-left:4px;border:0px; vertical-align:top; text-align:left">' . __('License Abstract', 'dprv_cp') . ':</td><td colspan="2" style="background-color:transparent;border:0px;padding:0px; vertical-align:top; text-align:left">' . htmlspecialchars(stripslashes($licenseAbstract), ENT_QUOTES, "UTF-8") . '</td></tr>';
 			if ($licenseURL != '')
 			{
 				$dprv_license_html .= '<tr><td colspan="3" style="height:4px;background-color:transparent;padding:0px;border:0px"></td></tr>';
@@ -954,10 +993,10 @@ function calculateCSS()  // For use in amp-custom css
     }
 }
 
-function dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, $preview, $dprv_first_year, $licenseType, $licenseCaption, $licenseAbstract, $licenseURL, $all_original, $attributions, $dprv_post_id, &$dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message)
+function dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $dprv_digital_fingerprint, $dprv_certificate_url, $preview, $dprv_first_year, $licenseType, $licenseCaption, $licenseAbstract, $licenseURL, $all_original, $dprv_attribution_caption, $attributions, $dprv_post_id, &$dprv_license_html, $dprv_integrity_headline, $dprv_integrity_message)
 {
 	$log = new DPLog(); 
-	$log->lwrite("composeNotice starts, licenseType = " . $licenseType);
+	$log->lwrite("composeNoticeAMP starts, licenseType = " . $licenseType);
 	$DigiproveNotice = "";
 	$dprv_full_name = trim(get_option('dprv_first_name') . " " . get_option('dprv_last_name'));
 	$dprv_notice = get_option('dprv_notice');
@@ -989,14 +1028,30 @@ function dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $d
 
         // TODO - put date and time into locale of user
 		/* translators: the language code that will be used for the lang attribute of the Digiprove notice - http://www.w3.org/TR/html4/struct/dirlang.html#adef-lang */
-		$lang = __('en', 'dprv_cp');
-		$DigiproveNotice = '<' . $dprv_container . ' id="dprv_cp-v' . DPRV_VERSION . '" lang="' . $lang . '" class="notranslate dprv_notice_div' . $dprv_extra_class . '" title="' . sprintf(__('certified %1$s by Digiprove certificate %2$s', 'dprv_cp'),  $dprv_utc_date_and_time, $dprv_certificate_id) . '" >';
+
+		$lang = get_option('dprv_notices_lang');
+		if (empty($lang) || trim($lang) == "")
+		{
+			$lang = 'en';			// default value
+		}
+
+		$no_translate = "";
+		if (get_option('dprv_notices_no_translate') == true)
+		{
+			$no_translate = ' translate="no"';
+			$dprv_extra_class .= " notranslate";
+		}
+
+
+		//$DigiproveNotice = '<' . $dprv_container . ' id="dprv_cp-v' . DPRV_VERSION . '" lang="' . $lang . '" class="notranslate dprv_notice_div' . $dprv_extra_class . '" title="' . sprintf(__('certified %1$s by Digiprove certificate %2$s', 'dprv_cp'),  $dprv_utc_date_and_time, $dprv_certificate_id) . '" >';
+		$DigiproveNotice = '<' . $dprv_container . ' id="dprv_cp-v' . DPRV_VERSION . '" lang="' . $lang . '" xml:lang="' . $lang . '"' . $no_translate . ' class="dprv_notice_div' . $dprv_extra_class . '" title="' . sprintf(__('certified %1$s by Digiprove certificate %2$s', 'dprv_cp'),  $dprv_utc_date_and_time, $dprv_certificate_id) . '" >';
 
 		$DigiproveNotice .= '<a class="dprv_notice_a" href="' . $dprv_certificate_url . '" target="_blank" rel="copyright">';
 		
 		$DigiproveNotice .= '<amp-img class="dprv_notice_amp_img" src="' . plugins_url("dp_seal_trans_16x16.png", __FILE__ ) . '" ' . $dprv_image_scale . ' alt="Digiprove seal"></amp-img>';
 
-		$DigiproveNotice .= '<span class="dprv_notice_span dprv_notice_text">' . $dprv_notice;
+		//$DigiproveNotice .= '<span class="dprv_notice_span dprv_notice_text">' . $dprv_notice;
+		$DigiproveNotice .= '<span class="dprv_notice_span dprv_notice_text">' . stripslashes($dprv_notice);
 		$dprv_c_notice = get_option('dprv_c_notice');
 		if ($dprv_c_notice != "NoDisplay")
 		{
@@ -1043,15 +1098,21 @@ function dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $d
 			if (strlen($attributions) < 37)
 			{
 				$DigiproveNotice .= 'title="' . __('Attributions - owner(s) of some content', 'dprv_cp') . '">';
-				$DigiproveNotice .=  __('Acknowledgements', 'dprv_cp') . ':&nbsp;' . nl2HTML(htmlspecialchars(stripslashes($attributions), ENT_QUOTES, 'UTF-8'));
+				//$DigiproveNotice .=  __('Acknowledgements', 'dprv_cp') . ':&nbsp;' . nl2HTML(htmlspecialchars(stripslashes($attributions), ENT_QUOTES, 'UTF-8'));
+				$DigiproveNotice .= $dprv_attribution_caption . ':&nbsp;' . nl2HTML(htmlspecialchars(stripslashes($attributions), ENT_QUOTES, 'UTF-8'));
+
 			}
 			else
 			{
-				$DigiproveNotice .= 'on="tap:attribution-lightbox' . $dprv_post_id . '" role="navigation" tabindex="" title="' . __('Acknowledgements', 'dprv_cp') . ': ' . stripslashes($attributions) . '">';
-				$DigiproveNotice .=  __('Acknowledgements', 'dprv_cp') . ':&nbsp;' . nl2HTML(htmlspecialchars(stripslashes(substr($attributions, 0, 37)), ENT_QUOTES, 'UTF-8')) . ' ... ';
+				//$DigiproveNotice .= 'on="tap:attribution-lightbox' . $dprv_post_id . '" role="navigation" tabindex="" title="' . __('Acknowledgements', 'dprv_cp') . ': ' . stripslashes($attributions) . '">';
+				$DigiproveNotice .= 'on="tap:attribution-lightbox' . $dprv_post_id . '" role="navigation" tabindex="" title="' . $dprv_attribution_caption . ': ' . stripslashes($attributions) . '">';
+
+				//$DigiproveNotice .=  __('Acknowledgements', 'dprv_cp') . ':&nbsp;' . nl2HTML(htmlspecialchars(stripslashes(substr($attributions, 0, 37)), ENT_QUOTES, 'UTF-8')) . ' ... ';
+				$DigiproveNotice .=  $dprv_attribution_caption . ':&nbsp;' . nl2HTML(htmlspecialchars(stripslashes(substr($attributions, 0, 37)), ENT_QUOTES, 'UTF-8')) . ' ... ';
                 $DigiproveNotice .= '<svg class="dprv_icon" fill="#000000" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>';
                 $DigiproveNotice .= '<amp-lightbox id="attribution-lightbox' . $dprv_post_id . '" role="navigation" tabindex="" layout="nodisplay" on="tap:attribution-lightbox' . $dprv_post_id . '.close">';
-			    $DigiproveNotice .= '<div class="dprv_info_panel dprv_notice_text">' . __("Acknowledgements", "dprv_cp") . ': ' . stripslashes($attributions) . '</div>';
+			    //$DigiproveNotice .= '<div class="dprv_info_panel dprv_notice_text">' . __("Acknowledgements", "dprv_cp") . ': ' . stripslashes($attributions) . '</div>';
+			    $DigiproveNotice .= '<div class="dprv_info_panel dprv_notice_text">' . $dprv_attribution_caption . ': ' . stripslashes($attributions) . '</div>';
                 $DigiproveNotice .= '</amp-lightbox>';
 			}
             $DigiproveNotice .= "</div>";
@@ -1060,7 +1121,8 @@ function dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $d
         if ($licenseType != false && $licenseType != "" && $licenseType != "Not Specified")
 		{
             $DigiproveNotice .= '<span class="dprv_license_a dprv_notice_text"  role="navigation" tabindex="" on="tap:license-lightbox' . $dprv_post_id . '">';
-			$DigiproveNotice .= $licenseCaption . '&nbsp;&nbsp;';
+			//$DigiproveNotice .= $licenseCaption . '&nbsp;&nbsp;';
+			$DigiproveNotice .= stripslashes($licenseCaption) . '&nbsp;&nbsp;';
             $DigiproveNotice .= '<svg class="dprv_icon" fill="#000000" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h24v24H0z" fill="none"/><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>';
             $DigiproveNotice .= '</span>';
             $dprv_license_html = '<amp-lightbox id="license-lightbox' . $dprv_post_id . '"  role="navigation" tabindex="" layout="nodisplay" on="tap:license-lightbox' . $dprv_post_id . '.close">';
@@ -1068,7 +1130,7 @@ function dprv_composeNoticeAMP($dprv_certificate_id, $dprv_utc_date_and_time, $d
 			$dprv_license_html .= '<table class="dprv"><tbody>';
 			$dprv_license_html .= '<tr><td colspan="3">' . __("Original content here is published under these license terms", "dprv_cp") . ':</td></tr>';
 			$dprv_license_html .= '<tr><td>' . __('License&nbsp;Type', 'dprv_cp') . ':&nbsp;</td><td>' . htmlspecialchars(stripslashes($licenseType), ENT_QUOTES, "UTF-8") . '</td><td></td></tr>';
-			$dprv_license_html .= '<tr><td>' . __('Summary', 'dprv_cp') . ':&nbsp;</td><td colspan="2">' . htmlspecialchars(stripslashes($licenseAbstract), ENT_QUOTES, "UTF-8") . '</td></tr>';
+			$dprv_license_html .= '<tr><td>' . __('Abstract', 'dprv_cp') . ':&nbsp;</td><td colspan="2">' . htmlspecialchars(stripslashes($licenseAbstract), ENT_QUOTES, "UTF-8") . '</td></tr>';
 			if ($licenseURL != '')
 			{
 				$dprv_license_html .= '<tr><td>' . __('License&nbsp;URL', 'dprv_cp') . ':&nbsp;</td><td colspan="2"><a href="' . htmlspecialchars(stripslashes($licenseURL), ENT_QUOTES, "UTF-8") . '" target="_blank" rel="license">' . htmlspecialchars(stripslashes($licenseURL), ENT_QUOTES, "UTF-8") . '</a></td></tr>';

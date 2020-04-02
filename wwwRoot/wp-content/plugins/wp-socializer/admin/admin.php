@@ -35,6 +35,8 @@ class WPSR_Admin{
         
         add_action( 'plugins_loaded', array( __CLASS__, 'on_activate' ) );
         
+        add_filter( 'admin_footer_text', array( __class__, 'footer_text' ) );
+
         register_activation_hook( WPSR_BASE_NAME, array( __CLASS__, 'on_activate' ) );
         
     }
@@ -49,7 +51,7 @@ class WPSR_Admin{
         add_submenu_page( 'wp_socializer', 'WP Socializer - Admin page', 'Home', 'manage_options', 'wp_socializer', array( __CLASS__, 'admin_page' ) );
         
         foreach( $pages as $id=>$config ){
-            if( !isset( $config[ 'link' ] ) ){
+            if( !isset( $config[ 'hide_in_nav' ] ) ){
                 add_submenu_page( 'wp_socializer', 'WP Socializer - ' . $config[ 'name' ], $config[ 'name' ], 'manage_options', 'wp_socializer&tab="' . $id . '"', array( __CLASS__, 'admin_page' ) );
             }
         }
@@ -95,23 +97,36 @@ class WPSR_Admin{
             self::admin_header();
             
             echo '<div id="content">';
-                if(self::$current_page == 'home'){
-                    
-                    echo '<h1><i class="fa fa-star-of-life"></i>Features</h1>';
-                    self::admin_pages_list();
-                    
-                    echo '<h1><i class="fa fa-wrench"></i>Settings</h1>';
-                    self::admin_pages_list(false);
-                    
-                    self::intro_popups();
-                    
-                    self::admin_footer();
-                    
-                }else{
-                    call_user_func( self::$pages[ self::$current_page ][ 'page_callback' ] );
-                }
+
+            $c_share_buttons = get_option( 'wpsr_button_settings' );
+            $c_sharebar = get_option( 'wpsr_sharebar_settings' );
+
+            if( isset( $c_share_buttons[ 'ft_status' ] ) && $c_share_buttons[ 'ft_status' ] == 'enable' ){
+                echo '<div class="notice notice-error"><p>Classic share buttons feature is enabled on your site. Please note that this feature is <strong>deprecated</strong> and will be removed in the <strong>month of May</strong>. Please use the <strong>new and easy to configure</strong> "social icons" feature. For any help in migrating the settings, please post your queries in the <a href="https://www.aakashweb.com/forum/discuss/wordpress-plugins/wp-socializer/" target="_blank">support forums</a></p></div>';
+            }
+
+            if( isset( $c_sharebar[ 'ft_status' ] ) && $c_sharebar[ 'ft_status' ] == 'enable' ){
+                echo '<div class="notice notice-error"><p>Classic floating sharebar feature is enabled on your site. Please note that this feature is <strong>deprecated</strong> and will be removed in the <strong>month of May</strong>. Please use the <strong>new and easy to configure</strong> "floating sharebar" feature. For any help in migrating the settings, please post your queries in the <a href="https://www.aakashweb.com/forum/discuss/wordpress-plugins/wp-socializer/" target="_blank">support forums</a></p></div>';
+            }
+
+            if(self::$current_page == 'home'){
+                
+                echo '<h1><i class="fa fa-star-of-life"></i>Features</h1>';
+                self::admin_pages_list();
+                
+                echo '<h1><i class="fa fa-wrench"></i>Settings</h1>';
+                self::admin_pages_list(false);
+                
+            }else{
+                call_user_func( self::$pages[ self::$current_page ][ 'page_callback' ] );
+            }
+
             echo '</div>';
-            
+
+            self::admin_sidebar();
+
+            self::intro_popups();
+
         echo '</div>';
         
     }
@@ -144,6 +159,7 @@ class WPSR_Admin{
                 'page_callback' => '',
                 'feature' => true,
                 'link' => '',
+                'class' => '',
                 'form' => array(
                     'id' => '',
                     'name' => '',
@@ -171,7 +187,8 @@ class WPSR_Admin{
                 'page_card',
                 'card_' . $id,
                 (!$only_features ? 'card_others' : ''),
-                ($is_feat_active ? 'active' : '')
+                ($is_feat_active ? 'active' : ''),
+                $config['class']
             );
             
             echo '<a class="' . implode(' ', $card_class) . '" href="' . $link . '" style="background-image: url(' . $config['banner'] . ')">';
@@ -232,10 +249,6 @@ class WPSR_Admin{
         echo '<div class="main_form_footer postbox"><input type="submit" value="Save Settings" class="button button-primary" /></div>';
         
         echo '</form>';
-        
-        self::intro_popups();
-        
-        self::admin_footer();
         
     }
     
@@ -375,7 +388,10 @@ class WPSR_Admin{
         
         echo '<table class="form-table">';
         foreach( $input as $r ){
-            echo '<tr ' . ( isset( $r[2] ) ? $r[2]  : '' ) . '>';
+
+            $row_class = empty( $r[1] ) ? ' class="sub_head"' : '';
+
+            echo '<tr ' . ( isset( $r[2] ) ? $r[2]  : '' ) . '' . $row_class . '>';
                 echo '<th>' . $r[0] . '</th>';
                 echo '<td>' . $r[1] . '</td>';
             echo '</tr>';
@@ -685,7 +701,9 @@ class WPSR_Admin{
         if( in_array( get_current_screen()->id, $pages_display ) ){
             if( version_compare( WPSR_VERSION, get_option( 'wpsr_last_changelog' ), '>' ) ){
                 echo '<div class="notice notice-success is-dismissible">
-                    <p>' . sprintf( __( '<b>WP Socializer</b> is updated to latest version. Please visit the %ssettings%s page to see all the new features and the change log.', 'wpsr' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wp_socializer') ) . '">', '</a>' ) .  '</p>
+                    <p>' . __( '<b>WP Socializer</b> is updated to the latest brand new version', 'wpsr') . '</p>
+                    <p>' . sprintf( __( 'Social icons and floating sharebar features have been updated. Social icons and sharebar is now beautiful and easy to configure. Please visit the %ssettings%s page to configure them.', 'wpsr' ), '<a href="' . esc_url( admin_url( 'admin.php?page=wp_socializer') ) . '">', '</a>' ) . '</p>
+                    <p><a href="' . esc_url( admin_url( 'admin.php?page=wp_socializer') ) . '" class="button button-primary">' . __( 'Open settings', 'wpsr' ) . '</a></p>
                 </div>';
             }
         }
@@ -693,25 +711,45 @@ class WPSR_Admin{
     
     public static function admin_links(){
         echo '<div class="admin_links">
-            <a href="https://www.paypal.me/vaakash/6" target="_blank"><i class="fa fa-coffee cdarkred"></i>Buy me a coffee !</a>
-            <a href="https://wordpress.org/support/plugin/wp-socializer/reviews/?rate=5#new-post" target="_blank"><i class="fa fa-star corange"></i>Rate 5 stars</a>
-            <a href="https://www.aakashweb.com/forum/discuss/wordpress-plugins/wp-socializer/#new-post" target="_blank"><i class="fa fa-bug cred"></i>Any issues, ideas ?</a>
-            <a href="https://twitter.com/intent/tweet?hashtags=wordpress&ref_src=twsrc%5Etfw&related=vaakash&text=Check%20out%20WP%20Socializer%2C%20a%20powerful%20social%20media%20share%20icons%2C%20buttons%20plugin%20for%20WordPress&tw_p=tweetbutton&url=https%3A%2F%2Fwww.aakashweb.com%2Fwordpress-plugins%2Fwp-socializer%2F&via=vaakash" target="_blank"><i class="fab fa-twitter ctwitter"></i>Share this plugin</a>
+            <a href="https://wordpress.org/support/plugin/wp-socializer/reviews/?rate=5#new-post" target="_blank" class="rate_btn"><i class="fa fa-star"></i>Rate 5 stars</a>
+            <a href="https://twitter.com/intent/tweet?hashtags=wordpress&ref_src=twsrc%5Etfw&related=vaakash&text=Check%20out%20WP%20Socializer%2C%20a%20powerful%20social%20media%20share%20icons%2C%20buttons%20plugin%20for%20WordPress&tw_p=tweetbutton&url=https%3A%2F%2Fwww.aakashweb.com%2Fwordpress-plugins%2Fwp-socializer%2F&via=vaakash" target="_blank" class="twitter_btn"><i class="fab fa-twitter"></i>Recommend this plugin</a>
         </div>';
     }
     
-    public static function admin_footer(){
+    public static function footer_text( $text ){
+
+        $screen = get_current_screen();
+
+        if( self::$pagehook == $screen->id ){
+            return '<img src="' . WPSR_ADMIN_URL . '/images/icons/aakash-web.png" /> Thank you for using WP Socializer. Created by <a href="https://www.aakashweb.com" target="_blank">Aakash Chakravarthy</a> - Follow me on <a href="https://twitter.com/vaakash", target="_blank">Twitter</a>, <a href="https://fb.com/aakashweb" target="_blank">Facebook</a>, <a href="https://www.linkedin.com/in/vaakash/" target="_blank">LinkedIn</a>. More <a href="https://www.aakashweb.com/wordpress-plugins/" target="_blank">WordPress plugins</a>';
+        }
+
+        return $text;
+
+    }
+
+    public static function admin_sidebar(){
         
+        echo '<div id="sidebar">';
+
+        echo '<div class="side_card ufw">';
+        echo '<h2><i class="fas fa-heart"></i> More plugins</h2>';
+        echo '<div class="banner"><a href="https://www.aakashweb.com/wordpress-plugins/ultimate-floating-widgets/?utm_source=wp-socializer&utm_medium=sidebar&utm_campaign=ufw" target="_blank"><img src="' . WPSR_ADMIN_URL . '/images/banners/ufw.png" /></a></div>';
+        echo '<p>Ultimate floating widgets is a WordPress plugin to create floating sidebars in a popup or in flyouts and add any widget to it. From the same author of WP Socializer.</p>';
+        echo '<a href="https://www.aakashweb.com/wordpress-plugins/ultimate-floating-widgets/?utm_source=wp-socializer&utm_medium=sidebar&utm_campaign=ufw" class="button button-primary" target="_blank">Check it out ! <i class="fas fa-chevron-right"></i></a>';
+        echo '</div>';
+
         echo '
-        <div class="coffee_box">
+        <div class="side_card coffee_box">
+        
+        <h2><i class="fas fa-mug-hot"></i> Buy me a coffee !</h2>
+        <p>Thanks for using WP Socializer. If you found the plugin useful buy me a coffee !</p>
+        <p>Your donation will help further develop, add new features and support this plugin.</p>
         
         <div class="coffee_amt_wrap">
-        <p><select class="coffee_amt">
-            <option value="2">$2</option>
-            <option value="3">$3</option>
-            <option value="4">$4</option>
-            <option value="5" selected="selected">$5</option>
-            <option value="6">$6</option>
+        <select class="coffee_amt">
+            <option value="5">$5</option>
+            <option value="6" selected="selected">$6</option>
             <option value="7">$7</option>
             <option value="8">$8</option>
             <option value="9">$9</option>
@@ -719,23 +757,19 @@ class WPSR_Admin{
             <option value="11">$11</option>
             <option value="12">$12</option>
             <option value="">Custom</option>
-        </select></p>
-        <a class="button button-primary buy_coffee_btn" href="https://www.paypal.me/vaakash/5" data-link="https://www.paypal.me/vaakash/" target="_blank">Buy me a coffee !</a>
+        </select>
+        <a class="button button-primary buy_coffee_btn" href="https://www.paypal.me/vaakash/6" data-link="https://www.paypal.me/vaakash/" target="_blank">Buy me a coffee !<i class="fas fa-chevron-right"></i></a>
         </div>
-        
-        <h2>Buy me a coffee !</h2>
-        <p>Thank you for using WP Socializer. If you found the plugin useful buy me a coffee ! Your donation will motivate and make me happy for all the efforts. You can donate via PayPal.</p>
-        
+
         </div>
         ';
-        
-        echo '<div class="page_footer">
-        <p><img src="' . WPSR_ADMIN_URL . '/images/icons/aakash-web.png" /> Created by <a href="https://goo.gl/aHKnsM" target="_blank">Aakash Chakravarthy</a> - Follow me on <a href="https://twitter.com/vaakash", target="_blank">Twitter</a>, <a href="https://fb.com/aakashweb" target="_blank">Facebook</a>, <a href="https://www.linkedin.com/in/vaakash/" target="_blank">LinkedIn</a>. Check out <a href="https://goo.gl/OAxx4l" target="_blank">my other works</a>.</p>
-        </div>';
-        
+
+        echo '</div>';
+
     }
-    
+
     public static function intro_popups(){
+
         echo '<div class="welcome_wrap intro_popup style_ele">
         <section></section>
         <footer><button class="button button-primary close_changelog_btn">' . __( 'Start using WP Socializer', 'wpsr' ) . '</button></footer>

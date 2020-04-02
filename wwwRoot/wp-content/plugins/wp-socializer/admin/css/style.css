@@ -7,8 +7,7 @@
     border-bottom: 1px solid #dfdfdf;
 }
 #wpsr_header hgroup{
-    width: 70%;
-    margin: 0 auto;
+    width: 75%;
     position: relative;
     padding-left: 20px;
 }
@@ -45,8 +44,7 @@ h1.wpsr_title a i{
 }
 
 #content {
-    width: 70%;
-    margin: 0 auto;
+    width: 75%;
 }
 #content h1 {
     padding: 0;
@@ -55,6 +53,44 @@ h1.wpsr_title a i{
 #content h1 i{
     font-size: 0.8em;
     margin: 0;
+}
+
+#sidebar{
+    position: fixed;
+    width: calc(25% - 90px);
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.side_card {
+    padding: 25px;
+    border-radius: 5px;
+    background-position: 30px center;
+    margin-bottom: 15px;
+    background-size: 95px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+}
+.side_card h2 {
+    margin: -25px -25px 0 -25px;
+    padding: 15px 10px 15px 10px;
+    border-radius: 5px 5px 0 0;
+}
+.side_card h2 i {
+    margin: 0 10px;
+}
+.side_card .banner{
+    margin: 0 -25px;
+}
+.side_card .banner img{
+    width: 100%;
+}
+.side_card .button-primary{
+    width: 100%;
+}
+.side_card .button-primary i {
+    float: right;
+    margin-top: 7px;
 }
 
 .admin_pages_list{
@@ -73,8 +109,6 @@ h1.wpsr_title a i{
     position: relative;
     box-sizing: border-box;
     text-decoration: none;
-    border-radius: 5px;
-    overflow: hidden;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
 }
 .page_card h3{
@@ -92,6 +126,22 @@ h1.wpsr_title a i{
 .page_card.active .page_feat_status{
     background: #4eb951;
     color: #fff;
+}
+.page_card.new_ft:before{
+    content: 'New';
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    background: red;
+    padding: 3px 10px;
+    color: #fff;
+    border-radius: 5px;
+}
+.page_card.old_ft{
+    opacity: 0.3;
+}
+.page_card.old_ft:hover{
+    opacity: 1;
 }
 
 
@@ -126,24 +176,6 @@ h1.wpsr_title a i{
 }
 
 
-.postbox h3 {
-    font-size: 13px;
-    text-transform: uppercase;
-    padding: 8px 12px;
-    margin: 0;
-    line-height: 1.4;
-    cursor: pointer !important;
-}
-.postbox h3:after{
-    content: '-';
-    display: inline-block;
-    position: absolute;
-    right: 15px;
-    top: 8px;
-}
-.postbox h3.pbclosed:after{
-    content: '+';
-}
 .postbox hr{
     margin: 15px 0;
     border-bottom: none;
@@ -524,6 +556,18 @@ h1.wpsr_title a i{
 .vedit_wrap{
     margin: 0;
 }
+.vedit_wrap.vertical .veditor{
+    width: 250px;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+.vedit_wrap.vertical .veditor ul{
+    min-height: 200px;
+}
+.vedit_wrap.vertical .veditor ul li{
+    float: none !important;
+    margin: 15px auto;
+}
 .vedit_menu{
     margin: 15px 0 0 0;
 }
@@ -531,12 +575,12 @@ h1.wpsr_title a i{
     margin: 0 15px 0 0;
 }
 
-
 .veditor{
-    border: 1px dashed #DEDEDE;
+    border: 2px dashed #DEDEDE;
     padding: 0;
     background: #fff;
     clear: both;
+    margin: 30px 0;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
@@ -565,7 +609,8 @@ h1.wpsr_title a i{
     opacity: 0.2;
     position: absolute;
     left: 50%;
-    top: 25px;
+    top: 50%;
+    transform: translate(-50%, -56%);
 }
 .veditor > *{
     position: relative;
@@ -1178,10 +1223,22 @@ select[name="ft_status"]{
     font-size: 20px;
     height: 40px !important;
     padding: 5px !important;
+    max-width: 100% !important;
 }
 .ssb_add{
     height: 38px !important;
     border-radius: 0 5px 5px 0 !important;
+}
+
+.form-table tr.sub_head {
+    border-bottom: 1px solid #dfdfdf;
+}
+.form-table tr.sub_head th {
+    font-weight: normal !important;
+    color: #666;
+}
+.form-table .inline_field{
+    margin-right: 10px;
 }
 
 .img_select{
@@ -1301,11 +1358,6 @@ select[name="ft_status"]{
     margin-left: 10px;
 }
 
-.custom_html_editor{
-    width: 100%;
-}
-
-
 .template_tab{
     display: flex;
     margin-bottom: 30px;
@@ -1330,25 +1382,31 @@ select[name="ft_status"]{
 
 .admin_links{
     position: absolute;
-    top: 50%;
-    right: 0;
+    top: 40px;
+    right: 20px;
     display: flex;
     transform: translateY(-50%);
 }
 .admin_links a{
-    background: #fff;
     border-radius: 5px;
-    padding: 10px 15px;
+    padding: 7px 10px;
     margin: 0 0 0 10px;
     text-decoration: none;
-    box-shadow: 0 2px 6px -5px #000;
     font-size: 14px;
+    box-shadow: 0 1px 2px -1px #00000085;
+    color: #fff;
 }
 .admin_links a:hover{
-    background: #dfdfdf;
+    opacity: 0.5;
 }
 .admin_links a i{
     margin-right: 10px;
+}
+.admin_links .rate_btn{
+    background: linear-gradient(45deg, #ff9800, #ffd400);
+}
+.admin_links .twitter_btn{
+    background: linear-gradient(45deg, #4da7de, #03c5f1);
 }
 
 .intro_popup{
@@ -1416,18 +1474,16 @@ select[name="ft_status"]{
     margin-left: 10px;
 }
 
-.page_footer p {
+#footer-left{
     font-size: 12px;
     font-style: italic;
     margin: 5px 0;
     color: #757575;
 }
-.page_footer p img{
+#footer-left img{
     vertical-align: middle;
     margin-right: 5px;
-}
-.page_footer .fright p{
-    text-align: right;
+    width: 20px;
 }
 
 .veditor > .ui-sortable-helper{
@@ -1476,7 +1532,9 @@ select[name="ft_status"]{
 }
 
 .custom_html_editor{
+    font-family: monospace;
     padding: 10px;
+    width: 100%;
 }
 .toggle_html_editor_btn{
     float: right;
@@ -1503,30 +1561,36 @@ select[name="ft_status"]{
     color: #4caf50;
 }
 
-.coffee_box{
-    padding: 25px;
-    border: 1px solid #4CAF50;
-    padding-left: 16%;
-    background: url(../images/icons/coffee.svg) no-repeat;
-    border-radius: 5px;
-    background-position: 30px center;
-    margin-bottom: 15px;
-    background-size: 110px;
-}
+/** Promo **/
+
 .coffee_box h2{
-    font-size: 22px;
-    margin-top: 10px;
+    background-color: #5fab07;
+    color: #fff;
 }
-.coffee_box .coffee_amt{
-    width: 120px;
-    padding: 10px;
-    height: auto;
-    font-size: 1.5em;
+.coffee_box .coffee_amt {
+    font-size: 1.25em;
+    margin-bottom: 10px;
+}
+.coffee_box h2 i{
+    color: yellow;
 }
 .coffee_amt_wrap{
-    float: right;
-    margin: -10px 20px 0 20px;
+    display: flex;
+    flex-direction: column;
 }
+.coffee_amt{
+    width: 100%;
+}
+
+.ufw h2{
+    background-color: #4a81d1;
+    color: #fff;
+}
+.ufw h2 i{
+    color: #FF5722;
+}
+
+/** Misc **/
 
 .page_footer{
     padding: 10px;
@@ -1559,6 +1623,146 @@ select[name="ft_status"]{
     clear: both;
 }
 
+/** V5 **/
+/** SIC - Social icons - Common **/
+.sic_backdrop{
+    background: rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    display: none;
+}
+.sic_content {
+    background: #fff;
+    margin: 0 auto;
+    width: 50%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px 0px;
+}
+.sic_content header {
+    padding: 20px;
+    border-bottom: 1px solid #dfdfdf;
+}
+.sic_content section {
+    overflow: auto;
+    height: 100%;
+    padding: 20px;
+}
+.sic_content footer{
+    text-align: right;
+    padding: 20px;
+    border-top: 1px solid #dfdfdf;
+}
+.sic_content h3 {
+    margin: 0;
+    padding: 0;
+}
+.sic_content .sic_close_btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+.sic_content .sic_close_btn:hover {
+    opacity: 0.5;
+}
+.sic_content .form-table{
+    margin: 0;
+}
+
+.sic_list {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.sic_list li {
+    margin: 0 10px 10px 0;
+    display: flex;
+    padding: 0 5px;
+    color: #fff;
+}
+.sic_list li > * {
+    padding: 10px 5px;
+    line-height: 1;
+}
+.sic_list li > i{
+    font-size: 15px;
+}
+.sic_list li span {
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    padding-right: 10px;
+    margin-right: 5px;
+}
+.sic_list .sic_action_btn{
+    opacity: 0.5;
+    cursor: pointer;
+}
+.sic_list .sic_action_btn:hover{
+    opacity: 1;
+}
+
+/** SIP - Social icons - picker **/
+.sip_filter{
+    margin-bottom: 20px;
+}
+.sip_selector .sie_settings_btn, .sip_selector .sie_delete_btn{
+    display: none;
+}
+.sip_selector li{
+    cursor: pointer;
+}
+
+/** SIE - Social icons - editor **/
+.sie_editor{
+    padding: 20px 10px 10px 20px;
+    border: 1px dashed #dfdfdf;
+    background: #fff;
+}
+.sie_toolbar{
+    padding: 20px;
+    background: #f7f7f7;
+    border: 1px solid #dfdfdf;
+    margin-top: -1px;
+}
+.sie_selected li{
+    cursor: move;
+}
+.sie_selected li.ui-sortable-placeholder{
+    visibility: visible !important;
+    background-color: #333;
+}
+.sie_selected li.ui-sortable-helper {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.5)
+}
+.sie_selected .sip_add_btn{
+    display: none;
+}
+.sie_selected:empty {
+    height: 30px;
+    position: relative;
+    margin: 0 10px 10px 0;
+}
+.sie_selected:empty:after{
+    content: 'No social icons added';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+    font-style: italic;
+}
+
 @media screen and (max-width: 1300px) {
     .admin_links{
         position: static;
@@ -1583,7 +1787,13 @@ select[name="ft_status"]{
     .main_form_footer{
       position: static;
     }
-    .coffee_box{
-        background: #fff;
+    #sidebar{
+        position: static;
+        width: 100%;
+        transform: none;
+        display: flex;
+    }
+    #sidebar .side_card{
+        margin-right: 15px;
     }
 }

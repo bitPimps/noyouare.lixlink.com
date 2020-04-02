@@ -20,6 +20,11 @@
     float: right;
 }
 
+.wpsr_widget_selector {
+    display: block;
+    min-width: 100%;
+}
+
 #available-widgets .wpsr_widget_highlight{
     box-shadow: 0 5px 20px 0px;
 }

@@ -14,7 +14,8 @@ class wpsr_service_share_counter{
             'text' => 'Shares',
             'counter_color' => '#000',
             'add_services' => array(),
-            'orientation' => 'vl'
+            'orientation' => 'vl',
+            'size' => '32px'
         );
         
     }
@@ -49,8 +50,19 @@ class wpsr_service_share_counter{
         
         $total_holder = WPSR_Share_Counter::placeholder( $page_info[ 'url' ], $settings[ 'add_services' ] );
         
-        $html .= '<div class="wpsr-counter ' . ( ( $settings[ 'orientation' ] == 'hl' ) ? 'wpsrc-hl' : '' ) . '">';
-        $html .= '<span class="scount" style="color:' . esc_attr( $settings[ 'counter_color' ] ) . '">' . $total_holder . '</span>';
+        $classes = array( 'wpsr-counter', 'wpsrc-sz-' . $settings[ 'size' ] );
+
+        if( $settings[ 'orientation' ] == 'hl' ){
+            array_push( $classes, 'wpsrc-hl' );
+        }
+
+        $style = '';
+        if( $settings[ 'counter_color' ] != '' ){
+            $style = 'style="color:' . $settings['counter_color'] . '"';
+        }
+
+        $html .= '<div class="' . implode( ' ', $classes ) . '" ' . $style . '>';
+        $html .= '<span class="scount">' . $total_holder . '</span>';
         $html .= '<small class="stext">' . $settings[ 'text' ] . '</small>';
         $html .= '</div>';
         

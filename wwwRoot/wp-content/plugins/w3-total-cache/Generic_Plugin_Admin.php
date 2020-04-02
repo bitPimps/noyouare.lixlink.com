@@ -41,6 +41,9 @@ class Generic_Plugin_Admin {
 		add_action( 'admin_init_w3tc_dashboard', array(
 				'\W3TC\Generic_WidgetServices',
 				'admin_init_w3tc_dashboard' ) );
+		add_action( 'admin_init_w3tc_dashboard', array(
+				'\W3TC\Generic_WidgetBoldGrid',
+				'admin_init_w3tc_dashboard' ) );
 
 		add_action( 'admin_enqueue_scripts', array(
 				$this,
@@ -296,38 +299,19 @@ class Generic_Plugin_Admin {
 
 ?>
 		<style type="text/css" media="screen">
-		#toplevel_page_w3tc_dashboard .wp-menu-image {
-			background: url(<?php echo plugins_url( 'pub/img/w3tc-sprite.png', W3TC_FILE )?>) no-repeat 0 -32px !important;
-		}
-		#toplevel_page_w3tc_dashboard:hover .wp-menu-image,
-		#toplevel_page_w3tc_dashboard.wp-has-current-submenu .wp-menu-image {
-			background-position:0 0 !important;
-		}
-		#icon-edit.icon32-posts-casestudy {
-			background: url(<?php echo plugins_url( 'pub/img/w3tc-sprite.png', W3TC_FILE ) ?>) no-repeat;
-		}
-		/**
-		* HiDPI Displays
-		*/
-		@media print,
-		(-o-min-device-pixel-ratio: 5/4),
-		(-webkit-min-device-pixel-ratio: 1.25),
-		(min-resolution: 120dpi) {
-
-			#toplevel_page_w3tc_dashboard .wp-menu-image {
-				background-image: url(<?php echo plugins_url( 'pub/img/w3tc-sprite-retina.png', W3TC_FILE )?>) !important;
-				background-size: 30px 64px !important;
-			}
-			#toplevel_page_w3tc_dashboard:hover .wp-menu-image,
-			#toplevel_page_w3tc_dashboard.wp-has-current-submenu .wp-menu-image {
-				background-position:0 0 !important;
-			}
-			#icon-edit.icon32-posts-casestudy {
-				background-image: url(<?php echo plugins_url( 'pub/img/w3tc-sprite-retina.png', W3TC_FILE ) ?>) !important;
-				background-size: 30px 64px !important;
-			}
+		li.toplevel_page_w3tc_dashboard .wp-menu-image:before{
+			content:'\0041';
+			top: 2px;
+			font-family: 'w3tc';
 		}
 		</style>
+		<script>
+		jQuery(document).ready( function($) {
+			$('#toplevel_page_w3tc_dashboard ul li').find('a[href*="w3tc_faq"]')
+				.prop('target','_blank')
+				.prop('href', <?php echo json_encode(W3TC_FAQ_URL) ?>);
+		});
+		</script>
 		<?php
 	}
 

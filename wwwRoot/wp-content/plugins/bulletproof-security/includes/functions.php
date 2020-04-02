@@ -367,8 +367,22 @@ switch ( $bps_version ) {
 		
 		} else {
 
-			$text = '<div class="update-nag" style="background-color:#dfecf2;border:1px solid #999;font-size:1em;font-weight:600;padding:2px 5px;margin-top:2px;-moz-border-radius-topleft:3px;-webkit-border-top-left-radius:3px;-khtml-border-top-left-radius:3px;border-top-left-radius:3px;-moz-border-radius-topright:3px;-webkit-border-top-right-radius:3px;-khtml-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);-moz-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);"><font color="#fb0101">'.__('BPS Alert! Your site may not be protected by BulletProof Security', 'bulletproof-security').'</font><br>'.__('The BPS version: BULLETPROOF x.x SECURE .HTACCESS line of code was not found at the top of your Root htaccess file.', 'bulletproof-security').'<br>'.__('The BPS version line of code MUST be at the very top of your Root htaccess file.', 'bulletproof-security').'<br><a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/wizard/wizard.php' ).'">'.esc_attr__('Click Here', 'bulletproof-security').'</a>'.__(' to go to the BPS Setup Wizard page and click the Setup Wizard button to setup the BPS plugin again.', 'bulletproof-security').'<br>'.__('Important Note: If you manually added other htaccess code above the BPS version line of code in your root htaccess file, you can copy that code to BPS Root Custom Code so that your code is saved in the correct place in the BPS root htaccess file. ', 'bulletproof-security').'<br><a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-7' ).'">'.esc_attr__('Click Here', 'bulletproof-security').'</a>'.__(' to go to the BPS Custom Code page, add your Root custom htaccess code in an appropriate Root Custom Code text box and click the Save Root Custom Code button before running the Setup Wizard again.', 'bulletproof-security').'</div>';
+			global $current_user;
+			$user_id = $current_user->ID;		
+			
+			if ( ! get_user_meta($user_id, 'bps_ignore_root_version_check_notice') ) {
+			
+			if ( esc_html($_SERVER['QUERY_STRING']) == '' && basename(esc_html($_SERVER['REQUEST_URI'])) != 'wp-admin' ) {
+				$bps_base = basename(esc_html($_SERVER['REQUEST_URI'])) . '?';
+			} elseif ( esc_html($_SERVER['QUERY_STRING']) == '' && basename(esc_html($_SERVER['REQUEST_URI'])) == 'wp-admin' ) {
+				$bps_base = basename( str_replace( 'wp-admin', 'index.php?', esc_html($_SERVER['REQUEST_URI'])));
+			} else {
+				$bps_base = str_replace( admin_url(), '', esc_html($_SERVER['REQUEST_URI']) ) . '&';
+			}
+
+			$text = '<div class="update-nag" style="background-color:#dfecf2;border:1px solid #999;font-size:1em;font-weight:600;padding:2px 5px;margin-top:2px;-moz-border-radius-topleft:3px;-webkit-border-top-left-radius:3px;-khtml-border-top-left-radius:3px;border-top-left-radius:3px;-moz-border-radius-topright:3px;-webkit-border-top-right-radius:3px;-khtml-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);-moz-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);"><font color="#fb0101">'.__('BPS Alert! Your site may not be protected by BulletProof Security', 'bulletproof-security').'</font><br>'.__('The BPS version: BULLETPROOF x.x SECURE .HTACCESS line of code was not found at the top of your Root htaccess file.', 'bulletproof-security').'<br>'.__('The BPS version line of code MUST be at the very top of your Root htaccess file.', 'bulletproof-security').'<br><a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/wizard/wizard.php' ).'">'.esc_attr__('Click Here', 'bulletproof-security').'</a>'.__(' to go to the BPS Setup Wizard page and click the Setup Wizard button to setup the BPS plugin again.', 'bulletproof-security').'<br>'.__('Important Note: If you manually added other htaccess code above the BPS version line of code in your root htaccess file, you can copy that code to BPS Root Custom Code so that your code is saved in the correct place in the BPS root htaccess file. ', 'bulletproof-security').'<br><a href="'.admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-7' ).'">'.esc_attr__('Click Here', 'bulletproof-security').'</a>'.__(' to go to the BPS Custom Code page, add your Root custom htaccess code in an appropriate Root Custom Code text box and click the Save Root Custom Code button before running the Setup Wizard again.', 'bulletproof-security').'<br>'.__('To Dismiss this Notice click the Dismiss Notice button below. To Reset Dismiss Notices click the Reset|Recheck Dismiss Notices button on the Custom Code page.', 'bulletproof-security').'<br><div style="float:left;margin:3px 0px 3px 0px;padding:2px 6px 2px 6px;background-color:#e8e8e8;border:1px solid gray;"><a href="'.$bps_base.'bps_root_version_check_nag_ignore=0'.'" style="text-decoration:none;font-weight:bold;">'.__('Dismiss Notice', 'bulletproof-security').'</a></div></div>';
 			echo $text;
+			}
 		}
 
 		break;	
@@ -410,6 +424,8 @@ switch ( $bps_version ) {
 		
 		// .53: Create new block of Request Methods Filtered code & help text.
 		// .53.1: Old RMF Code exists: Conditional host check added to create either R=405 for Go Daddy or dumbed down code for all other hosts.
+		// 3.9: removing this RMF cleanup code. Only dumbed down RMF code is created now.		
+		/*
 		if ( preg_match( $pattern18, $stringReplace, $matches ) && preg_match( '/secureserver\.net/', $hostaddress, $matches ) ) {
 			$stringReplace = preg_replace( $pattern18, "# REQUEST METHODS FILTERED\n# If you want to allow HEAD Requests use BPS Custom Code and copy\n# this entire REQUEST METHODS FILTERED section of code to this BPS Custom Code\n# text box: CUSTOM CODE REQUEST METHODS FILTERED.\n# See the CUSTOM CODE REQUEST METHODS FILTERED help text for additional steps.\nRewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]\nRewriteRule ^(.*)$ - [F]\nRewriteCond %{REQUEST_METHOD} ^(HEAD) [NC]\nRewriteRule ^(.*)$ - [R=405,L]", $stringReplace);
 		} elseif ( preg_match( $pattern18, $stringReplace, $matches ) && ! preg_match( '/secureserver\.net/', $hostaddress, $matches ) ) {
@@ -426,7 +442,8 @@ switch ( $bps_version ) {
 		if ( preg_match( $pattern20, $stringReplace, $matches ) ) {			
 			$stringReplace = preg_replace( $pattern20, "RewriteRule ^(.*)$ " . $bps_get_wp_root_secure . $bps_plugin_dir . "/bulletproof-security/405.php [L]", $stringReplace);
 		}
-
+		*/
+		
 		// 2.0: Add additional https scheme conditions to 3 htaccess security rules and combine 2 rules into 1 rule.
 		if ( preg_match( $pattern21, $stringReplace, $matches ) ) {			
 			$stringReplace = preg_replace( $pattern21, "RewriteCond %{THE_REQUEST} (\?|\*|%2a)+(%20+|\\\\\s+|%20+\\\\\s+|\\\\\s+%20+|\\\\\s+%20+\\\\\s+)(http|https)(:/|/) [NC,OR]", $stringReplace);	
@@ -570,6 +587,18 @@ switch ( $bps_version ) {
 	}
 	}
 	}
+	}
+}
+
+// 3.7: Changed the BPS version check in the root htaccess file to a Dismiss Notice
+add_action('admin_init', 'bps_root_version_check_nag_ignore');
+
+function bps_root_version_check_nag_ignore() {
+global $current_user;
+$user_id = $current_user->ID;
+        
+	if ( isset($_GET['bps_root_version_check_nag_ignore']) && '0' == $_GET['bps_root_version_check_nag_ignore'] ) {
+		add_user_meta($user_id, 'bps_ignore_root_version_check_notice', 'true', true);
 	}
 }
 

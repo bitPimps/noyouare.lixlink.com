@@ -9,7 +9,11 @@ function dprv_DisplayAdvanced()
 	}
 	document.getElementById("BasicTab").style.borderBottom="1px solid #666666";
 	document.getElementById("AdvancedTab").style.borderBottom="0px";
-	document.getElementById("LicenseTab").style.borderBottom="1px solid #666666";
+
+    document.getElementById("DigiproveCertTab").style.borderBottom = "1px solid #666666";
+
+
+    document.getElementById("LicenseTab").style.borderBottom = "1px solid #666666";
 	document.getElementById("ContentTab").style.borderBottom="1px solid #666666";
 	document.getElementById("CopyProtectTab").style.borderBottom="1px solid #666666";
 	document.getElementById("HistoryTab").style.borderBottom="1px solid #666666";
@@ -20,8 +24,12 @@ function dprv_DisplayAdvanced()
 		document.getElementById("BasicPart3").style.display="none";
 	}	
 	document.getElementById("AdvancedPart1").style.display="";
-	document.getElementById("AdvancedPart2").style.display="";
-	document.getElementById("ContentPart1").style.display="none";
+
+
+    //document.getElementById("AdvancedPart2").style.display = "";
+    document.getElementById("AdvancedPart2").style.display = "none";
+
+    document.getElementById("ContentPart1").style.display = "none";
 	document.getElementById("ContentPart2").style.display="none";
 	document.getElementById("License").style.display="none";
 	document.getElementById("CopyProtect").style.display="none";
@@ -30,6 +38,45 @@ function dprv_DisplayAdvanced()
 	dprv_HideHelpText();
 }
 
+
+function dprv_DisplayDigiprove()
+{
+    if (dprv_enrolled == "No")
+    {
+        return;
+    }
+    document.getElementById("BasicTab").style.borderBottom = "1px solid #666666";
+    document.getElementById("AdvancedTab").style.borderBottom = "1px solid #666666";
+
+    document.getElementById("DigiproveCertTab").style.borderBottom = "0px";
+
+
+    document.getElementById("LicenseTab").style.borderBottom = "1px solid #666666";
+    document.getElementById("ContentTab").style.borderBottom = "1px solid #666666";
+    document.getElementById("CopyProtectTab").style.borderBottom = "1px solid #666666";
+    document.getElementById("HistoryTab").style.borderBottom = "1px solid #666666";
+    document.getElementById("BasicPart1").style.display = "none";
+    document.getElementById("BasicPart2").style.display = "none";
+    if (document.getElementById("BasicPart3") != null)
+    {
+        document.getElementById("BasicPart3").style.display = "none";
+    }
+    document.getElementById("AdvancedPart1").style.display = "none";
+
+    document.getElementById("AdvancedPart2").style.display = "";
+
+    document.getElementById("ContentPart1").style.display = "none";
+    document.getElementById("ContentPart2").style.display = "none";
+    document.getElementById("License").style.display = "none";
+    document.getElementById("CopyProtect").style.display = "none";
+    document.getElementById("History").style.display = "none";
+    document.getElementById('dprv_submit').style.display = '';
+    dprv_HideHelpText();
+}
+
+
+
+
 function dprv_DisplayLicenseTab()
 {
 	if (dprv_enrolled == "No")
@@ -37,7 +84,11 @@ function dprv_DisplayLicenseTab()
 		return;
 	}
 	document.getElementById("BasicTab").style.borderBottom="1px solid #666666";
-	document.getElementById("AdvancedTab").style.borderBottom="1px solid #666666";
+    document.getElementById("AdvancedTab").style.borderBottom = "1px solid #666666";
+
+    document.getElementById("DigiproveCertTab").style.borderBottom = "1px solid #666666";
+
+
 	document.getElementById("LicenseTab").style.borderBottom="0px";
 	document.getElementById("ContentTab").style.borderBottom="1px solid #666666";
 	document.getElementById("CopyProtectTab").style.borderBottom="1px solid #666666";
@@ -66,7 +117,11 @@ function dprv_DisplayContentTab()
 		return;
 	}
 	document.getElementById("BasicTab").style.borderBottom="1px solid #666666";
-	document.getElementById("AdvancedTab").style.borderBottom="1px solid #666666";
+    document.getElementById("AdvancedTab").style.borderBottom = "1px solid #666666";
+
+    document.getElementById("DigiproveCertTab").style.borderBottom = "1px solid #666666";
+
+
 	document.getElementById("LicenseTab").style.borderBottom="1px solid #666666";
 	document.getElementById("ContentTab").style.borderBottom="0px";
 	document.getElementById("CopyProtectTab").style.borderBottom="1px solid #666666";
@@ -98,7 +153,10 @@ function dprv_DisplayCopyProtect()
 	}
 	document.getElementById("BasicTab").style.borderBottom="1px solid #666666";
 	document.getElementById("AdvancedTab").style.borderBottom="1px solid #666666";
-	document.getElementById("LicenseTab").style.borderBottom="1px solid #666666";
+
+    document.getElementById("DigiproveCertTab").style.borderBottom = "1px solid #666666";
+
+    document.getElementById("LicenseTab").style.borderBottom = "1px solid #666666";
 	document.getElementById("ContentTab").style.borderBottom="1px solid #666666";
 	document.getElementById("CopyProtectTab").style.borderBottom="0px";
 	document.getElementById("HistoryTab").style.borderBottom="1px solid #666666";
@@ -125,7 +183,10 @@ function dprv_DisplayHistory()
 		return;
 	}
 	document.getElementById("BasicTab").style.borderBottom="1px solid #666666";
-	document.getElementById("AdvancedTab").style.borderBottom="1px solid #666666";
+    document.getElementById("AdvancedTab").style.borderBottom = "1px solid #666666";
+
+    document.getElementById("DigiproveCertTab").style.borderBottom = "1px solid #666666";
+
 	document.getElementById("LicenseTab").style.borderBottom="1px solid #666666";
 	document.getElementById("ContentTab").style.borderBottom="1px solid #666666";
 	document.getElementById("CopyProtectTab").style.borderBottom="1px solid #666666";
@@ -154,7 +215,10 @@ function dprv_DisplayBasic()
 {
 	document.getElementById("BasicTab").style.borderBottom="0px";
 	document.getElementById("AdvancedTab").style.borderBottom="1px solid #666666";
-	document.getElementById("LicenseTab").style.borderBottom="1px solid #666666";
+
+    document.getElementById("DigiproveCertTab").style.borderBottom = "1px solid #666666";
+
+    document.getElementById("LicenseTab").style.borderBottom = "1px solid #666666";
 	document.getElementById("ContentTab").style.borderBottom="1px solid #666666";
 	document.getElementById("CopyProtectTab").style.borderBottom="1px solid #666666";
 	document.getElementById("HistoryTab").style.borderBottom="1px solid #666666";
@@ -603,9 +667,11 @@ function dprv_ShowTermsOfUseText()
 function dprv_createOwnText(element)
 {
 	if (dprv_subscription_type == "Basic" || dprv_subscription_type == "" || dprv_subscription_expired == "Yes" )
-	{
-		dprv_SubscribersOnly("Custom License");
-		element.value="";
+    {
+        ///////////////////////////////////////////////
+        //dprv_SubscribersOnly("Custom Notice");
+		//element.value="";
+        ////////////////////////////////////////////////
 	}
 	dprv_Preview();
 }
@@ -911,7 +977,7 @@ function dprv_PreviewLicense()
 		document.getElementById('dprv_amend_license_button').style.display='none';
 		document.getElementById('dprv_remove_license_button').style.display='none';
 		document.getElementById("dprv_license_caption").innerHTML = "";
-		document.getElementById("dprv_license_abstract").innerHTML = "";
+        document.getElementById("dprv_license_abstract").innerHTML = "";
 		document.getElementById("dprv_license_url").innerHTML = "";
 		document.getElementById("dprv_license_url").href = "";
 	}
@@ -924,7 +990,7 @@ function dprv_PreviewLicense()
 			if (dprv_licenseIds[i] == document.getElementById("dprv_license").value)
 			{
 				document.getElementById("dprv_license_caption").innerHTML = dprv_licenseCaptions[i];
-				document.getElementById("dprv_license_abstract").innerHTML = dprv_licenseAbstracts[i];
+                document.getElementById("dprv_license_abstract").innerHTML = dprv_licenseAbstracts[i];
 				document.getElementById("dprv_license_url").innerHTML = dprv_licenseURLs[i];
 				document.getElementById("dprv_license_url").href = dprv_licenseURLs[i];
 				break;
@@ -932,18 +998,20 @@ function dprv_PreviewLicense()
 		}
 	}
 	document.getElementById("dprv_license_caption").style.display = "";
-	document.getElementById("dprv_license_abstract").style.display = "";
+    document.getElementById("dprv_license_abstract").style.display = "";
 	document.getElementById("dprv_license_url").style.display = "";
 	document.getElementById("dprv_custom_license_caption").style.display = "none";
-	document.getElementById("dprv_custom_license_abstract").style.display = "none";
-	document.getElementById("dprv_custom_license_url").style.display = "none";
+    document.getElementById("dprv_user_license_caption_row").style.display = "none";
+    document.getElementById("dprv_custom_license_abstract").style.display = "none";
+    document.getElementById("dprv_custom_license_url").style.display = "none";
+    dprv_refreshLicenseCaptions();
 }
 
 
 function dprv_AddLicense()
 {
 	if (dprv_subscription_type == "Basic" || dprv_subscription_type == "" || dprv_subscription_expired == "Yes" )
-	{
+    {
 		dprv_SubscribersOnly("Add license");
 		return false;
 	}
@@ -951,62 +1019,74 @@ function dprv_AddLicense()
 	document.getElementById('dprv_license_type_caption').innerHTML = dprv_literals["License_type_name"];	// 'License Type Name';
 	document.getElementById('dprv_license').style.display='none';
 	document.getElementById('dprv_license_caption').style.display='none';
-	document.getElementById('dprv_license_abstract').style.display='none';
+    document.getElementById('dprv_license_abstract').style.display = 'none';
 	document.getElementById('dprv_license_url').style.display='none';
 	document.getElementById('License_customization').style.display='none';
 	document.getElementById('dprv_custom_license').style.display='';
 	document.getElementById('dprv_custom_license_caption').style.display='';
+    document.getElementById('dprv_user_license_caption_row').style.display = '';
 	document.getElementById('dprv_custom_license_abstract').style.display='';
 	document.getElementById('dprv_custom_license_url').style.display='';
 	document.getElementById('dprv_custom_license').value ='';
-	document.getElementById('dprv_custom_license_abstract').value='';
+	document.getElementById('dprv_user_license_caption').value='';
+    document.getElementById('dprv_custom_license_abstract').value = '';
 	document.getElementById('dprv_custom_license_url').value='';
 	document.getElementById('dprv_license_commit_0').style.display='';
 	document.getElementById('dprv_license_commit_1').style.display='';
 	document.getElementById('dprv_license_commit').value= dprv_literals["Add_this_license"];				// 'Add this license';
 	document.getElementById('dprv_submit').style.display='none';	
-	document.getElementById('dprv_custom_license').focus();
+   // TRY THIS document.getElementById('dprv_custom_license').focus();
+    dprv_refreshLicenseCaptions();
 	return true;
 }
 function dprv_AmendLicense()
 {
+    console.log("dprv_AmendLicense");
 	if (dprv_subscription_type == "Basic" || dprv_subscription_type == "" || dprv_subscription_expired == "Yes" )
-	{
+    {
 		dprv_SubscribersOnly("Amend license");
 		return false;
 	}
 	document.getElementById('dprv_license_heading').innerHTML = dprv_literals["Amend_license_type"];		// 'Amend License Type';
 	document.getElementById('dprv_license').style.display='none';
-	document.getElementById('dprv_license_caption').style.display='none';
+    document.getElementById('dprv_license_caption').style.display = 'none';
 	document.getElementById('dprv_license_abstract').style.display='none';
 	document.getElementById('dprv_license_url').style.display='none';
 	document.getElementById('License_customization').style.display='none';
 	document.getElementById('dprv_custom_license').style.display='';
 	document.getElementById('dprv_custom_license_caption').style.display='';
-	document.getElementById('dprv_custom_license_abstract').style.display='';
+    document.getElementById('dprv_user_license_caption_row').style.display='';
+    document.getElementById('dprv_custom_license_abstract').style.display = '';
 	document.getElementById('dprv_custom_license_url').style.display='';
 	for (var i=0; i<dprv_licenseIds.length; i++)
 	{
 		if (document.getElementById('dprv_license').value == dprv_licenseIds[i])
 		{
-			document.getElementById('dprv_custom_license').value = dprv_licenseTypes[i];
+            document.getElementById('dprv_custom_license').value = dprv_licenseTypes[i];
 			break;
 		}
-	}
-	document.getElementById('dprv_custom_license_caption').value = document.getElementById('dprv_license_caption').innerHTML;
+    }
+    
+    document.getElementById('dprv_custom_license_caption').value = document.getElementById('dprv_license_caption').innerHTML;
+    if (document.getElementById('dprv_custom_license_caption').value != document.getElementById('dprv_license_caption').innerHTML)
+    {
+        document.getElementById('dprv_user_license_caption').value = document.getElementById('dprv_license_caption').innerHTML;
+    }
+    console.log("dprv_custom_license_caption.value=" + document.getElementById('dprv_custom_license_caption').value);
 	document.getElementById('dprv_custom_license_abstract').value = document.getElementById('dprv_license_abstract').innerHTML;
 	document.getElementById('dprv_custom_license_url').value = document.getElementById('dprv_license_url').innerHTML;
 	document.getElementById('dprv_license_commit_0').style.display='';
 	document.getElementById('dprv_license_commit_1').style.display='';
 	document.getElementById('dprv_license_commit').value= dprv_literals["Update_this_license"];				// 'Update this license';
 	document.getElementById('dprv_submit').style.display='none';	
-	document.getElementById('dprv_custom_license').focus();
+    // Try This document.getElementById('dprv_custom_license').focus();
+    dprv_refreshLicenseCaptions();
 	return true;
 }
 function dprv_RemoveLicense()
 {
 	if (dprv_subscription_type == "Basic" || dprv_subscription_type == "" || dprv_subscription_expired == "Yes" )
-	{
+    {
 		dprv_SubscribersOnly("Remove license");
 		return false;
 	}
@@ -1030,6 +1110,26 @@ function dprv_RemoveLicense()
 	return true;
 }
 
+function dprv_createOwnLicenseCaption(element)
+{
+    if (dprv_subscription_type == "Basic" || dprv_subscription_type == "" || dprv_subscription_expired == "Yes")
+    {
+        dprv_SubscribersOnly("Custom License Caption");
+        element.value = "";
+    }
+    dprv_refreshLicenseCaptions();
+    //dprv_PreviewLicense();
+}
+function dprv_refreshLicenseCaptions()
+{
+    if (document.getElementById("dprv_user_license_caption").value == "") {
+        document.getElementById("dprv_custom_license_caption").style.color = "#000000";
+    }
+    else {
+        document.getElementById("dprv_custom_license_caption").style.color = "#999999";
+    }
+}
+
 function dprv_LicenseActionCommit()
 {
 	// Do a bit of validation
@@ -1037,12 +1137,13 @@ function dprv_LicenseActionCommit()
 			if (document.getElementById('dprv_custom_license').value == "")
 			{
 				alert(dprv_literals["License_Type_Missing"]);
-				document.getElementById('dprv_custom_license').focus();
+				// Try This document.getElementById('dprv_custom_license').focus();
 				return false;
 			}
+
 			
 			//if (document.getElementById('dprv_custom_license_abstract').value == "" && !confirm("You have not entered a value for License Summary.  Press OK if this is intentional"))
-			if (document.getElementById('dprv_custom_license_abstract').value == "" && !confirm(dprv_literals["License_summary_empty"]))
+			if (document.getElementById('dprv_custom_license_abstract').value == "" && !confirm(dprv_literals["License_abstract_empty"]))
 			{
 				document.getElementById('dprv_custom_license_abstract').focus();
 				return false;
@@ -1071,9 +1172,11 @@ function dprv_LicenseActionAbandon()
 	document.getElementById('License_customization').style.display='';
 	document.getElementById('dprv_custom_license').style.display='none';
 	document.getElementById('dprv_custom_license_caption').style.display='none';
+    document.getElementById('dprv_user_license_caption_row').style.display='none';
 	document.getElementById('dprv_custom_license_abstract').style.display='none';
 	document.getElementById('dprv_custom_license_url').style.display='none';
-	document.getElementById('dprv_custom_license').value='';
+    document.getElementById('dprv_custom_license').value = '';
+    document.getElementById('dprv_user_license_caption').value = '';
 	document.getElementById('dprv_custom_license_abstract').value='';
 	document.getElementById('dprv_custom_license_url').value='';
 	document.getElementById('dprv_license_commit_0').style.display='none';
@@ -1403,7 +1506,7 @@ function dprv_digiprove_history(count)
 			success:function(data)
 			{
 				// This outputs the result of the ajax request
-			    try
+	            try
 			    {
 			        var dprv_response = JSON.parse(data);
 			        if (typeof dprv_response == "string")
@@ -1474,7 +1577,7 @@ function dprv_SubmitSelected()
 		if (document.getElementById("message") != null)
 		{
 			document.getElementById("message").innerHTML = "<p>" + dprv_literals["Processing..."] + "</p>";
-		}
+        }
 		return true;
 	}
 	return false;
@@ -1588,14 +1691,11 @@ function dprv_addLoadEvent(func)
 	else
 	{ 
 		var oldonload = window.onload;
-		window.onload = function()
-		{ 
-			if (oldonload)
-			{ 
-				oldonload(); 
-			}
-			func(); 
-		} 
+        window.onload = function () {
+            if (oldonload) {
+                oldonload();
+            }
+            func();
+        };
 	} 
 } 
-

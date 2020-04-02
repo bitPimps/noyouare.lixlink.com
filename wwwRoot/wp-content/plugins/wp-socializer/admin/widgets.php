@@ -15,7 +15,7 @@ class wpsr_admin_widgets{
     function register( $pages ){
         
         $pages[ 'widgets' ] = array(
-            'name' => __( 'Widgets', 'wpsr' ),
+            'name' => __( 'Sidebar widgets', 'wpsr' ),
             'page_callback' => array( $this, 'page' ),
             'banner' => WPSR_ADMIN_URL . '/images/banners/widgets.svg',
             'link' => admin_url('widgets.php#wp-socializer'),
@@ -35,7 +35,9 @@ class wpsr_admin_widgets{
         
         $widgets = WPSR_Widgets::list_all();
         $link = 'widgets.php#wp-socializer';
-        
+
+        wp_safe_redirect( admin_url('widgets.php#wp-socializer') );
+
         echo '<div class="widgets_page">';
         
         echo '<h1>' . __( 'Social media widgets', 'wpsr' ) .'</h1>';

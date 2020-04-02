@@ -24,34 +24,34 @@ if ( $ScrollTop_options['bps_scrolltop'] != 'Off' ) {
 ?>
 
 <?php
-if ( function_exists('get_transient') ) {
-require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+//if ( function_exists('get_transient') ) {
+//require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
-	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
-		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
+//	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
+//		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
 		
-	if ( ! is_wp_error( $bps_api ) ) {
-		$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
-		$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
-		maybe_serialize( $bps_downloaded );
-		set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
-	}
-	}
+//		if ( ! is_wp_error( $bps_api ) ) {
+//			$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
+//			$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
+//			maybe_serialize( $bps_downloaded );
+//			set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
+//		}
+//	}
 
-		$bps_transient = get_transient( 'bulletproof-security_info' );
+//		$bps_transient = get_transient( 'bulletproof-security_info' );
     	
 		echo '<div class="bps-star-container">';
 		echo '<div class="bps-star"><img src="'.plugins_url('/bulletproof-security/admin/images/star.png').'" /></div>';
 		echo '<div class="bps-downloaded">';
 		
-		foreach ( $bps_transient as $key => $value ) {
-			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
-		}
+//		foreach ( $bps_transient as $key => $value ) {
+//			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
+//		}
 		
 		echo '<div class="bps-star-link"><a href="https://wordpress.org/support/view/plugin-reviews/bulletproof-security#postform" target="_blank" title="Add a Star Rating for the BPS plugin">'.__('Rate BPS', 'bulletproof-security').'</a><br><a href="https://affiliates.ait-pro.com/po/" target="_blank" title="Upgrade to BulletProof Security Pro">Upgrade to Pro</a></div>';
 		echo '</div>';
 		echo '</div>';
-}
+//}
 
 // Get Real IP address - USE EXTREME CAUTION!!!
 function bpsPro_get_real_ip_address_lsm() {
@@ -778,6 +778,10 @@ jQuery(document).ready(function($){
 <div id="bps-tabs-2" class="bps-tab-page">
 	
 <?php
+	// Nonce for Crypto-js
+	$bps_nonceValue = 'ghbhnyxu';
+	$bpsSpacePop = '-------------------------------------------------------------';
+
 	$GDMW_options = get_option('bulletproof_security_options_GDMW');
 	
 	if ( $GDMW_options['bps_gdmw_hosting'] == 'yes' ) {
@@ -832,6 +836,38 @@ if ( isset( $_POST['Submit-Security-Log-Options-JTC'] ) && current_user_can('man
 			
 			$Custom_Roles_array = array( 'bps', '' );
 		}
+
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+	
+		$pos1 = strpos( $_POST['bps_jtc_custom_form_error'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+		$pos2 = strpos( $_POST['bps_jtc_comment_form_error'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+		$pos3 = strpos( $_POST['bps_jtc_comment_form_label'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+		$pos4 = strpos( $_POST['bps_jtc_comment_form_input'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+	
+		if ( $pos1 === false ) {
+			$bps_jtc_custom_form_error = stripslashes($_POST['bps_jtc_custom_form_error']);
+		} else {
+			$bps_jtc_custom_form_error = $Encryption->decrypt($_POST['bps_jtc_custom_form_error'], $nonceValue);
+		}
+	
+		if ( $pos2 === false ) {
+			$bps_jtc_comment_form_error = stripslashes($_POST['bps_jtc_comment_form_error']);
+		} else {
+			$bps_jtc_comment_form_error = $Encryption->decrypt($_POST['bps_jtc_comment_form_error'], $nonceValue);
+		}
+	
+		if ( $pos3 === false ) {
+			$bps_jtc_comment_form_label = esc_html($_POST['bps_jtc_comment_form_label']);
+		} else {
+			$bps_jtc_comment_form_label = $Encryption->decrypt($_POST['bps_jtc_comment_form_label'], $nonceValue);
+		}
+	
+		if ( $pos4 === false ) {
+			$bps_jtc_comment_form_input = esc_html($_POST['bps_jtc_comment_form_input']);
+		} else {
+			$bps_jtc_comment_form_input = $Encryption->decrypt($_POST['bps_jtc_comment_form_input'], $nonceValue);
+		}
 	}
 
 	$JTC_Options = array(
@@ -851,12 +887,12 @@ if ( isset( $_POST['Submit-Security-Log-Options-JTC'] ) && current_user_can('man
 	'bps_jtc_author' 					=> '', 
 	'bps_jtc_contributor' 				=> '', 
 	'bps_jtc_subscriber' 				=> '', 
-	'bps_jtc_comment_form_error' 		=> stripslashes($_POST['bps_jtc_comment_form_error']), 
-	'bps_jtc_comment_form_label' 		=> esc_html($_POST['bps_jtc_comment_form_label']), 
-	'bps_jtc_comment_form_input' 		=> esc_html($_POST['bps_jtc_comment_form_input']), 
+	'bps_jtc_comment_form_error' 		=> $bps_jtc_comment_form_error, 
+	'bps_jtc_comment_form_label' 		=> $bps_jtc_comment_form_label, 
+	'bps_jtc_comment_form_input' 		=> $bps_jtc_comment_form_input, 
 	'bps_jtc_custom_roles' 				=> $Custom_Roles_array, 
 	'bps_enable_jtc_woocommerce' 		=> '', 
-	'bps_jtc_custom_form_error' 		=> stripslashes($_POST['bps_jtc_custom_form_error'])
+	'bps_jtc_custom_form_error' 		=> $bps_jtc_custom_form_error
 	);	
 	
 	foreach( $JTC_Options as $key => $value ) {
@@ -952,20 +988,115 @@ if ( ! current_user_can('manage_options') ) { _e('Permission Denied', 'bulletpro
 
 	<br />
     <label for="LSLog"><?php _e('Login Form: CAPTCHA Error message', 'bulletproof-security'); ?></label><br />
-    <input type="text" name="bps_jtc_custom_form_error" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_custom_form_error'] != '') { echo $BPSoptionsJTC['bps_jtc_custom_form_error']; } else { echo '<strong>ERROR</strong>: Incorrect CAPTCHA Entered.'; } ?>" /><br /><br />
+    <input type="text" id="crypt29" name="bps_jtc_custom_form_error" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_custom_form_error'] != '') { echo $BPSoptionsJTC['bps_jtc_custom_form_error']; } else { echo '<strong>ERROR</strong>: Incorrect CAPTCHA Entered.'; } ?>" /><br /><br />
 
     <label for="LSLog"><?php _e('Comment Form: CAPTCHA Error message (BPS Pro Only)', 'bulletproof-security'); ?></label><br />
-    <input type="text" name="bps_jtc_comment_form_error" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_comment_form_error'] != '') { echo $BPSoptionsJTC['bps_jtc_comment_form_error']; } else { echo '<strong>ERROR</strong>: Incorrect JTC CAPTCHA Entered. Click your Browser back button and re-enter the JTC CAPTCHA.'; } ?>" /><br /><br />
+    <input type="text" id="crypt30" name="bps_jtc_comment_form_error" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_comment_form_error'] != '') { echo $BPSoptionsJTC['bps_jtc_comment_form_error']; } else { echo '<strong>ERROR</strong>: Incorrect JTC CAPTCHA Entered. Click your Browser back button and re-enter the JTC CAPTCHA.'; } ?>" /><br /><br />
     
     <label><strong><?php _e('Comment Form: CSS Styling (BPS Pro Only)', 'bulletproof-security'); ?></strong></label><br />
     <label><?php _e('Comment Form Label (BPS Pro Only): <i>The JTC Title|Text above the Form Input text box</i>', 'bulletproof-security'); ?></label><br />
-    <input type="text" name="bps_jtc_comment_form_label" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_comment_form_label'] != '') { echo $BPSoptionsJTC['bps_jtc_comment_form_label']; } else { echo 'position:relative;top:0px;left:0px;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;'; } ?>" /><br />
+    <input type="text" id="crypt31" name="bps_jtc_comment_form_label" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_comment_form_label'] != '') { echo $BPSoptionsJTC['bps_jtc_comment_form_label']; } else { echo 'position:relative;top:0px;left:0px;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;'; } ?>" /><br />
     <label><?php _e('Comment Form Input Text Box (BPS Pro Only): <i>The JTC CAPTCHA Form Input text box</i>', 'bulletproof-security'); ?></label><br />
-    <input type="text" name="bps_jtc_comment_form_input" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_comment_form_input'] != '') { echo $BPSoptionsJTC['bps_jtc_comment_form_input']; } else { echo 'position:relative;top:0px;left:0px;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;'; } ?>" /><br /><br />
+    <input type="text" id="crypt32" name="bps_jtc_comment_form_input" class="regular-text-short-fixed" style="width:75%;" value="<?php if ($BPSoptionsJTC['bps_jtc_comment_form_input'] != '') { echo $BPSoptionsJTC['bps_jtc_comment_form_input']; } else { echo 'position:relative;top:0px;left:0px;padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;'; } ?>" /><br /><br />
+
+	<?php echo '<div id="jtc-tooltip" style="margin:0px 0px 10px 0px;max-width:640px"><label for="bps-mscan-label" style="">'.__('If you see an error or are unable to save your JTC option settings then click the Encrypt JTC Code button first and then click the Save Options button. Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your JTC options settings and CSS code unless you encrypt it first by clicking the Encrypt JTC Code button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt JTC Code button and then want to edit your CSS code again click the Decrypt JTC Code button. After you are done editing click the Encrypt JTC Code button before clicking the Save Options button.', 'bulletproof-security').'<br><br>'.__('Click the JTC Anti-Spam|Anti-Hacker Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
 
 <input type="submit" name="Submit-Security-Log-Options-JTC" class="button bps-button"  style="margin-top:5px;" value="<?php esc_attr_e('Save Options', 'bulletproof-security') ?>" onclick="return confirm('<?php $text = __('Click OK to Proceed or click Cancel.', 'bulletproof-security'); echo $text; ?>')"/>
 </form><br />
 </div>  
+
+	<button onclick="bpsJTCEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt JTC Code', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsJTCDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt JTC Code', 'bulletproof-security'); ?></button>
+
+<script type="text/javascript">
+/* <![CDATA[ */
+function bpsJTCEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var String1 = document.getElementById("crypt29").value;
+  var String2 = document.getElementById("crypt30").value;  
+  var String3 = document.getElementById("crypt31").value;
+  var String4 = document.getElementById("crypt32").value; 
+
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = String1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  var NoEncrypt2 = String2.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  var NoEncrypt3 = String3.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  var NoEncrypt4 = String4.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (String1 != '' && NoEncrypt1 === false) {
+  	var encrypted1 = encryption.encrypt(String1, nonceValue);
+  }
+  if (String2 != '' && NoEncrypt2 === false) {
+  	var encrypted2 = encryption.encrypt(String2, nonceValue);
+  }
+  if (String3 != '' && NoEncrypt3 === false) {
+  	var encrypted3 = encryption.encrypt(String3, nonceValue);
+  }
+  if (String4 != '' && NoEncrypt4 === false) {
+  	var encrypted4 = encryption.encrypt(String4, nonceValue);
+  }
+  //console.log(encrypted1); 
+  
+  if (String1 != '' && NoEncrypt1 === false) {
+  	document.getElementById("crypt29").value = encrypted1;
+  }
+  if (String2 != '' && NoEncrypt2 === false) {
+  	document.getElementById("crypt30").value = encrypted2;
+  }
+  if (String3 != '' && NoEncrypt3 === false) {
+  	document.getElementById("crypt31").value = encrypted3;
+  }
+  if (String4 != '' && NoEncrypt4 === false) {
+  	document.getElementById("crypt32").value = encrypted4;
+  }
+}
+
+function bpsJTCDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var String1 = document.getElementById("crypt29").value;
+  var String2 = document.getElementById("crypt30").value;
+  var String3 = document.getElementById("crypt31").value;
+  var String4 = document.getElementById("crypt32").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (String1 != '') {
+	var decrypted1 = encryption.decrypt(String1, nonceValue);
+  }
+  if (String2 != '') {
+	var decrypted2 = encryption.decrypt(String2, nonceValue);
+  }
+  if (String3 != '') {
+	var decrypted3 = encryption.decrypt(String3, nonceValue);
+  }
+  if (String4 != '') {
+	var decrypted4 = encryption.decrypt(String4, nonceValue);
+  }
+  //console.log(decrypted1);
+  
+  if (String1 != '') {
+	document.getElementById("crypt29").value = decrypted1;
+  }
+  if (String2 != '') {
+	document.getElementById("crypt30").value = decrypted2;
+  }
+  if (String1 != '') {
+	document.getElementById("crypt31").value = decrypted3;
+  }
+  if (String1 != '') {
+	document.getElementById("crypt32").value = decrypted4;
+  }
+}
+/* ]]> */
+</script>
 
 <?php } ?>
 
@@ -1043,6 +1174,38 @@ if ( isset( $_POST['Submit-ISL-Options'] ) && current_user_can('manage_options')
 			
 			$Custom_Roles_array = array( 'bps', '' );
 		}
+
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+	
+		$pos1 = strpos( $_POST['bps_isl_custom_css_1'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+		$pos2 = strpos( $_POST['bps_isl_custom_css_2'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+		$pos3 = strpos( $_POST['bps_isl_custom_css_3'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+		$pos4 = strpos( $_POST['bps_isl_custom_css_4'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+	
+		if ( $pos1 === false ) {
+			$bps_isl_custom_css_1 = esc_html($_POST['bps_isl_custom_css_1']);
+		} else {
+			$bps_isl_custom_css_1 = $Encryption->decrypt($_POST['bps_isl_custom_css_1'], $nonceValue);
+		}
+	
+		if ( $pos2 === false ) {
+			$bps_isl_custom_css_2 = esc_html($_POST['bps_isl_custom_css_2']);
+		} else {
+			$bps_isl_custom_css_2 = $Encryption->decrypt($_POST['bps_isl_custom_css_2'], $nonceValue);
+		}
+	
+		if ( $pos3 === false ) {
+			$bps_isl_custom_css_3 = esc_html($_POST['bps_isl_custom_css_3']);
+		} else {
+			$bps_isl_custom_css_3 = $Encryption->decrypt($_POST['bps_isl_custom_css_3'], $nonceValue);
+		}
+	
+		if ( $pos4 === false ) {
+			$bps_isl_custom_css_4 = esc_html($_POST['bps_isl_custom_css_4']);
+		} else {
+			$bps_isl_custom_css_4 = $Encryption->decrypt($_POST['bps_isl_custom_css_4'], $nonceValue);
+		}
 	}
 
 	$ISL_Options = array(
@@ -1051,10 +1214,10 @@ if ( isset( $_POST['Submit-ISL-Options'] ) && current_user_can('manage_options')
 	'bps_isl_logout_url' 				=> esc_html($_POST['bps_isl_logout_url']), 
 	'bps_isl_login_url' 				=> esc_html($_POST['bps_isl_login_url']),
 	'bps_isl_custom_message' 			=> esc_html($_POST['bps_isl_custom_message']),
-	'bps_isl_custom_css_1' 				=> esc_html($_POST['bps_isl_custom_css_1']),
-	'bps_isl_custom_css_2' 				=> esc_html($_POST['bps_isl_custom_css_2']),
-	'bps_isl_custom_css_3' 				=> esc_html($_POST['bps_isl_custom_css_3']),
-	'bps_isl_custom_css_4' 				=> esc_html($_POST['bps_isl_custom_css_4']),	
+	'bps_isl_custom_css_1' 				=> $bps_isl_custom_css_1,
+	'bps_isl_custom_css_2' 				=> $bps_isl_custom_css_2,
+	'bps_isl_custom_css_3' 				=> $bps_isl_custom_css_3,
+	'bps_isl_custom_css_4' 				=> $bps_isl_custom_css_4,
 	'bps_isl_user_account_exceptions' 	=> esc_html($_POST['bps_isl_user_account_exceptions']), 
 	'bps_isl_administrator' 			=> $_POST['bps_isl_administrator'], 
 	'bps_isl_editor' 					=> $_POST['bps_isl_editor'], 
@@ -1139,10 +1302,18 @@ if ( isset( $_POST['Submit-ISL-Options'] ) && current_user_can('manage_options')
   <tr>
     <td>
     <label for="LSLog"><?php _e('Idle Session Logout Page Custom CSS Style:', 'bulletproof-security'); ?></label><br />
-	<label><strong><?php echo 'body {'; ?></strong></label><input type="text" name="bps_isl_custom_css_1" class="bps_isl_custom_css_1" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_1'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_1'] ); } else { echo esc_html( 'background-color:#fff;line-height:normal;' ); } ?>" /><label><strong><?php echo '}'; ?></strong></label><br />
-	<label><strong><?php echo '#bpsMessage {'; ?></strong></label><input type="text" name="bps_isl_custom_css_2" class="bps_isl_custom_css_2" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_2'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_2'] ); } else { echo esc_html( 'position:fixed;top:20%;left:0%;text-align:center;height:100%;width:100%;' ); } ?>" /><label><strong><?php echo '}'; ?></strong></label><br />
-	<label><strong><?php echo '#bpsMessageTextBox {'; ?></strong></label><input type="text" name="bps_isl_custom_css_3" class="bps_isl_custom_css_3" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_3'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_3'] ); } else { echo esc_html( 'border:5px solid gray;background-color:#BCE2F1;' ); } ?>" /><label><strong><?php echo '}'; ?></strong></label><br />
-	<label><strong><?php echo 'p {'; ?></strong></label><input type="text" name="bps_isl_custom_css_4" class="bps_isl_custom_css_4" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_4'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_4'] ); } else { echo esc_html( 'font-family:Verdana, Arial, Helvetica, sans-serif;font-size:18px;font-weight:bold;' ); } ?>" /><label><strong><?php echo '}'; ?></strong></label><br />
+	<label><strong><?php echo 'body {'; ?></strong></label>
+    <input type="text" id="crypt33" name="bps_isl_custom_css_1" class="bps_isl_custom_css_1" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_1'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_1'] ); } else { echo esc_html( 'background-color:#fff;line-height:normal;' ); } ?>" />
+    <label><strong><?php echo '}'; ?></strong></label><br />
+	<label><strong><?php echo '#bpsMessage {'; ?></strong></label>
+    <input type="text" id="crypt34" name="bps_isl_custom_css_2" class="bps_isl_custom_css_2" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_2'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_2'] ); } else { echo esc_html( 'position:fixed;top:20%;left:0%;text-align:center;height:100%;width:100%;' ); } ?>" />
+    <label><strong><?php echo '}'; ?></strong></label><br />
+	<label><strong><?php echo '#bpsMessageTextBox {'; ?></strong></label>
+    <input type="text" id="crypt35" name="bps_isl_custom_css_3" class="bps_isl_custom_css_3" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_3'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_3'] ); } else { echo esc_html( 'border:5px solid gray;background-color:#BCE2F1;' ); } ?>" />
+    <label><strong><?php echo '}'; ?></strong></label><br />
+	<label><strong><?php echo 'p {'; ?></strong></label>
+    <input type="text" id="crypt36" name="bps_isl_custom_css_4" class="bps_isl_custom_css_4" value="<?php if ( $BPS_ISL_options['bps_isl_custom_css_4'] != '' ) { echo esc_html( $BPS_ISL_options['bps_isl_custom_css_4'] ); } else { echo esc_html( 'font-family:Verdana, Arial, Helvetica, sans-serif;font-size:18px;font-weight:bold;' ); } ?>" />
+    <label><strong><?php echo '}'; ?></strong></label><br />
     </td>
   </tr>
   <tr>
@@ -1185,13 +1356,110 @@ if ( isset( $_POST['Submit-ISL-Options'] ) && current_user_can('manage_options')
   <label><strong><i><?php _e('Check to Disable. Uncheck to Enable. See the Read Me help button for details.', 'bulletproof-security'); ?></i></strong></label><br />
     <input type="checkbox" name="bps_isl_tinymce" value="1" <?php checked( $BPS_ISL_options['bps_isl_tinymce'], 1 ); ?> /><label><?php _e(' Enable|Disable ISL For TinyMCE Editor', 'bulletproof-security'); ?></label><br /><br />
 
+	<?php echo '<div id="jtc-tooltip" style="margin:0px 0px 10px 0px;max-width:640px"><label for="bps-mscan-label" style="">'.__('If you see an error or are unable to save your ISL option settings then click the Encrypt ISL Code button first and then click the Save Options button. Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your ISL option settings and CSS code unless you encrypt it first by clicking the Encrypt ISL Code button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt ISL Code button and then want to edit your CSS code again click the Decrypt ISL Code button. After you are done editing click the Encrypt ISL Code button before clicking the Save Options button.', 'bulletproof-security').'<br><br>'.__('Click the Idle Session Logout|Auth Cookie Expiration Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
+
 <input type="submit" name="Submit-ISL-Options" class="button bps-button"  style="margin:5px 0px 15px 0px;" value="<?php esc_attr_e('Save Options', 'bulletproof-security') ?>" onclick="return confirm('<?php $text = __('Click OK to Proceed or click Cancel.', 'bulletproof-security'); echo $text; ?>')"/>
-</form><br />
-</div> 
+</form>
 
 </td>
-  </tr>
-</table> 
+</tr>
+</table>
+</form>
+
+</div> 
+
+	<button onclick="bpsISLEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt ISL Code', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsISLDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt ISL Code', 'bulletproof-security'); ?></button>
+    
+<script type="text/javascript">
+/* <![CDATA[ */
+function bpsISLEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var String1 = document.getElementById("crypt33").value;
+  var String2 = document.getElementById("crypt34").value;  
+  var String3 = document.getElementById("crypt35").value;
+  var String4 = document.getElementById("crypt36").value; 
+
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = String1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  var NoEncrypt2 = String2.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  var NoEncrypt3 = String3.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  var NoEncrypt4 = String4.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (String1 != '' && NoEncrypt1 === false) {
+  	var encrypted1 = encryption.encrypt(String1, nonceValue);
+  }
+  if (String2 != '' && NoEncrypt2 === false) {
+  	var encrypted2 = encryption.encrypt(String2, nonceValue);
+  }
+  if (String3 != '' && NoEncrypt3 === false) {
+  	var encrypted3 = encryption.encrypt(String3, nonceValue);
+  }
+  if (String4 != '' && NoEncrypt4 === false) {
+  	var encrypted4 = encryption.encrypt(String4, nonceValue);
+  }
+  //console.log(encrypted1); 
+  
+  if (String1 != '' && NoEncrypt1 === false) {
+  	document.getElementById("crypt33").value = encrypted1;
+  }
+  if (String2 != '' && NoEncrypt2 === false) {
+  	document.getElementById("crypt34").value = encrypted2;
+  }
+  if (String3 != '' && NoEncrypt3 === false) {
+  	document.getElementById("crypt35").value = encrypted3;
+  }
+  if (String4 != '' && NoEncrypt4 === false) {
+  	document.getElementById("crypt36").value = encrypted4;
+  }
+}
+
+function bpsISLDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var String1 = document.getElementById("crypt33").value;
+  var String2 = document.getElementById("crypt34").value;
+  var String3 = document.getElementById("crypt35").value;
+  var String4 = document.getElementById("crypt36").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (String1 != '') {
+	var decrypted1 = encryption.decrypt(String1, nonceValue);
+  }
+  if (String2 != '') {
+	var decrypted2 = encryption.decrypt(String2, nonceValue);
+  }
+  if (String3 != '') {
+	var decrypted3 = encryption.decrypt(String3, nonceValue);
+  }
+  if (String4 != '') {
+	var decrypted4 = encryption.decrypt(String4, nonceValue);
+  }
+  //console.log(decrypted1);
+  
+  if (String1 != '') {
+	document.getElementById("crypt33").value = decrypted1;
+  }
+  if (String2 != '') {
+	document.getElementById("crypt34").value = decrypted2;
+  }
+  if (String1 != '') {
+	document.getElementById("crypt35").value = decrypted3;
+  }
+  if (String1 != '') {
+	document.getElementById("crypt36").value = decrypted4;
+  }
+}
+/* ]]> */
+</script>
 
 <div id="ACE-Menu-Link"></div>
 

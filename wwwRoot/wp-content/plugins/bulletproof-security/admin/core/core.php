@@ -31,34 +31,34 @@ if ( $ScrollTop_options['bps_scrolltop'] != 'Off' ) {
 ?>
 
 <?php
-if ( function_exists('get_transient') ) {
-require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+//if ( function_exists('get_transient') ) {
+//require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
-	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
-		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
+//	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
+//		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
 		
-	if ( ! is_wp_error( $bps_api ) ) {
-		$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
-		$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
-		maybe_serialize( $bps_downloaded );
-		set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
-	}
-	}
+//		if ( ! is_wp_error( $bps_api ) ) {
+//			$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
+//			$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
+//			maybe_serialize( $bps_downloaded );
+//			set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
+//		}
+//	}
 
-		$bps_transient = get_transient( 'bulletproof-security_info' );
+//		$bps_transient = get_transient( 'bulletproof-security_info' );
     	
 		echo '<div class="bps-star-container">';
 		echo '<div class="bps-star"><img src="'.plugins_url('/bulletproof-security/admin/images/star.png').'" /></div>';
 		echo '<div class="bps-downloaded">';
 		
-		foreach ( $bps_transient as $key => $value ) {
-			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
-		}
-
+//		foreach ( $bps_transient as $key => $value ) {
+//			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
+//		}
+		
 		echo '<div class="bps-star-link"><a href="https://wordpress.org/support/view/plugin-reviews/bulletproof-security#postform" target="_blank" title="Add a Star Rating for the BPS plugin">'.__('Rate BPS', 'bulletproof-security').'</a><br><a href="https://affiliates.ait-pro.com/po/" target="_blank" title="Upgrade to BulletProof Security Pro">Upgrade to Pro</a></div>';
 		echo '</div>';
 		echo '</div>';
-}
+//}
 
 // Get Real IP address - USE EXTREME CAUTION!!!
 function bpsPro_get_real_ip_address_cc() {
@@ -142,6 +142,9 @@ $bps_wpcontent_dir = str_replace( ABSPATH, '', WP_CONTENT_DIR );
 // Replace ABSPATH = wp-content/uploads
 $wp_upload_dir = wp_upload_dir();
 $bps_uploads_dir = str_replace( ABSPATH, '', $wp_upload_dir['basedir'] );
+// Nonce for Crypto-js
+$bps_nonceValue = 'ghbhnyxu';
+$bpsSpacePop = '-------------------------------------------------------------';
 
 $bps_topDiv = '<div id="message" class="updated" style="background-color:#dfecf2;border:1px solid #999;-moz-border-radius-topleft:3px;-webkit-border-top-left-radius:3px;-khtml-border-top-left-radius:3px;border-top-left-radius:3px;-moz-border-radius-topright:3px;-webkit-border-top-right-radius:3px;-khtml-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);-moz-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);"><p>';
 $bps_bottomDiv = '</p></div>';
@@ -165,8 +168,6 @@ require_once( WP_PLUGIN_DIR . '/bulletproof-security/admin/core/core-forms.php' 
 if ( isset( $_POST['Submit-RBM-Activate'] ) || isset( $_POST['Submit-RBM-Deactivate'] ) || isset( $_POST['Submit-RBM-Activate-Network'] ) || isset( $_POST['Submit-RBM-Deactivate-Network'] ) ) {
 require_once( WP_PLUGIN_DIR . '/bulletproof-security/admin/core/core-htaccess-code.php' );
 }
-
-$bpsSpacePop = '-------------------------------------------------------------';
 
 ?>
 </div>
@@ -733,56 +734,63 @@ echo bps_secure_htaccess_file_check();
 echo bps_default_htaccess_file_check();
 echo bps_wpadmin_htaccess_file_check();
 
-// Perform File Open and Write test first by appending a blank space/nothing to files for write testing.
-if ( current_user_can('manage_options') ) {
-$secure_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/secure.htaccess';
-$write_test = "";
-$HFiles_options = get_option('bulletproof_security_options_htaccess_files');	
+function bpsPro_secure_htaccess_write_check() {
 	
-	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
-		$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: secure.htaccess Master file is disabled.', 'bulletproof-security').'</strong></font><br>';
-		echo $text;
-	
-	} elseif ( ! file_exists($secure_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
-		$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: A secure.htaccess Master file was NOT found.', 'bulletproof-security').'</strong></font><br>';
-		echo $text;	
+	if ( @$_POST['submit1'] != true ) {
+
+		$secure_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/secure.htaccess';
+		$HFiles_options = get_option('bulletproof_security_options_htaccess_files');	
 		
-	} else {
+		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
+			$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: secure.htaccess Master file is disabled.', 'bulletproof-security').'</strong></font><br>';
+			echo $text;
 		
-		if ( file_exists($secure_htaccess_file) ) {	
-	
-			if ( is_writable($secure_htaccess_file) ) {
-			if ( ! $handle = fopen($secure_htaccess_file, 'a+b') ) {
-				exit;
-			}
-    
-			if ( fwrite($handle, $write_test) === FALSE ) {
-				exit;
-			}
-		
-				$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! The secure.htaccess Master file is writable.', 'bulletproof-security').'</strong></font><br>';
-				echo $text;
-			fclose($handle);
-			}
+		} elseif ( ! file_exists($secure_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
+			$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: A secure.htaccess Master file was NOT found.', 'bulletproof-security').'</strong></font><br>';
+			echo $text;	
 			
-			if ( ! is_writable($secure_htaccess_file) ) {
-				$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$secure_htaccess_file . '</strong></font><br>';
-				echo $text;
-			}	
+		} else {
+			
+			if ( file_exists($secure_htaccess_file) ) {	
+		
+				if ( is_writable($secure_htaccess_file) ) {
+		
+					$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! The secure.htaccess Master file is writable.', 'bulletproof-security').'</strong></font><br>';
+					echo $text;
+
+				} else {
+				
+					$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$secure_htaccess_file . '</strong></font><br>';
+					echo $text;
+				}	
+			}
 		}
 	}
 }
 	
+bpsPro_secure_htaccess_write_check();
+
 	if ( isset( $_POST['submit1'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_save_settings_1' );
-		$newcontent1 = stripslashes($_POST['newcontent1']);
 	
 		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 			echo $bps_topDiv;
-			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: secure.htaccess Master file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: secure.htaccess Master file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 			echo $text;
     		echo $bps_bottomDiv;
 			return;
+		}
+
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+		$secure_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/secure.htaccess';
+		
+		$pos = strpos( $_POST['newcontent1'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+
+		if ( $pos === false ) {
+			$newcontent1 = stripslashes($_POST['newcontent1']);
+		} else {
+			$newcontent1 = $Encryption->decrypt($_POST['newcontent1'], $nonceValue);
 		}
 
 		if ( ! is_writable($secure_htaccess_file) ) {
@@ -790,76 +798,83 @@ $HFiles_options = get_option('bulletproof_security_options_htaccess_files');
 			$text = '<font color="#fb0101"><strong>'.__('Error: Unable to write to the secure.htaccess Master file.', 'bulletproof-security').'</strong></font><br>';
 			echo $text;
 			echo $bps_bottomDiv;
-		}	
-	
-		if ( is_writable($secure_htaccess_file) ) {
-
-    	if ( ! $handle = fopen($secure_htaccess_file, 'w+b') ) {
-			exit;
-    	}
-    	
-		if ( fwrite($handle, $newcontent1) === FALSE ) {
-			exit;
-		}
-
-			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('The secure.htaccess Master file has been updated.', 'bulletproof-security').'</strong></font><br>';
-			echo $text;
-    		echo $bps_bottomDiv;
 		
-		fclose($handle);
+		} else {
+	
+			if ( ! $handle = fopen($secure_htaccess_file, 'w+b') ) {
+				exit;
+			}
+			
+			if ( fwrite($handle, $newcontent1) === FALSE ) {
+				exit;
+			}
+	
+				echo $bps_topDiv;
+				$text = '<font color="green"><strong>'.__('The secure.htaccess Master file has been updated.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;
+				echo $bps_bottomDiv;
+			
+			fclose($handle);
 		}
 	}
 
-if ( current_user_can('manage_options') ) {
-$default_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/default.htaccess';
-$write_test = "";
-$HFiles_options = get_option('bulletproof_security_options_htaccess_files');	
+function bpsPro_default_htaccess_write_check() {
 	
-	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
-		$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: default.htaccess Master file is disabled.', 'bulletproof-security').'</strong></font><br>';
-		echo $text;
-	
-	} elseif ( ! file_exists($default_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
-		$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: A default.htaccess Master file was NOT found.', 'bulletproof-security').'</strong></font><br>';
-		echo $text;	
+	if ( @$_POST['submit2'] != true ) {
+
+		$default_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/default.htaccess';
+		$HFiles_options = get_option('bulletproof_security_options_htaccess_files');	
 		
-	} else {
+		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
+			$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: default.htaccess Master file is disabled.', 'bulletproof-security').'</strong></font><br>';
+			echo $text;
 		
-		if ( file_exists($default_htaccess_file) ) {		
-	
-			if ( is_writable($default_htaccess_file) ) {
-    		if ( ! $handle = fopen($default_htaccess_file, 'a+b') ) {
-	    		exit;
-    		}
-    
-			if ( fwrite($handle, $write_test) === FALSE ) {
-	    		exit;
-    		}
-		
-				$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! The default.htaccess Master file is writable.', 'bulletproof-security').'</strong></font><br>';
-				echo $text;
-			fclose($handle);
-			}
+		} elseif ( ! file_exists($default_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
+			$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: A default.htaccess Master file was NOT found.', 'bulletproof-security').'</strong></font><br>';
+			echo $text;	
 			
-			if ( ! is_writable($default_htaccess_file) ) {
-				$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$default_htaccess_file . '</strong></font><br>';
-				echo $text;
-			}	
+		} else {
+			
+			if ( file_exists($default_htaccess_file) ) {		
+		
+				if ( is_writable($default_htaccess_file) ) {
+			
+					$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! The default.htaccess Master file is writable.', 'bulletproof-security').'</strong></font><br>';
+					echo $text;
+
+				} else {
+				
+					$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$default_htaccess_file . '</strong></font><br>';
+					echo $text;
+				}	
+			}
 		}
 	}
 }
 	
+bpsPro_default_htaccess_write_check();
+
 	if ( isset( $_POST['submit2'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_save_settings_2' );
-		$newcontent2 = stripslashes($_POST['newcontent2']);
 	
 		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 			echo $bps_topDiv;
-			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: default.htaccess Master file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: default.htaccess Master file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 			echo $text;
     		echo $bps_bottomDiv;
 			return;
+		}
+
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+		$default_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/default.htaccess';
+		
+		$pos = strpos( $_POST['newcontent2'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+
+		if ( $pos === false ) {
+			$newcontent2 = stripslashes($_POST['newcontent2']);
+		} else {
+			$newcontent2 = $Encryption->decrypt($_POST['newcontent2'], $nonceValue);
 		}
 
 		if ( ! is_writable($default_htaccess_file) ) {
@@ -867,24 +882,23 @@ $HFiles_options = get_option('bulletproof_security_options_htaccess_files');
 			$text = '<font color="#fb0101"><strong>'.__('Error: Unable to write to the default.htaccess Master file.', 'bulletproof-security').'</strong></font><br>';
 			echo $text;
 			echo $bps_bottomDiv;
-		}	
-	
-		if ( is_writable($default_htaccess_file) ) {
-
-    	if ( ! $handle = fopen($default_htaccess_file, 'w+b') ) {
-			exit;
-    	}
-    	
-		if ( fwrite($handle, $newcontent2) === FALSE ) {
-			exit;
-		}
-
-			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('The default.htaccess Master file has been updated.', 'bulletproof-security').'</strong></font><br>';
-			echo $text;
-    		echo $bps_bottomDiv;
 		
-		fclose($handle);
+		} else {
+	
+			if ( ! $handle = fopen($default_htaccess_file, 'w+b') ) {
+				exit;
+			}
+			
+			if ( fwrite($handle, $newcontent2) === FALSE ) {
+				exit;
+			}
+	
+				echo $bps_topDiv;
+				$text = '<font color="green"><strong>'.__('The default.htaccess Master file has been updated.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;
+				echo $bps_bottomDiv;
+			
+			fclose($handle);
 		}
 		
 		$custom_default_htaccess = WP_CONTENT_DIR . '/bps-backup/master-backups/default.htaccess';
@@ -903,65 +917,72 @@ $HFiles_options = get_option('bulletproof_security_options_htaccess_files');
 		}
 	}
 
-if ( current_user_can('manage_options') ) {
-$wpadmin_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/wpadmin-secure.htaccess';
-$write_test = "";
-	
-	$HFiles_options = get_option('bulletproof_security_options_htaccess_files');
-	$BPS_wpadmin_Options = get_option('bulletproof_security_options_htaccess_res');
-	$GDMW_options = get_option('bulletproof_security_options_GDMW');	
-	
-	if ( $BPS_wpadmin_Options['bps_wpadmin_restriction'] == 'disabled' || $GDMW_options['bps_gdmw_hosting'] == 'yes' ) {
-		$text = '<strong><font color="black">'.__('wpadmin-secure.htaccess file writing is disabled.', 'bulletproof-security').'</font></strong><br>';
-		echo $text;
-	
-	} else {
+function bpsPro_wpadmin_secure_htaccess_write_check() {
 
-		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
-			$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: wpadmin-secure.htaccess Master file is disabled.', 'bulletproof-security').'</strong></font><br>';
+	if ( @$_POST['submit4'] != true ) {
+
+		$wpadmin_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/wpadmin-secure.htaccess';
+		$HFiles_options = get_option('bulletproof_security_options_htaccess_files');
+		$BPS_wpadmin_Options = get_option('bulletproof_security_options_htaccess_res');
+		$GDMW_options = get_option('bulletproof_security_options_GDMW');	
+		
+		if ( $BPS_wpadmin_Options['bps_wpadmin_restriction'] == 'disabled' || $GDMW_options['bps_gdmw_hosting'] == 'yes' ) {
+			$text = '<strong><font color="black">'.__('wpadmin-secure.htaccess file writing is disabled.', 'bulletproof-security').'</font></strong><br>';
 			echo $text;
-	
-		} elseif ( ! file_exists($wpadmin_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
-			$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: A wpadmin-secure.htaccess Master file was NOT found.', 'bulletproof-security').'</strong></font><br>';
-			echo $text;	
 		
 		} else {
+	
+			if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
+				$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: wpadmin-secure.htaccess Master file is disabled.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;
 		
-			if ( file_exists($wpadmin_htaccess_file) ) {	
-
-				if ( is_writable($wpadmin_htaccess_file) ) {
-    			if ( ! $handle = fopen($wpadmin_htaccess_file, 'a+b') ) {
-	    			exit;
-    			}
-    
-				if ( fwrite($handle, $write_test) === FALSE ) {
-	    			exit;
-				}
-		
-					$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! The wpadmin-secure.htaccess Master file is writable.', 'bulletproof-security').'</strong></font><br>';
-					echo $text;
-				fclose($handle);
-				}
+			} elseif ( ! file_exists($wpadmin_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
+				$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: A wpadmin-secure.htaccess Master file was NOT found.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;	
 			
-				if ( ! is_writable($wpadmin_htaccess_file) ) {
-					$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$wpadmin_htaccess_file . '</strong></font><br>';
-					echo $text;
-				}	
+			} else {
+			
+				if ( file_exists($wpadmin_htaccess_file) ) {	
+	
+					if ( is_writable($wpadmin_htaccess_file) ) {
+	
+						$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! The wpadmin-secure.htaccess Master file is writable.', 'bulletproof-security').'</strong></font><br>';
+						echo $text;
+					
+					} else {
+				
+						$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$wpadmin_htaccess_file . '</strong></font><br>';
+						echo $text;
+					}	
+				}
 			}
 		}
 	}
 }
 	
+bpsPro_wpadmin_secure_htaccess_write_check();
+	
 	if ( isset( $_POST['submit4'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_save_settings_4' );
-		$newcontent4 = stripslashes($_POST['newcontent4']);
 	
 		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 			echo $bps_topDiv;
-			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wpadmin-secure.htaccess Master file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wpadmin-secure.htaccess Master file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 			echo $text;
     		echo $bps_bottomDiv;
 			return;
+		}
+
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+		$wpadmin_htaccess_file = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/wpadmin-secure.htaccess';
+		
+		$pos = strpos( $_POST['newcontent4'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+
+		if ( $pos === false ) {
+			$newcontent4 = stripslashes($_POST['newcontent4']);
+		} else {
+			$newcontent4 = $Encryption->decrypt($_POST['newcontent4'], $nonceValue);
 		}
 
 		if ( ! is_writable($wpadmin_htaccess_file) ) {
@@ -969,77 +990,83 @@ $write_test = "";
 			$text = '<font color="#fb0101"><strong>'.__('Error: Unable to write to the wpadmin-secure.htaccess Master file.', 'bulletproof-security').'</strong></font><br>';
 			echo $text;
 			echo $bps_bottomDiv;
-		}	
-	
-		if ( is_writable($wpadmin_htaccess_file) ) {
-
-    	if ( ! $handle = fopen($wpadmin_htaccess_file, 'w+b') ) {
-			exit;
-    	}
-    	
-		if ( fwrite($handle, $newcontent4) === FALSE ) {
-			exit;
-		}
-
-			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('The wpadmin-secure.htaccess Master file has been updated.', 'bulletproof-security').'</strong></font><br>';
-			echo $text;
-    		echo $bps_bottomDiv;
 		
-		fclose($handle);
+		} else {
+	
+			if ( ! $handle = fopen($wpadmin_htaccess_file, 'w+b') ) {
+				exit;
+			}
+			
+			if ( fwrite($handle, $newcontent4) === FALSE ) {
+				exit;
+			}
+	
+				echo $bps_topDiv;
+				$text = '<font color="green"><strong>'.__('The wpadmin-secure.htaccess Master file has been updated.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;
+				echo $bps_bottomDiv;
+			
+			fclose($handle);
 		}
 	}
 
-if ( current_user_can('manage_options') ) {
-$root_htaccess_file = ABSPATH . '.htaccess';
-$write_test = "";
-$HFiles_options = get_option('bulletproof_security_options_htaccess_files');	
-	
-	if ( ! file_exists($root_htaccess_file) && $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
-		$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: Root htaccess file does not exist.', 'bulletproof-security').'</strong></font><br>';
-		echo $text;
-	
-	} elseif ( ! file_exists($root_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
-		$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: An htaccess file was NOT found in your root folder', 'bulletproof-security').'</strong></font><br>';
-		echo $text;	
-		
-	} else {
-		
-		if ( file_exists($root_htaccess_file) ) {
+function bpsPro_root_htaccess_write_check() {
 
-			if ( is_writable($root_htaccess_file) ) {
-    		
-			if ( ! $handle = fopen($root_htaccess_file, 'a+b') ) {
-	    		exit;
-    		}
-    		if ( fwrite($handle, $write_test) === FALSE ) {
-	    		exit;
-    		}
+	if ( @$_POST['submit7'] != true ) {
+	
+		$root_htaccess_file = ABSPATH . '.htaccess';
+		$HFiles_options = get_option('bulletproof_security_options_htaccess_files');	
 		
-				$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! Your currently active root htaccess file is writable.', 'bulletproof-security').'</strong></font><br>';
-				echo $text;
+		if ( ! file_exists($root_htaccess_file) && $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
+			$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: Root htaccess file does not exist.', 'bulletproof-security').'</strong></font><br>';
+			echo $text;
+		
+		} elseif ( ! file_exists($root_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
+			$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: An htaccess file was NOT found in your root folder', 'bulletproof-security').'</strong></font><br>';
+			echo $text;	
 			
-			fclose($handle);
-			}
+		} else {
 			
-			if ( ! is_writable($root_htaccess_file) ) {
-				$text = '<font color="blue" style="font-size:12px;"><strong>'.__('Your root htaccess file is Locked with Read Only Permissions.', 'bulletproof-security').'<br>'.__('Use the Lock and Unlock buttons below to Lock or Unlock your root htaccess file for editing.', 'bulletproof-security').'</strong></font><br>';
-				echo $text;
+			if ( file_exists($root_htaccess_file) ) {
+	
+				if ( is_writable($root_htaccess_file) ) {
+				
+					$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! Your currently active root htaccess file is writable.', 'bulletproof-security').'</strong></font><br>';
+					echo $text;
+				
+				} else {
+				
+					$text = '<font color="blue" style="font-size:12px;"><strong>'.__('Your root htaccess file is Locked with Read Only Permissions.', 'bulletproof-security').'<br>'.__('Use the Lock and Unlock buttons below to Lock or Unlock your root htaccess file for editing.', 'bulletproof-security').'</strong></font><br>';
+					echo $text;
+				}
 			}
 		}
 	}
 }
+
+bpsPro_root_htaccess_write_check();
 	
 	if ( isset( $_POST['submit5'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_save_settings_5' );
-		$newcontent5 = stripslashes($_POST['newcontent5']);
 	
 		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 			echo $bps_topDiv;
-			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 			echo $text;
     		echo $bps_bottomDiv;
 			return;
+		}
+
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+		$root_htaccess_file = ABSPATH . '.htaccess';
+		
+		$pos = strpos( $_POST['newcontent5'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+
+		if ( $pos === false ) {
+			$newcontent5 = stripslashes($_POST['newcontent5']);
+		} else {
+			$newcontent5 = $Encryption->decrypt($_POST['newcontent5'], $nonceValue);
 		}
 
 		if ( ! is_writable($root_htaccess_file) ) {
@@ -1047,87 +1074,92 @@ $HFiles_options = get_option('bulletproof_security_options_htaccess_files');
 			$text = '<font color="#fb0101"><strong>'.__('Error: Unable to write to the Root htaccess file. If your Root htaccess file is locked you must unlock first.', 'bulletproof-security').'</strong></font><br>';
 			echo $text;
 			echo $bps_bottomDiv;
-		}	
-	
-		if ( is_writable($root_htaccess_file) ) {
-
-    	if ( ! $handle = fopen($root_htaccess_file, 'w+b') ) {
-			exit;
-    	}
-    	
-		if ( fwrite($handle, $newcontent5) === FALSE ) {
-			exit;
-		}
-
-			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('Your currently active root htaccess file has been updated.', 'bulletproof-security').'</strong></font><br>';
-			echo $text;
-    		echo $bps_bottomDiv;
 		
-		fclose($handle);
+		} else {
+	
+			if ( ! $handle = fopen($root_htaccess_file, 'w+b') ) {
+				exit;
+			}
+			
+			if ( fwrite($handle, $newcontent5) === FALSE ) {
+				exit;
+			}
+	
+				echo $bps_topDiv;
+				$text = '<font color="green"><strong>'.__('Your currently active root htaccess file has been updated.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;
+				echo $bps_bottomDiv;
+			
+			fclose($handle);
 		}
 	}
 
-if ( current_user_can('manage_options') ) {
-$current_wpadmin_htaccess_file = ABSPATH . 'wp-admin/.htaccess';
-$write_test = "";
-	
-	$HFiles_options = get_option('bulletproof_security_options_htaccess_files');
-	$BPS_wpadmin_Options = get_option('bulletproof_security_options_htaccess_res');
-	$GDMW_options = get_option('bulletproof_security_options_GDMW');	
-	
-	if ( $BPS_wpadmin_Options['bps_wpadmin_restriction'] == 'disabled' || $GDMW_options['bps_gdmw_hosting'] == 'yes' ) {
-		$text = '<font color="blue" style="font-size:12px;"><strong>'.__('wp-admin active htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';
-		echo $text;
-	
-	} else {
+function bpsPro_wpadmin_htaccess_write_check() {
 
-		if ( ! file_exists($root_htaccess_file) && $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
-			$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: wp-admin folder htaccess file does not exist.', 'bulletproof-security').'</strong></font><br>';
+	if ( @$_POST['submit8'] != true ) {
+
+		$current_wpadmin_htaccess_file = ABSPATH . 'wp-admin/.htaccess';
+		$HFiles_options = get_option('bulletproof_security_options_htaccess_files');
+		$BPS_wpadmin_Options = get_option('bulletproof_security_options_htaccess_res');
+		$GDMW_options = get_option('bulletproof_security_options_GDMW');	
+		
+		if ( $BPS_wpadmin_Options['bps_wpadmin_restriction'] == 'disabled' || $GDMW_options['bps_gdmw_hosting'] == 'yes' ) {
+			$text = '<font color="blue" style="font-size:12px;"><strong>'.__('wp-admin active htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';
 			echo $text;
-	
-		} elseif ( ! file_exists($root_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
-			$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: An htaccess file was NOT found in your wp-admin folder', 'bulletproof-security').'</strong></font><br>';
-			echo $text;	
 		
 		} else {
-		
-			if ( file_exists($current_wpadmin_htaccess_file) ) {
-
-				if ( is_writable($current_wpadmin_htaccess_file) ) {
-    			if ( ! $handle = fopen($current_wpadmin_htaccess_file, 'a+b') ) {
-	    			exit;
-    			}
-    			
-				if ( fwrite($handle, $write_test) === FALSE ) {
-	    			exit;
-    			}
-		
-					$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! Your currently active wp-admin htaccess file is writable.', 'bulletproof-security').'</strong></font><br>';
-					echo $text;
-			
-				fclose($handle);				
-				}
 	
-				if ( ! is_writable($current_wpadmin_htaccess_file) ) {
-					$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$current_wpadmin_htaccess_file . '</strong></font><br>';
-					echo $text;
+			if ( ! file_exists($current_wpadmin_htaccess_file) && $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
+				$text = '<font color="blue" style="font-size:12px;"><strong>'.__('htaccess Files Disabled: wp-admin folder htaccess file does not exist.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;
+		
+			} elseif ( ! file_exists($current_wpadmin_htaccess_file) && $HFiles_options['bps_htaccess_files'] != 'disabled' ) {	
+				$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('ERROR: An htaccess file was NOT found in your wp-admin folder', 'bulletproof-security').'</strong></font><br>';
+				echo $text;	
+			
+			} else {
+			
+				if ( file_exists($current_wpadmin_htaccess_file) ) {
+	
+					if ( is_writable($current_wpadmin_htaccess_file) ) {
+			
+						$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! Your currently active wp-admin htaccess file is writable.', 'bulletproof-security').'</strong></font><br>';
+						echo $text;
+				
+					} else {
+		
+						$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$current_wpadmin_htaccess_file . '</strong></font><br>';
+						echo $text;
+					}
 				}
 			}
 		}
 	}
 }
 	
+bpsPro_wpadmin_htaccess_write_check();
+	
 	if ( isset( $_POST['submit6'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_save_settings_6' );
-		$newcontent6 = stripslashes($_POST['newcontent6']);
 	
 		if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 			echo $bps_topDiv;
-			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wp-admin htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+			$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wp-admin htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 			echo $text;
     		echo $bps_bottomDiv;
 			return;
+		}
+
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+		$current_wpadmin_htaccess_file = ABSPATH . 'wp-admin/.htaccess';
+		
+		$pos = strpos( $_POST['newcontent6'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+
+		if ( $pos === false ) {
+			$newcontent6 = stripslashes($_POST['newcontent6']);
+		} else {
+			$newcontent6 = $Encryption->decrypt($_POST['newcontent6'], $nonceValue);
 		}
 
 		if ( ! is_writable($current_wpadmin_htaccess_file) ) {
@@ -1135,24 +1167,23 @@ $write_test = "";
 			$text = '<font color="#fb0101"><strong>'.__('Error: Unable to write to the wp-admin htaccess file.', 'bulletproof-security').'</strong></font><br>';
 			echo $text;
 			echo $bps_bottomDiv;
-		}	
-	
-		if ( is_writable($current_wpadmin_htaccess_file) ) {
-
-    	if ( ! $handle = fopen($current_wpadmin_htaccess_file, 'w+b') ) {
-			exit;
-    	}
-    	
-		if ( fwrite($handle, $newcontent6) === FALSE ) {
-			exit;
-		}
-
-			echo $bps_topDiv;
-			$text = '<font color="green"><strong>'.__('Your currently active wp-admin htaccess file has been updated.', 'bulletproof-security').'</strong></font><br>';
-			echo $text;
-    		echo $bps_bottomDiv;
 		
-		fclose($handle);
+		} else {
+	
+			if ( ! $handle = fopen($current_wpadmin_htaccess_file, 'w+b') ) {
+				exit;
+			}
+			
+			if ( fwrite($handle, $newcontent6) === FALSE ) {
+				exit;
+			}
+	
+				echo $bps_topDiv;
+				$text = '<font color="green"><strong>'.__('Your currently active wp-admin htaccess file has been updated.', 'bulletproof-security').'</strong></font><br>';
+				echo $text;
+				echo $bps_bottomDiv;
+			
+			fclose($handle);
 		}
 	}
 	
@@ -1277,20 +1308,68 @@ $scrollto6 = isset($_REQUEST['scrollto6']) ? (int) $_REQUEST['scrollto6'] : 0;
 <form name="template1" id="template1" action="<?php echo admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-6' ); ?>" method="post">
 <?php wp_nonce_field('bulletproof_security_save_settings_1'); ?>
     <div>
-    <textarea class="bps-text-area-600x700" name="newcontent1" id="newcontent1" tabindex="1"><?php echo bps_get_secure_htaccess(); ?></textarea>
+    <textarea id="crypt21" class="bps-text-area-600x700" name="newcontent1" id="newcontent1" tabindex="1"><?php echo bps_get_secure_htaccess(); ?></textarea>
 	<input type="hidden" name="action" value="update" />
     <input type="hidden" name="filename" value="<?php echo esc_attr( $secure_htaccess_file ) ?>" />
 	<input type="hidden" name="scrollto1" id="scrollto1" value="<?php echo esc_html( $scrollto1 ); ?>" />
     <p class="submit">
+
+	<?php echo '<div id="bps-edittabs-tooltip" style="margin:-40px 0px 10px 0px"><label for="bps-mscan-label" style="">'.__('If you see an error or are unable to save your editing changes then click the Encrypt htaccess Code button first and then click the Update File button. Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your htaccess code unless you encrypt it first by clicking the Encrypt htaccess Code button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt htaccess Code button and then want to edit your code again click the Decrypt htaccess Code button. After you are done editing click the Encrypt htaccess Code button before clicking the Update File button.', 'bulletproof-security').'<br><br>'.__('Click the htaccess File Editing Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
+
 	<input type="submit" name="submit1" class="button bps-button" value="<?php esc_attr_e('Update File', 'bulletproof-security') ?>" /></p>
 </div>
 </form>
+
+	<button onclick="bpsSecureFileEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt htaccess Code', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsSecureFileDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt htaccess Code', 'bulletproof-security'); ?></button>
+
 <script type="text/javascript">
 /* <![CDATA[ */
 jQuery(document).ready(function($){
 	$('#template1').submit(function(){ $('#scrollto1').val( $('#newcontent1').scrollTop() ); });
 	$('#newcontent1').scrollTop( $('#scrollto1').val() ); 
 });
+
+function bpsSecureFileEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt21").value;
+  
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = CCString1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  var encrypted1 = encryption.encrypt(CCString1, nonceValue);
+  }
+  //console.log(encrypted1); 
+  
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  document.getElementById("crypt21").value = encrypted1;
+  }
+}
+
+function bpsSecureFileDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt21").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '') {
+  var decrypted1 = encryption.decrypt(CCString1, nonceValue);
+  }
+  //console.log(decrypted1);
+  
+  if (CCString1 != '') {
+  document.getElementById("crypt21").value = decrypted1;
+  }
+}
 /* ]]> */
 </script>     
 </div>
@@ -1299,13 +1378,20 @@ jQuery(document).ready(function($){
 <form name="template2" id="template2" action="<?php echo admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-6' ); ?>" method="post">
 <?php wp_nonce_field('bulletproof_security_save_settings_2'); ?>
 	<div>
-    <textarea class="bps-text-area-600x700" name="newcontent2" id="newcontent2" tabindex="2"><?php echo bps_get_default_htaccess(); ?></textarea>
+    <textarea id="crypt22" class="bps-text-area-600x700" name="newcontent2" id="newcontent2" tabindex="2"><?php echo bps_get_default_htaccess(); ?></textarea>
 	<input type="hidden" name="action" value="update" />
     <input type="hidden" name="filename" value="<?php echo esc_attr( $default_htaccess_file ) ?>" />
 	<input type="hidden" name="scrollto2" id="scrollto2" value="<?php echo esc_html( $scrollto2 ); ?>" />
     <p class="submit">
+
+	<?php echo '<div id="bps-edittabs-tooltip" style="margin:-40px 0px 10px 0px"><label for="bps-mscan-label" style="">'.__('If you see an error or are unable to save your editing changes then click the Encrypt htaccess Code button first and then click the Update File button. Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your htaccess code unless you encrypt it first by clicking the Encrypt htaccess Code button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt htaccess Code button and then want to edit your code again click the Decrypt htaccess Code button. After you are done editing click the Encrypt htaccess Code button before clicking the Update File button.', 'bulletproof-security').'<br><br>'.__('Click the htaccess File Editing Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
+
 	<input type="submit" name="submit2" class="button bps-button" value="<?php esc_attr_e('Update File', 'bulletproof-security') ?>" /></p>
 </div>
+
+	<button onclick="bpsDefaultFileEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt htaccess Code', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsDefaultFileDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt htaccess Code', 'bulletproof-security'); ?></button>
+
 </form>
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -1313,6 +1399,47 @@ jQuery(document).ready(function($){
 	$('#template2').submit(function(){ $('#scrollto2').val( $('#newcontent2').scrollTop() ); });
 	$('#newcontent2').scrollTop( $('#scrollto2').val() );
 });
+
+function bpsDefaultFileEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt22").value;
+  
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = CCString1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  var encrypted1 = encryption.encrypt(CCString1, nonceValue);
+  }
+  //console.log(encrypted1); 
+  
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  document.getElementById("crypt22").value = encrypted1;
+  }
+}
+
+function bpsDefaultFileDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt22").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '') {
+  var decrypted1 = encryption.decrypt(CCString1, nonceValue);
+  }
+  //console.log(decrypted1);
+  
+  if (CCString1 != '') {
+  document.getElementById("crypt22").value = decrypted1;
+  }
+}
 /* ]]> */
 </script>     
 </div>
@@ -1321,20 +1448,68 @@ jQuery(document).ready(function($){
 <form name="template4" id="template4" action="<?php echo admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-6' ); ?>" method="post">
 <?php wp_nonce_field('bulletproof_security_save_settings_4'); ?>
 	<div>
-    <textarea class="bps-text-area-600x700" name="newcontent4" id="newcontent4" tabindex="4"><?php echo bps_get_wpadmin_htaccess(); ?></textarea>
+    <textarea id="crypt23" class="bps-text-area-600x700" name="newcontent4" id="newcontent4" tabindex="4"><?php echo bps_get_wpadmin_htaccess(); ?></textarea>
 	<input type="hidden" name="action" value="update" />
     <input type="hidden" name="filename" value="<?php echo esc_attr( $wpadmin_htaccess_file ) ?>" />
 	<input type="hidden" name="scrollto4" id="scrollto4" value="<?php echo esc_html( $scrollto4 ); ?>" />
     <p class="submit">
+
+	<?php echo '<div id="bps-edittabs-tooltip" style="margin:-40px 0px 10px 0px"><label for="bps-mscan-label" style="">'.__('If you see an error or are unable to save your editing changes then click the Encrypt htaccess Code button first and then click the Update File button. Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your htaccess code unless you encrypt it first by clicking the Encrypt htaccess Code button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt htaccess Code button and then want to edit your code again click the Decrypt htaccess Code button. After you are done editing click the Encrypt htaccess Code button before clicking the Update File button.', 'bulletproof-security').'<br><br>'.__('Click the htaccess File Editing Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
+
 	<input type="submit" name="submit4" class="button bps-button" value="<?php esc_attr_e('Update File', 'bulletproof-security') ?>" /></p>
 </div>
 </form>
+
+	<button onclick="bpsWpadminSecureFileEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt htaccess Code', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsWpadminSecureFileDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt htaccess Code', 'bulletproof-security'); ?></button>
+
 <script type="text/javascript">
 /* <![CDATA[ */
 jQuery(document).ready(function($){
 	$('#template4').submit(function(){ $('#scrollto4').val( $('#newcontent4').scrollTop() ); });
 	$('#newcontent4').scrollTop( $('#scrollto4').val() );
 });
+
+function bpsWpadminSecureFileEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt23").value;
+  
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = CCString1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  var encrypted1 = encryption.encrypt(CCString1, nonceValue);
+  }
+  //console.log(encrypted1); 
+  
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  document.getElementById("crypt23").value = encrypted1;
+  }
+}
+
+function bpsWpadminSecureFileDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt23").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '') {
+  var decrypted1 = encryption.decrypt(CCString1, nonceValue);
+  }
+  //console.log(decrypted1);
+  
+  if (CCString1 != '') {
+  document.getElementById("crypt23").value = decrypted1;
+  }
+}
 /* ]]> */
 </script>     
 </div>
@@ -1357,7 +1532,7 @@ $sapi_type = php_sapi_name();
 <form name="template5" id="template5" action="<?php echo admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-6' ); ?>" method="post">
 <?php wp_nonce_field('bulletproof_security_save_settings_5'); ?>
 	<div>
-    <textarea class="bps-text-area-600x700" name="newcontent5" id="newcontent5" tabindex="5"><?php echo bps_get_root_htaccess(); ?></textarea>
+    <textarea id="crypt26" class="bps-text-area-600x700" name="newcontent5" id="newcontent5" tabindex="5"><?php echo bps_get_root_htaccess(); ?></textarea>
 	<input type="hidden" name="action" value="update" />
     <input type="hidden" name="filename" value="<?php echo esc_attr( $root_htaccess_file ) ?>" />
 	<input type="hidden" name="scrollto5" id="scrollto5" value="<?php echo esc_html( $scrollto5 ); ?>" />
@@ -1366,17 +1541,65 @@ $sapi_type = php_sapi_name();
 	<?php if ( @bpsStatusRHE($perms) == '0404' ) { ?>
 	<input type="submit" name="submit5" value="<?php esc_attr_e('Update File', 'bulletproof-security') ?>" class="button bps-button" onClick="return confirm('<?php $text = __('YOUR ROOT HTACCESS FILE IS LOCKED.', 'bulletproof-security').'\n\n'.__('YOUR FILE EDITS|CHANGES CANNOT BE SAVED.', 'bulletproof-security').'\n\n'.__('Click Cancel, copy the file editing changes you made to save them and then click the Unlock .htaccess File button to unlock your Root .htaccess file. After your Root .htaccess file is unlocked paste your file editing changes back into your Root .htaccess file and click this Update File button again to save your file edits/changes.', 'bulletproof-security'); echo $text; ?>')" />
 	<?php } else { ?>
+
+	<?php echo '<div id="bps-edittabs-tooltip" style="margin:-40px 0px 10px 0px"><label for="bps-mscan-label" style="">'.__('If you see an error or are unable to save your editing changes then click the Encrypt htaccess Code button first and then click the Update File button. Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your htaccess code unless you encrypt it first by clicking the Encrypt htaccess Code button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt htaccess Code button and then want to edit your code again click the Decrypt htaccess Code button. After you are done editing click the Encrypt htaccess Code button before clicking the Update File button.', 'bulletproof-security').'<br><br>'.__('Click the htaccess File Editing Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
+
 	<input type="submit" name="submit5" class="button bps-button" value="<?php esc_attr_e('Update File', 'bulletproof-security') ?>" /></p>
 <?php } ?>
 
 </div>
 </form>
+
+	<button onclick="bpsRootFileEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt htaccess Code', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsRootFileDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt htaccess Code', 'bulletproof-security'); ?></button>
+
 <script type="text/javascript">
 /* <![CDATA[ */
 jQuery(document).ready(function($){
 	$('#template5').submit(function(){ $('#scrollto5').val( $('#newcontent5').scrollTop() ); });
 	$('#newcontent5').scrollTop( $('#scrollto5').val() );
 });
+
+function bpsRootFileEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt26").value;
+  
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = CCString1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  var encrypted1 = encryption.encrypt(CCString1, nonceValue);
+  }
+  //console.log(encrypted1); 
+  
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  document.getElementById("crypt26").value = encrypted1;
+  }
+}
+
+function bpsRootFileDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt26").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '') {
+  var decrypted1 = encryption.decrypt(CCString1, nonceValue);
+  }
+  //console.log(decrypted1);
+  
+  if (CCString1 != '') {
+  document.getElementById("crypt26").value = decrypted1;
+  }
+}
 /* ]]> */
 </script>     
 </div>
@@ -1385,20 +1608,68 @@ jQuery(document).ready(function($){
 <form name="template6" id="template6" action="<?php echo admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-6' ); ?>" method="post">
 <?php wp_nonce_field('bulletproof_security_save_settings_6'); ?>
 	<div>
-    <textarea class="bps-text-area-600x700" name="newcontent6" id="newcontent6" tabindex="6"><?php echo bps_get_current_wpadmin_htaccess_file(); ?></textarea>
+    <textarea id="crypt27" class="bps-text-area-600x700" name="newcontent6" id="newcontent6" tabindex="6"><?php echo bps_get_current_wpadmin_htaccess_file(); ?></textarea>
 	<input type="hidden" name="action" value="update" />
     <input type="hidden" name="filename" value="<?php echo esc_attr( $current_wpadmin_htaccess_file ) ?>" />
 	<input type="hidden" name="scrollto6" id="scrollto6" value="<?php echo esc_html( $scrollto6 ); ?>" />
     <p class="submit">
+
+	<?php echo '<div id="bps-edittabs-tooltip" style="margin:-40px 0px 10px 0px"><label for="bps-mscan-label" style="">'.__('If you see an error or are unable to save your editing changes then click the Encrypt htaccess Code button first and then click the Update File button. Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your htaccess code unless you encrypt it first by clicking the Encrypt htaccess Code button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt htaccess Code button and then want to edit your code again click the Decrypt htaccess Code button. After you are done editing click the Encrypt htaccess Code button before clicking the Update File button.', 'bulletproof-security').'<br><br>'.__('Click the htaccess File Editing Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
+
 	<input type="submit" name="submit6" class="button bps-button" value="<?php esc_attr_e('Update File', 'bulletproof-security') ?>" /></p>
 </div>
 </form>
+
+	<button onclick="bpsWpadminFileEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt htaccess Code', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsWpadminFileDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt htaccess Code', 'bulletproof-security'); ?></button>
+
 <script type="text/javascript">
 /* <![CDATA[ */
 jQuery(document).ready(function($){
 	$('#template6').submit(function(){ $('#scrollto6').val( $('#newcontent6').scrollTop() ); });
 	$('#newcontent6').scrollTop( $('#scrollto6').val() );
 });
+
+function bpsWpadminFileEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt27").value;
+  
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = CCString1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  var encrypted1 = encryption.encrypt(CCString1, nonceValue);
+  }
+  //console.log(encrypted1); 
+  
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  document.getElementById("crypt27").value = encrypted1;
+  }
+}
+
+function bpsWpadminFileDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt27").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '') {
+  var decrypted1 = encryption.decrypt(CCString1, nonceValue);
+  }
+  //console.log(decrypted1);
+  
+  if (CCString1 != '') {
+  document.getElementById("crypt27").value = decrypted1;
+  }
+}
 /* ]]> */
 </script>     
 </div>
@@ -1523,7 +1794,18 @@ global $bps_topDiv, $bps_bottomDiv;
 	if ( isset( $_POST['myNotes_submit'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_My_Notes' );
 		
-		$MyNotes_Options = array( 'bps_my_notes' => stripslashes($_POST['bps_my_notes']) );
+		$Encryption = new bpsProPHPEncryption();
+		$nonceValue = 'ghbhnyxu';
+		
+		$pos = strpos( $_POST['bps_my_notes'], 'eyJjaXBoZXJ0ZXh0Ijoi' );
+
+		if ( $pos === false ) {
+			$bps_my_notes = stripslashes($_POST['bps_my_notes']);
+		} else {
+			$bps_my_notes = $Encryption->decrypt($_POST['bps_my_notes'], $nonceValue);
+		}
+
+		$MyNotes_Options = array( 'bps_my_notes' => $bps_my_notes );
 
 		foreach( $MyNotes_Options as $key => $value ) {
 			update_option('bulletproof_security_options_mynotes', $MyNotes_Options);
@@ -1549,6 +1831,11 @@ global $bps_topDiv, $bps_bottomDiv;
   <tr>
     <td class="bps-table_cell_help">
 
+<div id="my-notes-float" style="float:left">
+
+	<button onclick="bpsMyNotesEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt My Notes', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsMyNotesDecrypt()" class="button bps-button" style="margin:0px 0px 10px 0px"><?php esc_attr_e('Decrypt My Notes', 'bulletproof-security'); ?></button>
+
 <form name="myNotes" action="<?php echo admin_url( 'admin.php?page=bulletproof-security/admin/core/core.php#bps-tabs-9' ); ?>" method="post">
 <?php 
 	wp_nonce_field('bulletproof_security_My_Notes'); 
@@ -1556,13 +1843,18 @@ global $bps_topDiv, $bps_bottomDiv;
 	$My_Notes_options = get_option('bulletproof_security_options_mynotes'); 
 ?>
 
-<div>
-    <textarea class="bps-text-area-600x700" name="bps_my_notes" tabindex="1"><?php echo $My_Notes_options['bps_my_notes']; ?></textarea>
+    <textarea id="crypt20" class="bps-text-area-600x700" name="bps_my_notes" tabindex="1"><?php echo $My_Notes_options['bps_my_notes']; ?></textarea>
     <input type="hidden" name="scrolltoNotes" value="<?php echo esc_html( $scrolltoNotes ); ?>" />
-    <p class="submit">
-	<input type="submit" name="myNotes_submit" class="button bps-button" value="<?php esc_attr_e('Save My Notes', 'bulletproof-security') ?>" /></p>
-</div>
+
+	<?php echo '<div id="bps-my-notes-tooltip"><label for="bps-mscan-label" style="">'.__('If you are unable to save custom htaccess code and/or see an error message when trying to save custom htaccess code, ', 'bulletproof-security').'<br>'.__('click the Encrypt My Notes button first and then click the Save My Notes button.', 'bulletproof-security').'<br>'.__('Mouse over the question mark image to the right for help info.', 'bulletproof-security').'</label><strong><font color="black"><span class="tooltip-350-225"><img src="'.plugins_url('/bulletproof-security/admin/images/question-mark.png').'" style="position:relative;top:3px;left:5px;" /><span>'.__('If your web host currently has ModSecurity installed or installs ModSecurity at a later time then ModSecurity will prevent you from saving your custom htaccess code unless you encrypt it first by clicking the Encrypt My Notes button.', 'bulletproof-security').'<br><br>'.__('If you click the Encrypt My Notes button, but then want to add or edit additional custom code click the Decrypt My Notes button. After you are done adding or editing custom code click the Encrypt My Notes button before clicking the Save My Notes button.', 'bulletproof-security').'<br><br>'.__('Click the Custom Code Read Me help button for more help info.', 'bulletproof-security').'</span></span></font></strong></div>'; ?>
+
+	<input type="submit" name="myNotes_submit" class="button bps-button" style="margin:10px 0px 10px 0px;height:auto;white-space:normal" value="<?php esc_attr_e('Save My Notes', 'bulletproof-security') ?>" /></p>
 </form>
+
+	<button onclick="bpsMyNotesEncrypt()" class="button bps-button"><?php esc_attr_e('Encrypt My Notes', 'bulletproof-security'); ?></button> 
+	<button onclick="bpsMyNotesDecrypt()" class="button bps-button"><?php esc_attr_e('Decrypt My Notes', 'bulletproof-security'); ?></button>
+
+</div>
 
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -1570,6 +1862,47 @@ jQuery(document).ready(function($){
 	$('#myNotes').submit(function(){ $('#scrolltoNotes').val( $('#bps_my_notes').scrollTop() ); });
 	$('#bps_my_notes').scrollTop( $('#scrolltoNotes').val() ); 
 });
+
+function bpsMyNotesEncrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt20").value;
+  
+  // Prevent Double, Triple, etc. encryption
+  // The includes() method is not supported in IE 11 (and earlier versions)
+  var NoEncrypt1 = CCString1.includes("eyJjaXBoZXJ0ZXh0Ijoi");
+  //console.log(NoEncrypt1);
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  var encrypted1 = encryption.encrypt(CCString1, nonceValue);
+  }
+  //console.log(encrypted); 
+  
+  if (CCString1 != '' && NoEncrypt1 === false) {
+  document.getElementById("crypt20").value = encrypted1;
+  }
+}
+
+function bpsMyNotesDecrypt() {
+
+  var nonceValue = '<?php echo $bps_nonceValue; ?>';
+
+  var CCString1 = document.getElementById("crypt20").value;
+
+  let encryption = new bpsProJSEncryption();
+
+  if (CCString1 != '') {
+  var decrypted1 = encryption.decrypt(CCString1, nonceValue);
+  }
+  //console.log(decrypted);
+  
+  if (CCString1 != '') {
+  document.getElementById("crypt20").value = decrypted1;
+  }
+}
 /* ]]> */
 </script>
 
@@ -1674,7 +2007,7 @@ jQuery(document).ready(function($){
 <div id="bpsProFeatures">
 
 <?php 
-$text = '<h3><span class="blue-bold">'.__('The Complete Website Security Solution for Hacker and Spammer Protection', 'bulletproof-security').'</span></h3><h3><span class="blue-bold">'.__('BulletProof Security Pro has an amazing track record. BPS Pro has been publicly available for 7+ years and is installed on over 45,000 websites worldwide. Not a single one of those 45,000+ websites in 7+ years have been hacked.', 'bulletproof-security').'</span></h3><h3><span class="blue-bold">'.__('Why pay 10 times or more for other premium WordPress Security Plugins with recurring yearly subscriptions when you can get the best WordPress Security Plugin for an extremely low one-time purchase price?', 'bulletproof-security').'<br><a href="https://affiliates.ait-pro.com/po/" target="_blank">'.__('View Cost Comparison', 'bulletproof-security').'</a></span></h3><h3><span class="blue-bold">'.__('30-Day Money-Back Guarantee: If you are dissatisfied with BulletProof Security Pro for any reason. We offer a no questions asked full refund.', 'bulletproof-security').'</span></h3>'; echo $text; 
+$text = '<h3><span class="blue-bold">'.__('The Complete Website Security Solution for Hacker and Spammer Protection', 'bulletproof-security').'</span></h3><h3><span class="blue-bold">'.__('BulletProof Security Pro has an amazing track record. BPS Pro has been publicly available for 8+ years and is installed on over 50,000 websites worldwide. Not a single one of those 50,000+ websites in 8+ years have been hacked.', 'bulletproof-security').'</span></h3><h3><span class="blue-bold">'.__('Why pay 10 times or more for other premium WordPress Security Plugins with recurring yearly subscriptions when you can get the best WordPress Security Plugin for an extremely low one-time purchase price?', 'bulletproof-security').'<br><a href="https://affiliates.ait-pro.com/po/" target="_blank">'.__('View Cost Comparison', 'bulletproof-security').'</a></span></h3><h3><span class="blue-bold">'.__('30-Day Money-Back Guarantee: If you are dissatisfied with BulletProof Security Pro for any reason. We offer a no questions asked full refund.', 'bulletproof-security').'</span></h3>'; echo $text; 
 ?>
 
 <?php echo '<p><span class="blue-bold">'; _e('One-Click Setup Wizard Installation: ', 'bulletproof-security'); echo '</span>'; _e('Fast, simple and complete BPS Pro installation and setup in less than 1 minute.', 'bulletproof-security').'</p>'; ?>
@@ -1713,9 +2046,15 @@ $text = '<h3><span class="blue-bold">'.__('The Complete Website Security Solutio
 <div id="bpsProVersions">
 
 <a href="https://forum.ait-pro.com/forums/topic/bulletproof-security-pro-version-release-dates/" target="_blank" title="Link Opens in New Browser Window" style="font-size:22px;"><?php _e('BPS Pro Version Release Dates', 'bulletproof-security'); ?></a><br /><br />
+<?php
+  echo sprintf( __( '<a href="%2$s" target="_blank" title="Link Opens in New Browser Window">Whats New in BPS Pro %1$s</a>' ), '14.2', 'https://www.ait-pro.com/aitpro-blog/5574/bulletproof-security-pro/whats-new-in-bulletproof-security-pro-14-2/' ).'<br>';
+  echo sprintf( __( '<a href="%2$s" target="_blank" title="Link Opens in New Browser Window">Whats New in BPS Pro %1$s</a>' ), '14.1', 'https://www.ait-pro.com/aitpro-blog/5567/bulletproof-security-pro/whats-new-in-bulletproof-security-pro-14-1/' ).'<br>';
+?>
 <div id="milestone">8 Year Milestone: 8-1-2019 | First Public Release: 8-1-2011</div>
 <div class="pro-links">
 <?php
+  echo sprintf( __( '<a href="%2$s" target="_blank" title="Link Opens in New Browser Window">Whats New in BPS Pro %1$s</a>' ), '14', 'https://www.ait-pro.com/aitpro-blog/5551/bulletproof-security-pro/whats-new-in-bulletproof-security-pro-14/' ).'<br>';
+  echo sprintf( __( '<a href="%2$s" target="_blank" title="Link Opens in New Browser Window">Whats New in BPS Pro %1$s</a>' ), '13.9', 'https://www.ait-pro.com/aitpro-blog/5545/bulletproof-security-pro/whats-new-in-bulletproof-security-pro-13-9/' ).'<br>';
  echo sprintf( __( '<a href="%2$s" target="_blank" title="Link Opens in New Browser Window">Whats New in BPS Pro %1$s</a>' ), '13.8', 'https://www.ait-pro.com/aitpro-blog/5537/bulletproof-security-pro/whats-new-in-bulletproof-security-pro-13-8/' ).'<br>';
  echo sprintf( __( '<a href="%2$s" target="_blank" title="Link Opens in New Browser Window">Whats New in BPS Pro %1$s</a>' ), '13.7', 'https://www.ait-pro.com/aitpro-blog/5518/bulletproof-security-pro/whats-new-in-bulletproof-security-pro-13-7/' ).'<br>'; ?>
 </div>

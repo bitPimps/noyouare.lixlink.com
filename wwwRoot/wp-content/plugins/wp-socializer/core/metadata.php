@@ -169,6 +169,49 @@ class WPSR_Metadata{
         
     }
     
+    public static function process_url( $url, $pinfo ){
+
+        $g_settings = get_option( 'wpsr_general_settings' );
+        $g_settings = WPSR_Lists::set_defaults( $g_settings, WPSR_Lists::defaults( 'gsettings_twitter' ) );
+        $t_username = ( $g_settings[ 'twitter_username' ] != '' ) ? '@' . $g_settings[ 'twitter_username' ] : '';
+        
+        $pinfo = wp_parse_args( $pinfo, array(
+            'url' => '',
+            'title' => '',
+            'excerpt' => '',
+            'short_url' => '',
+            'rss_url' => '',
+            'post_image' => ''
+        ));
+        
+        $search = array(
+            '{url}',
+            '{title}',
+            '{excerpt}',
+            '{s-url}',
+            '{rss-url}',
+            '{image}',
+            '{twitter-username}',
+            '{title-plain}',
+            '{excerpt-plain}'
+        );
+        
+        $replace = array(
+            $pinfo[ 'url' ],
+            urlencode( $pinfo[ 'title' ] ),
+            urlencode( $pinfo[ 'excerpt' ] ),
+            $pinfo[ 'short_url' ],
+            $pinfo[ 'rss_url' ],
+            $pinfo[ 'post_image' ],
+            $t_username,
+            $pinfo[ 'title' ],
+            $pinfo[ 'excerpt' ]
+        );
+        
+        return str_replace( $search, $replace, $url );
+
+    }
+
 }
 
 WPSR_Metadata::init();

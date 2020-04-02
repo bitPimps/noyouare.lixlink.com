@@ -1,4 +1,4 @@
-#   BULLETPROOF 3.4 WP-ADMIN SECURE .HTACCESS     
+#   BULLETPROOF 3.9 WP-ADMIN SECURE .HTACCESS     
 
 # DO NOT ADD URL REWRITING IN THIS FILE OR WORDPRESS WILL BREAK
 # RewriteRule ^(.*)$ - [F] works in /wp-admin without breaking WordPress

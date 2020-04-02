@@ -73,34 +73,34 @@ bpsPro_w3tc_dashboard_iframe_preload();
 ?>
 
 <?php
-if ( function_exists('get_transient') ) {
-require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+//if ( function_exists('get_transient') ) {
+//require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
-	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
-		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
+//	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
+//		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
 		
-		if ( ! is_wp_error( $bps_api ) ) {
-			$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
-			$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
-			maybe_serialize( $bps_downloaded );
-			set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
-		}
-	}
+//		if ( ! is_wp_error( $bps_api ) ) {
+//			$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
+//			$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
+//			maybe_serialize( $bps_downloaded );
+//			set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
+//		}
+//	}
 
-		$bps_transient = get_transient( 'bulletproof-security_info' );
+//		$bps_transient = get_transient( 'bulletproof-security_info' );
     	
 		echo '<div class="bps-star-container">';
 		echo '<div class="bps-star"><img src="'.plugins_url('/bulletproof-security/admin/images/star.png').'" /></div>';
 		echo '<div class="bps-downloaded">';
 		
-		foreach ( $bps_transient as $key => $value ) {
-			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
-		}
+//		foreach ( $bps_transient as $key => $value ) {
+//			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
+//		}
 		
 		echo '<div class="bps-star-link"><a href="https://wordpress.org/support/view/plugin-reviews/bulletproof-security#postform" target="_blank" title="Add a Star Rating for the BPS plugin">'.__('Rate BPS', 'bulletproof-security').'</a><br><a href="https://affiliates.ait-pro.com/po/" target="_blank" title="Upgrade to BulletProof Security Pro">Upgrade to Pro</a></div>';
 		echo '</div>';
 		echo '</div>';
-}
+//}
 ?>
 
 <div id="message" class="updated" style="border:1px solid #999;background-color:#000;">
@@ -283,6 +283,8 @@ switch ( $memoryLimit ) {
 
 	// BPS .52.6: Pre-save UI Theme Skin with Blue Theme if DB option does not exist. function is in general-functions.php
 	bpsPro_presave_ui_theme_skin_options();
+	// 3.5: Pre-Save the SLF filter options. The default is now set to On. New option added to use to check against for BPS upgrades: bps_slf_filter_new
+	bpsPro_presave_ui_theme_skin_SLF_options();
 
 	// PHP/php.ini htaccess code pre-check - Check if root .htaccess file has php.ini handler code and if that code has been added to BPS Custom Code
 	bpsSetupWizardPhpiniHandlerCheck();
@@ -917,7 +919,7 @@ $HFiles_options = get_option('bulletproof_security_options_htaccess_files');
 	echo '</span>';
 
 	echo '<div id="message" class="updated" style="background-color:#dfecf2;border:1px solid #999;-moz-border-radius-topleft:3px;-webkit-border-top-left-radius:3px;-khtml-border-top-left-radius:3px;border-top-left-radius:3px;-moz-border-radius-topright:3px;-webkit-border-top-right-radius:3px;-khtml-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);-moz-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);"><p>';
-	$text = '<strong><font color="green">'.__('The Setup Wizard has completed BPS Setup.', 'bulletproof-security').'<br>'.__('Check the "BPS Setup Verification & Error Checks" section below for any errors in Red Font.', 'bulletproof-security').'</font></strong><br>';
+	$text = '<strong><font color="green">'.__('The Setup Wizard has completed BPS Setup.', 'bulletproof-security').'<br>'.__('Check the "BPS Setup Verification & Error Checks" section below for any errors in Red Font.', 'bulletproof-security').'<br>'.__('Your existing root htaccess file has been backed up here: /wp-content/bps-backup/master-backups/root.htaccess-[Date-Timestamp]. If you run into a problem or need to restore your old root htaccess file do the steps in this forum topic: ', 'bulletproof-security').'</font><a href="https://forum.ait-pro.com/forums/topic/setup-wizard-root-htaccess-file-backup/" target="_blank" style="text-decoration:underline;">'.__('Setup Wizard Root htaccess File Backup', 'bulletproof-security').'</a></strong><br>';;
 	echo $text;
 	echo '</p></div>';
 

@@ -380,6 +380,6 @@ class wpsr_widget_buttons{
     
 }
 
-new wpsr_widget_buttons();
+// new wpsr_widget_buttons();
 
 ?>

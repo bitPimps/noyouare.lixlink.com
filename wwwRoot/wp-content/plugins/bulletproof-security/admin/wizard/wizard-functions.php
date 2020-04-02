@@ -41,7 +41,8 @@ function bpsSetupWizard_delete_htaccess_files() {
 					unlink($file);
 				}
 			}
-			echo '<strong><font color="blue">'.__('htaccess Files Disabled: Existing BPS htaccess files have been deleted and new BPS htaccess files will not be created. All BPS htaccess features are disabled.', 'bulletproof-security').'</font></strong><br>';
+			echo '<strong><font color="blue">'.__('htaccess Files Disabled: Existing BPS htaccess files have been deleted and new BPS htaccess files will not be created. All BPS htaccess features are disabled.', 'bulletproof-security').'</font></strong>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';		
+		
 		}
 	}
 }
@@ -244,21 +245,8 @@ RewriteRule ^wp-includes/js/tinymce/langs/.+\.php - [F]
 RewriteRule ^wp-includes/theme-compat/ - [F]\n\n";
 }
 
-$hostaddress = esc_html( @gethostbyaddr( $_SERVER['SERVER_ADDR'] ) );
-
 if ( $BPSCustomCodeOptions['bps_customcode_request_methods'] != '' ) {        
 $bps_secure_request_methods = "\n# CUSTOM CODE REQUEST METHODS FILTERED\n" . htmlspecialchars_decode( $BPSCustomCodeOptions['bps_customcode_request_methods'], ENT_QUOTES)."\n\n";
-} else {
-if ( preg_match( '/secureserver\.net/', $hostaddress, $matches ) ) {
-$bps_secure_request_methods = "\n# REQUEST METHODS FILTERED
-# If you want to allow HEAD Requests use BPS Custom Code and copy 
-# this entire REQUEST METHODS FILTERED section of code to this BPS Custom Code 
-# text box: CUSTOM CODE REQUEST METHODS FILTERED.
-# See the CUSTOM CODE REQUEST METHODS FILTERED help text for additional steps.
-RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]
-RewriteRule ^(.*)$ - [F]
-RewriteCond %{REQUEST_METHOD} ^(HEAD) [NC]
-RewriteRule ^(.*)$ - [R=405,L]\n\n";
 } else {
 $bps_secure_request_methods = "\n# REQUEST METHODS FILTERED
 # If you want to allow HEAD Requests use BPS Custom Code and copy 
@@ -269,7 +257,6 @@ RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]
 RewriteRule ^(.*)$ - [F]
 RewriteCond %{REQUEST_METHOD} ^(HEAD) [NC]
 RewriteRule ^(.*)$ " . $bps_get_wp_root_secure . $bps_plugin_dir . "/bulletproof-security/405.php [L]\n\n";
-}
 }
 
 $bps_secure_begin_plugins_skip_rules_text = "# PLUGINS/THEMES AND VARIOUS EXPLOIT FILTER SKIP RULES
@@ -510,7 +497,7 @@ $bps_secure_bottom_misc_code = "# HOTLINKING/FORBID COMMENT SPAMMERS/BLOCK BOTS/
 		@copy($bps_auto_write_secure_file_root, $bps_master_backup_root_file);
 		// root htaccess file backup with timestamp: root.htaccess-2017-11-02-3-00-00
 		copy($bps_auto_write_secure_file_root, $rootHtaccessBackupTime);
-		echo $successTextBegin.$bps_master_backup_root_file.__(' Root .htaccess File backup Successful!', 'bulletproof-security').$successTextEnd;
+		echo $successTextBegin.$bps_master_backup_root_file.__(' Root .htaccess File backup Successful! ', 'bulletproof-security').$rootHtaccessBackupTime.$successTextEnd;
 	}
 
 	// PHP/php.ini handler check: continue or return and do not create a root htaccess file

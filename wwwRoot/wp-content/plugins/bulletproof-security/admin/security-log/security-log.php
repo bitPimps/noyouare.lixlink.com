@@ -24,34 +24,34 @@ if ( $ScrollTop_options['bps_scrolltop'] != 'Off' ) {
 ?>
 
 <?php
-if ( function_exists('get_transient') ) {
-require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+//if ( function_exists('get_transient') ) {
+//require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
-	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
-		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
+//	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
+//		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
 		
-	if ( ! is_wp_error( $bps_api ) ) {
-		$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
-		$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
-		maybe_serialize( $bps_downloaded );
-		set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
-	}
-	}
+//		if ( ! is_wp_error( $bps_api ) ) {
+//			$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
+//			$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
+//			maybe_serialize( $bps_downloaded );
+//			set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
+//		}
+//	}
 
-		$bps_transient = get_transient( 'bulletproof-security_info' );
+//		$bps_transient = get_transient( 'bulletproof-security_info' );
     	
 		echo '<div class="bps-star-container">';
 		echo '<div class="bps-star"><img src="'.plugins_url('/bulletproof-security/admin/images/star.png').'" /></div>';
 		echo '<div class="bps-downloaded">';
 		
-		foreach ( $bps_transient as $key => $value ) {
-			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
-		}
+//		foreach ( $bps_transient as $key => $value ) {
+//			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
+//		}
 		
 		echo '<div class="bps-star-link"><a href="https://wordpress.org/support/view/plugin-reviews/bulletproof-security#postform" target="_blank" title="Add a Star Rating for the BPS plugin">'.__('Rate BPS', 'bulletproof-security').'</a><br><a href="https://affiliates.ait-pro.com/po/" target="_blank" title="Upgrade to BulletProof Security Pro">Upgrade to Pro</a></div>';
 		echo '</div>';
 		echo '</div>';
-}
+//}
 ?>
 
 <h2 class="bps-tab-title"><?php _e('BulletProof Security ~ Security Log', 'bulletproof-security'); ?></h2>
@@ -252,7 +252,7 @@ if ( isset( $_POST['Submit-Error-Log-On'] ) && current_user_can('manage_options'
 	<strong><a href="https://forum.ait-pro.com/forums/topic/read-me-first-free/#bps-free-general-troubleshooting" title="BPS Troubleshooting Steps" target="_blank"><?php _e('BPS Troubleshooting Steps', 'bulletproof-security'); ?></a></strong><br />
     <strong><a href="https://forum.ait-pro.com/forums/topic/post-request-protection-post-attack-protection-post-request-blocker/" title="POST Request Attack Protection Bonus Custom Code" target="_blank"><?php _e('POST Request Attack Protection', 'bulletproof-security'); ?></a></strong><br /><br />		
 	
-	<?php $text = '<strong>'.__('Security Log General Information', 'bulletproof-security').'</strong><br>'.__('Your Security Log file is a plain text static file and not a dynamic file or dynamic display to keep your website resource usage at a bare minimum and keep your website performance at a maximum. Log entries are logged in descending order by Date and Time. You can copy, edit and delete this plain text file.', 'bulletproof-security').'<br><br><strong>'.__('Note: ', 'bulletproof-security').'</strong>'.__('Security Log Email Alert and Log file option settings are on the Email|Log Settings page.', 'bulletproof-security').'<strong><br><br>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('If a particular User Agent|Bot is generating excessive log entries you can add it to Add User Agents|Bots to Ignore|Not Log tool and that User Agent|Bot will no longer be logged. See the Ignoring|Not Logging User Agents|Bots help section.', 'bulletproof-security').'<strong><br><br>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('BPS logs all 403 errors, but a 403 error may not necessarily be caused by BPS. Use the troubleshooting steps in the BPS Troubleshooting Steps link at the top of this Read Me help window to confirm or eliminate that the 403 error is being caused by BPS.', 'bulletproof-security').'<br><br>'.__('The Security Log logs 400, 403, 405 and 410 HTTP Response Status Codes by default. You can also log 404 HTTP Response Status Codes by opening this BPS 404 Template file - /bulletproof-security/404.php and copying the logging code into your Theme\'s 404 Template file. When you open the BPS Pro 404.php file you will see simple instructions on how to add the 404 logging code to your Theme\'s 404 Template file. The Security Log also logs other events. See the ', 'bulletproof-security').'<strong>'.__('Total # of Security Log Entries by Type', 'bulletproof-security').'</strong>'.__(' help section below for a complete list of BPS Security Log Entry Types.', 'bulletproof-security').'<br><br><strong>'.__('Total # of Security Log Entries by Type', 'bulletproof-security').'</strong><br>'.__('Displays the total number of each type of Security Log Entry in your Security Log file. The Total # of Security Log Entries by Type is also added to each Security Log file when it is zipped and emailed to you and also added directly in the automated Security Log email. Complete list of BPS Security Log Entry Types: 400 POST Bad Request, 400 GET Bad Request, 403 GET Request, 403 POST Request, 404 GET Not Found Request, 404 POST Not Found Request, 405 HEAD Request, 410 Gone POST Request, 410 Gone GET Request, Idle Session Logout, Maintenance Mode - Visitor Logged. BPS has a total of 11 Security Log Entry Types. BPS Pro has a total of 27 Security Log Entry Types.', 'bulletproof-security').'<br><br><strong>'.__('HTTP Response Status Codes', 'bulletproof-security').'</strong><br>'.__('400 Bad Request - The request could not be understood by the server due to malformed syntax.', 'bulletproof-security').'<br><br>'.__('403 Forbidden - The Server understood the request, but is refusing to fulfill it.', 'bulletproof-security').'<br><br>'.__('404 Not Found - The Server has not found anything matching the Request-URI|URL. No indication is given of whether the condition is temporary or permanent.', 'bulletproof-security').'<br><br>'.__('405 Method Not Allowed - The method specified in the Request-Line is not allowed for the resource identified by the Request-URI. The response MUST include an Allow header containing a list of valid methods for the requested resource. BPS blocks HEAD Requests using a 405 ErrorDocument Redirect. The BPS 405 Template has an Allow header field for the GET, POST and PUT HTTP Methods.', 'bulletproof-security').'<br><br>'.__('410 Gone - The requested resource is no longer available at the Server/site and no forwarding address is known. This condition is expected to be considered permanent.', 'bulletproof-security').'<br><br><strong>'.__('Security Log File Size', 'bulletproof-security').'</strong><br>'.__('Displays the size of your Security Log file. 500KB is the optimum recommended log file size setting that you should choose for your log file to be automatically zipped, emailed and replaced with a new blank Security Log file.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Status:', 'bulletproof-security').'</strong><br>'.__('Displays either Logging is Turned On or Logging is Turned Off.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Last Modified Time:', 'bulletproof-security').'</strong><br>'.__('Displays the last time a Security Log entry was logged.', 'bulletproof-security').'<br><br><strong>'.__('Turn Off Logging', 'bulletproof-security').'</strong><br>'.__('Turns Off HTTP 400, 403, 404, 405 & 410 Security Logging.', 'bulletproof-security').'<br><br><strong>'.__('Turn On Logging', 'bulletproof-security').'</strong><br>'.__('Turns On HTTP 400, 403, 404, 405 & 410 Security Logging.', 'bulletproof-security').'<br><br><strong>'.__('Delete Log Button', 'bulletproof-security').'</strong><br>'.__('Clicking the Delete Log button will delete the entire contents of your Security Log File.', 'bulletproof-security').'<br><br><strong>'.__('POST Request Body Data', 'bulletproof-security').'</strong><br>'.__('The POST Request Body Data option settings only affect the REQUEST BODY Security Log field in your Security Log entries when a POST Request is blocked and logged by BPS. To capture/log all POST Request Attacks against your website you will need to add the POST Request Attack Protection Bonus Custom Code. A link to that Bonus Custom Code is at the top of this Read Me help window. If you do not want to add the Bonus Custom Code then some, but not all POST Request Attacks will be captured/logged in the Security Log.', 'bulletproof-security').'<br><br>'.__('The default POST Request Body Data option setting is "Do Not Log POST Request Body Data (0KB)", which means do not capture/log the POST Request data that was sent in the attack. You will see this text in the REQUEST BODY Security Log entry field: "REQUEST BODY: BPS Security Log option set to: Do Not Log POST Request Body Data" instead of the actual POST Request Body data used in the attack on your website. The reason the default setting is set to: "Do Not Log POST Request Body Data (0KB)" is because some web hosts falsely interpret the BPS Security Log text file as malicious since hacker code used to attack your website can be captured/logged in the Security Log text file if you are using the "Log Minimum..." or "Log Maximum..." POST Request Body Data option settings.', 'bulletproof-security').'<br><br>'.__('The "Log Minimum POST Request Body Data (5KB)" option setting will capture/log the first 500 characters or 5KB of hacker code used to attack your website in a POST Request attack and log that hacker code in the REQUEST BODY Security Log entry field. The "Log Maximum POST Request Body Data (250KB)" option setting will capture/log the first 250000 characters or roughly 250KB of hacker code used to attack your website in a POST Request attack and log that hacker code in the REQUEST BODY Security Log entry field. Hacker scripts typically range in size from 20KB to 100KB on average.', 'bulletproof-security').'<br><br><strong>'.__('Important Notes: ', 'bulletproof-security').'</strong>'.__('If you are using email security protection on your computer then your automatically zipped and emailed BPS Security Log files may be seen as containing a virus (hacker script/code) and they could be automatically deleted by your email protection application on your computer. Your computer security protection software may also see the Security Log file as malicious and block it. If your web host falsely sees the BPS Security Log file as a malicious hacker file then you will need to change your POST Request Body Data option setting and use the "Do Not Log POST Request Body Data (0KB)" option setting instead.', 'bulletproof-security').'<br><br><strong>'.__('Ignoring|Not Logging User Agents|Bots - Allowing|Logging User Agents|Bots', 'bulletproof-security').'</strong><br>'.__('Adding or Removing User Agents|Bots adds or removes User Agents|Bots to your Database and also writes new code to the 403.php Security Logging template. The 403.php Security Logging file is where the check occurs whether or not to log or not log a User Agent|Bot. It would be foolish and costly to website performance to have your WordPress database handle the task/function/burden of checking which User Agents|Bots to log or not log. WordPress database queries are the most resource draining function of a WordPress website. The more database queries that are happening at the same time on your website the slower your website will perform and load. For this reason the Security Logging check is done from code in the 403.php Security Logging file.', 'bulletproof-security').'<br><br>'.__('If a particular User Agent|Bot is being logged excessively in your Security Log file you can Ignore|Not Log that particular User Agent|Bot based on the HTTP_USER_AGENT string in your Security Log. Example User Agent strings: Mozilla/5.0 (compatible; 008/0.85; http://www.80legs.com/webcrawler.html) Gecko/2008032620 and facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php). You could enter 008 or 80legs or webcrawler to Ignore|Not Log the 80legs User Agent|Bot. You could enter facebookexternalhit or facebook or externalhit_uatext to Ignore|Not Log the facebook User Agent|Bot.', 'bulletproof-security').'<br><br><strong>'.__('Add User Agents|Bots to Ignore|Not Log', 'bulletproof-security').'</strong><br>'.__('Add the User Agent|Bot names you would like to Ignore|Not Log in your Security Log. These code characters are not allowed to be used: ', 'bulletproof-security').'/ | < > \' "<br><br><strong>'.__('Removing User Agents|Bots to Allow|Log', 'bulletproof-security').'</strong><br>'.__('To search for ALL User Agents|Bots to remove/delete from your database leave the text box blank and click the Remove|Allow button. You will see a Dynamically generated Radio Button Form that will display the User Agents|Bots in the BPS User Agent|Bot database Table, Remove or Do Not Remove Radio buttons and the Timestamp when the User Agent|Bot was added to your DB. Select the Remove Radio buttons for the User Agents|Bots you want to remove/delete from your database and click the Remove button. Removing/deleting User Agents|Bots from your database means that you want to have these User Agents|Bots logged again in your Security Log.', 'bulletproof-security'); echo $text; ?></p>
+	<?php $text = '<strong>'.__('Security Log General Information', 'bulletproof-security').'</strong><br>'.__('To view your Security Log click the View Log button. Your Security Log file is a plain text static file and not a dynamic file or dynamic display to keep your website resource usage at a bare minimum and keep your website performance at a maximum. Log entries are logged in descending order by Date and Time. You can copy, edit and delete this plain text file.', 'bulletproof-security').'<br><br><strong>'.__('Note: ', 'bulletproof-security').'</strong>'.__('Security Log Email Alert and Log file option settings are on the Email|Log Settings page.', 'bulletproof-security').'<strong><br><br>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('If a particular User Agent|Bot is generating excessive log entries you can add it to Add User Agents|Bots to Ignore|Not Log tool and that User Agent|Bot will no longer be logged. See the Ignoring|Not Logging User Agents|Bots help section.', 'bulletproof-security').'<strong><br><br>'.__('NOTE: ', 'bulletproof-security').'</strong>'.__('BPS logs all 403 errors, but a 403 error may not necessarily be caused by BPS. Use the troubleshooting steps in the BPS Troubleshooting Steps link at the top of this Read Me help window to confirm or eliminate that the 403 error is being caused by BPS.', 'bulletproof-security').'<br><br>'.__('The Security Log logs 400, 403, 405 and 410 HTTP Response Status Codes by default. You can also log 404 HTTP Response Status Codes by opening this BPS 404 Template file - /bulletproof-security/404.php and copying the logging code into your Theme\'s 404 Template file. When you open the BPS Pro 404.php file you will see simple instructions on how to add the 404 logging code to your Theme\'s 404 Template file. The Security Log also logs other events. See the ', 'bulletproof-security').'<strong>'.__('Total # of Security Log Entries by Type', 'bulletproof-security').'</strong>'.__(' help section below for a complete list of BPS Security Log Entry Types.', 'bulletproof-security').'<br><br><strong>'.__('Total # of Security Log Entries by Type', 'bulletproof-security').'</strong><br>'.__('Displays the total number of each type of Security Log Entry in your Security Log file. The Total # of Security Log Entries by Type is also added to each Security Log file when it is zipped and emailed to you and also added directly in the automated Security Log email. Complete list of BPS Security Log Entry Types: 400 POST Bad Request, 400 GET Bad Request, 403 GET Request, 403 POST Request, 404 GET Not Found Request, 404 POST Not Found Request, 405 HEAD Request, 410 Gone POST Request, 410 Gone GET Request, Idle Session Logout, Maintenance Mode - Visitor Logged. BPS has a total of 11 Security Log Entry Types. BPS Pro has a total of 27 Security Log Entry Types.', 'bulletproof-security').'<br><br><strong>'.__('HTTP Response Status Codes', 'bulletproof-security').'</strong><br>'.__('400 Bad Request - The request could not be understood by the server due to malformed syntax.', 'bulletproof-security').'<br><br>'.__('403 Forbidden - The Server understood the request, but is refusing to fulfill it.', 'bulletproof-security').'<br><br>'.__('404 Not Found - The Server has not found anything matching the Request-URI|URL. No indication is given of whether the condition is temporary or permanent.', 'bulletproof-security').'<br><br>'.__('405 Method Not Allowed - The method specified in the Request-Line is not allowed for the resource identified by the Request-URI. The response MUST include an Allow header containing a list of valid methods for the requested resource. BPS blocks HEAD Requests using a 405 ErrorDocument Redirect. The BPS 405 Template has an Allow header field for the GET, POST and PUT HTTP Methods.', 'bulletproof-security').'<br><br>'.__('410 Gone - The requested resource is no longer available at the Server/site and no forwarding address is known. This condition is expected to be considered permanent.', 'bulletproof-security').'<br><br><strong>'.__('Security Log File Size', 'bulletproof-security').'</strong><br>'.__('Displays the size of your Security Log file. 500KB is the optimum recommended log file size setting that you should choose for your log file to be automatically zipped, emailed and replaced with a new blank Security Log file.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Status:', 'bulletproof-security').'</strong><br>'.__('Displays either Logging is Turned On or Logging is Turned Off.', 'bulletproof-security').'<br><br><strong>'.__('Security Log Last Modified Time:', 'bulletproof-security').'</strong><br>'.__('Displays the last time a Security Log entry was logged.', 'bulletproof-security').'<br><br><strong>'.__('Turn Off Logging', 'bulletproof-security').'</strong><br>'.__('Turns Off HTTP 400, 403, 404, 405 & 410 Security Logging.', 'bulletproof-security').'<br><br><strong>'.__('Turn On Logging', 'bulletproof-security').'</strong><br>'.__('Turns On HTTP 400, 403, 404, 405 & 410 Security Logging.', 'bulletproof-security').'<br><br><strong>'.__('Delete Log Button', 'bulletproof-security').'</strong><br>'.__('Clicking the Delete Log button will delete the entire contents of your Security Log File.', 'bulletproof-security').'<br><br><strong>'.__('POST Request Body Data', 'bulletproof-security').'</strong><br>'.__('The POST Request Body Data option settings only affect the REQUEST BODY Security Log field in your Security Log entries when a POST Request is blocked and logged by BPS. To capture/log all POST Request Attacks against your website you will need to add the POST Request Attack Protection Bonus Custom Code. A link to that Bonus Custom Code is at the top of this Read Me help window. If you do not want to add the Bonus Custom Code then some, but not all POST Request Attacks will be captured/logged in the Security Log.', 'bulletproof-security').'<br><br>'.__('The default POST Request Body Data option setting is "Do Not Log POST Request Body Data (0KB)", which means do not capture/log the POST Request data that was sent in the attack. You will see this text in the REQUEST BODY Security Log entry field: "REQUEST BODY: BPS Security Log option set to: Do Not Log POST Request Body Data" instead of the actual POST Request Body data used in the attack on your website. The reason the default setting is set to: "Do Not Log POST Request Body Data (0KB)" is because some web hosts falsely interpret the BPS Security Log text file as malicious since hacker code used to attack your website can be captured/logged in the Security Log text file if you are using the "Log Minimum..." or "Log Maximum..." POST Request Body Data option settings.', 'bulletproof-security').'<br><br>'.__('The "Log Minimum POST Request Body Data (5KB)" option setting will capture/log the first 500 characters or 5KB of hacker code used to attack your website in a POST Request attack and log that hacker code in the REQUEST BODY Security Log entry field. The "Log Maximum POST Request Body Data (250KB)" option setting will capture/log the first 250000 characters or roughly 250KB of hacker code used to attack your website in a POST Request attack and log that hacker code in the REQUEST BODY Security Log entry field. Hacker scripts typically range in size from 20KB to 100KB on average.', 'bulletproof-security').'<br><br><strong>'.__('Important Notes: ', 'bulletproof-security').'</strong>'.__('If you are using email security protection on your computer then your automatically zipped and emailed BPS Security Log files may be seen as containing a virus (hacker script/code) and they could be automatically deleted by your email protection application on your computer. Your computer security protection software may also see the Security Log file as malicious and block it. If your web host falsely sees the BPS Security Log file as a malicious hacker file then you will need to change your POST Request Body Data option setting and use the "Do Not Log POST Request Body Data (0KB)" option setting instead.', 'bulletproof-security').'<br><br><strong>'.__('Ignoring|Not Logging User Agents|Bots - Allowing|Logging User Agents|Bots', 'bulletproof-security').'</strong><br>'.__('Adding or Removing User Agents|Bots adds or removes User Agents|Bots to your Database and also writes new code to the 403.php Security Logging template. The 403.php Security Logging file is where the check occurs whether or not to log or not log a User Agent|Bot. It would be foolish and costly to website performance to have your WordPress database handle the task/function/burden of checking which User Agents|Bots to log or not log. WordPress database queries are the most resource draining function of a WordPress website. The more database queries that are happening at the same time on your website the slower your website will perform and load. For this reason the Security Logging check is done from code in the 403.php Security Logging file.', 'bulletproof-security').'<br><br>'.__('If a particular User Agent|Bot is being logged excessively in your Security Log file you can Ignore|Not Log that particular User Agent|Bot based on the HTTP_USER_AGENT string in your Security Log. Example User Agent strings: Mozilla/5.0 (compatible; 008/0.85; http://www.80legs.com/webcrawler.html) Gecko/2008032620 and facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php). You could enter 008 or 80legs or webcrawler to Ignore|Not Log the 80legs User Agent|Bot. You could enter facebookexternalhit or facebook or externalhit_uatext to Ignore|Not Log the facebook User Agent|Bot.', 'bulletproof-security').'<br><br><strong>'.__('Add User Agents|Bots to Ignore|Not Log', 'bulletproof-security').'</strong><br>'.__('Add the User Agent|Bot names you would like to Ignore|Not Log in your Security Log. These code characters are not allowed to be used: ', 'bulletproof-security').'/ | < > \' "<br><br><strong>'.__('Removing User Agents|Bots to Allow|Log', 'bulletproof-security').'</strong><br>'.__('To search for ALL User Agents|Bots to remove/delete from your database leave the text box blank and click the Remove|Allow button. You will see a Dynamically generated Radio Button Form that will display the User Agents|Bots in the BPS User Agent|Bot database Table, Remove or Do Not Remove Radio buttons and the Timestamp when the User Agent|Bot was added to your DB. Select the Remove Radio buttons for the User Agents|Bots you want to remove/delete from your database and click the Remove button. Removing/deleting User Agents|Bots from your database means that you want to have these User Agents|Bots logged again in your Security Log.', 'bulletproof-security').'<br><br><strong>'.__('View Log', 'bulletproof-security').'</strong><br>'.__('In previous versions of BPS the Security Log was displayed open by default. The Security Log is now closed by default due to problems with ModSecurity CRS seeing the Security Log entries as malicious and blocking access to the Security Log page. If you are unable to open/view your Security Log file you can view your Security Log file by using FTP or your web host control panel file manager and opening the Security Log file located here ', 'bulletproof-security').'/'.$bps_wpcontent_dir.'/bps-backup/logs/http_error_log.txt. '.__('The new View Log feature also resolves another problem, which is if the Security Log file automation is not working due to WP Cron jobs being disabled on a website then the Security Log file will not be automatically zipped, emailed to you and replaced with a new blank log file at regular cron intervals by the Security Log file Cron job automation. If your Security Log file is extremely large and you are unable to open/view it then you can manually download a copy of the Security Log file using FTP or your web host control panel file manager and then delete it using the Delete Log button.', 'bulletproof-security'); echo $text; ?></p>
 </div>
 
 <?php
@@ -703,6 +703,13 @@ echo '<div id="message" class="updated" style="background-color:#dfecf2;border:1
 /*************************************/
 ?>
 
+<div id="ViewSecurityLog" style="margin:10px 0px 10px 0px">
+<form name="ViewSecurityLogForm" action="<?php echo admin_url( 'admin.php?page=bulletproof-security/admin/security-log/security-log.php' ); ?>" method="post">
+<?php wp_nonce_field('bps_view_security_log'); ?>
+<input type="submit" name="Submit-View-Security-Log" value="<?php esc_attr_e('View Log', 'bulletproof-security') ?>" class="button bps-button" onclick="return confirm('<?php $text = __('Clicking OK will display the contents of your Security Log file.', 'bulletproof-security').'\n\n'.$bpsSpacePop.'\n\n'.__('Click OK to view the Log file or click Cancel.', 'bulletproof-security'); echo $text; ?>')" />
+</form>
+</div>
+
 <div id="messageinner" class="updatedinner">
 
 <?php
@@ -712,7 +719,9 @@ echo '<div id="message" class="updated" style="background-color:#dfecf2;border:1
 // Note: If this is a problem for other non-English languages then switch to UTF-8
 function bps_get_security_log() {
 
-	if ( current_user_can('manage_options') ) {
+	if ( isset( $_POST['Submit-View-Security-Log'] ) && current_user_can('manage_options') ) {
+		check_admin_referer( 'bps_view_security_log' ); 
+		
 		$bps_sec_log = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
 		$bps_wpcontent_dir = str_replace( ABSPATH, '', WP_CONTENT_DIR );
 
@@ -731,37 +740,44 @@ function bps_get_security_log() {
 }
 
 // Form - Security Log - Perform File Open and Write test - If append write test is successful write to file
-if ( current_user_can('manage_options') ) {
-$bps_sec_log = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
-$write_test = "";
+function bpsPro_security_log_write_check() {
+
+	if ( @$_POST['submit-security-log'] != true ) {
+
+		$bps_sec_log = WP_CONTENT_DIR . '/bps-backup/logs/http_error_log.txt';
 	
-	if ( is_writable($bps_sec_log) ) {
-    if ( !$handle = fopen($bps_sec_log, 'a+b' ) ) {
-    	exit;
-    }
-    if ( fwrite($handle, $write_test) === FALSE ) {
-		exit;
-    }
-	$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! Your Security Log file is writable.', 'bulletproof-security').'</strong></font><br>';
-	echo $text;
+		if ( is_writable($bps_sec_log) ) {
+			$text = '<font color="green" style="font-size:12px;"><strong>'.__('File Open and Write test successful! Your Security Log file is writable. Click the View Log button.', 'bulletproof-security').'</strong></font><br>';
+			echo $text;
+		
+		} else {
+				
+			$text = '<font color="#fb0101" style="font-size:12px;"><strong>'.__('Cannot write to file: ', 'bulletproof-security').$bps_sec_log . '</strong></font><br>';
+			echo $text;
+		}
 	}
-	}
-	
+}
+
+bpsPro_security_log_write_check();
+
 	if ( isset( $_POST['submit-security-log'] ) && current_user_can('manage_options') ) {
 		check_admin_referer( 'bulletproof_security_save_security_log' );
 		$newcontentSecLog = stripslashes($_POST['newcontentSecLog']);
+	
 	if ( is_writable($bps_sec_log) ) {
+		
 		$handle = fopen($bps_sec_log, 'w+b');
 		fwrite($handle, $newcontentSecLog);
-	$text = '<font color="green" style="font-size:12px;"><strong>'.__('Success! Your Security Log file has been updated.', 'bulletproof-security').'</strong></font><br>';
-	echo $text;	
-    
-	echo $bps_topDiv;
-	$text = '<font color="green"><strong>'.__('Success! Your Security Log file has been updated.', 'bulletproof-security').'</strong></font>';
-	echo $text;	
-	echo $bps_bottomDiv;	
-	
-	fclose($handle);
+		
+		$text = '<font color="green" style="font-size:12px;"><strong>'.__('Success! Your Security Log file has been updated.', 'bulletproof-security').'</strong></font><br>';
+		echo $text;	
+		
+		echo $bps_topDiv;
+		$text = '<font color="green"><strong>'.__('Success! Your Security Log file has been updated.', 'bulletproof-security').'</strong></font>';
+		echo $text;	
+		echo $bps_bottomDiv;	
+		
+		fclose($handle);
 	}
 }
 $scrolltoSecLog = isset($_REQUEST['scrolltoSecLog']) ? (int) $_REQUEST['scrolltoSecLog'] : 0;

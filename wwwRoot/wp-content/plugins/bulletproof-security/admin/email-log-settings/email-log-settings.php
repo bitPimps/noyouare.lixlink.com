@@ -24,34 +24,34 @@ if ( $ScrollTop_options['bps_scrolltop'] != 'Off' ) {
 ?>
 
 <?php
-if ( function_exists('get_transient') ) {
-require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+//if ( function_exists('get_transient') ) {
+//require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
-	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
-		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
+//	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
+//		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
 		
-	if ( ! is_wp_error( $bps_api ) ) {
-		$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
-		$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
-		maybe_serialize( $bps_downloaded );
-		set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
-	}
-	}
+//		if ( ! is_wp_error( $bps_api ) ) {
+//			$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
+//			$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
+//			maybe_serialize( $bps_downloaded );
+//			set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
+//		}
+//	}
 
-		$bps_transient = get_transient( 'bulletproof-security_info' );
+//		$bps_transient = get_transient( 'bulletproof-security_info' );
     	
 		echo '<div class="bps-star-container">';
 		echo '<div class="bps-star"><img src="'.plugins_url('/bulletproof-security/admin/images/star.png').'" /></div>';
 		echo '<div class="bps-downloaded">';
 		
-		foreach ( $bps_transient as $key => $value ) {
-			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
-		}
+//		foreach ( $bps_transient as $key => $value ) {
+//			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
+//		}
 		
 		echo '<div class="bps-star-link"><a href="https://wordpress.org/support/view/plugin-reviews/bulletproof-security#postform" target="_blank" title="Add a Star Rating for the BPS plugin">'.__('Rate BPS', 'bulletproof-security').'</a><br><a href="https://affiliates.ait-pro.com/po/" target="_blank" title="Upgrade to BulletProof Security Pro">Upgrade to Pro</a></div>';
 		echo '</div>';
 		echo '</div>';
-}
+//}
 ?>
 
 <h2 class="bps-tab-title"><?php _e('BulletProof Security ~ Email Alerts & Log File Settings', 'bulletproof-security'); ?></h2>

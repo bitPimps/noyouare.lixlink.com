@@ -22,8 +22,8 @@ class WPSR_Template_Buttons{
         if($btn_settings[ 'ft_status' ] != 'disable'){
             foreach( $btn_templates as $tmpl ){
                 
-                $content_obj = new wpsr_template_button_handler( $tmpl, 'content' );
-                $excerpt_obj = new wpsr_template_button_handler( $tmpl, 'excerpt' );
+                $content_obj = new wpsr_template_button_handler( $tmpl, 'content', 'buttons' );
+                $excerpt_obj = new wpsr_template_button_handler( $tmpl, 'excerpt', 'buttons' );
                 
                 add_filter( 'the_content', array( $content_obj, 'print_template' ), 10 );
                 add_filter( 'the_excerpt', array( $excerpt_obj, 'print_template' ), 10 );
@@ -32,7 +32,7 @@ class WPSR_Template_Buttons{
         }
     }
     
-    public static function html( $template, $page_info = array(), $min_on_width = '0' ){
+    public static function html( $template, $page_info = array(), $resp_width = '0' ){
         
         $decoded = base64_decode( $template );
         $rows = json_decode( $decoded );
@@ -46,7 +46,7 @@ class WPSR_Template_Buttons{
                 'buttons' => ''
             );
         
-        $min_on_width = ( $min_on_width > 0 ) ? ' data-minonwidth="' . $min_on_width . '" ' : '';
+        $resp_width = ( $resp_width > 0 ) ? ' data-respwidth="' . $resp_width . '" data-respclass="wpsr-mow" ' : '';
         
         // Apply filters on the template rows
         $rows = apply_filters( 'wpsr_mod_buttons_template', $rows );
@@ -54,7 +54,7 @@ class WPSR_Template_Buttons{
         
         foreach( $rows as $row ){
             if( count( $row->buttons ) > 0 ){
-                $html .= '<div class="wp-socializer wpsr-buttons wpsr-row-' . $row_id . '"' . $min_on_width . '>';
+                $html .= '<div class="wp-socializer wpsr-buttons wpsr-row-' . $row_id . '"' . $resp_width . '>';
                 foreach( $row->buttons as $button ){
                     $btn_id = key( ( array )$button );
                     array_push( $row_buttons, $btn_id );
@@ -168,11 +168,13 @@ class WPSR_Template_Sharebar{
         }else{
             array_push( $classes, 'wpsr-sb-vl-' . $opts[ 'vl_position' ] );
             array_push( $classes, 'wpsr-sb-vl-' . $opts[ 'vl_movement' ] );
+            array_push( $classes, 'wpsr-sb-mobmode-' . $opts[ 'vl_mob_mode_pos' ]);
             array_push( $styles, ( $opts[ 'vl_position' ] == 'wleft' ? 'left' : ( $opts[ 'vl_position' ] == 'scontent' ) ? 'margin-left' : 'right' ) . ':' . $opts[ 'offset' ] );
         }
         
         array_push( $classes, 'wpsr-sb-' . ( $opts[ 'type' ] == 'horizontal' ? 'hl' : 'vl' ) );
         array_push( $classes, 'wpsr-sb-' . $opts[ 'theme' ] );
+        
         $classes = array_merge( $classes, explode( ',', $opts[ 'css_class' ] ) );
         
         if( $opts[ 'bg_color' ] != '' )
@@ -186,7 +188,7 @@ class WPSR_Template_Sharebar{
         
         $classes = implode( ' ', $classes );
         $styles = implode( ';', $styles );
-        $min_on_width = ( $opts[ 'min_on_width' ] > 0 ) ? ' data-minonwidth="' . $opts[ 'min_on_width' ] . '" ' : '';
+        $min_on_width = ( $opts[ 'min_on_width' ] > 0 ) ? ' data-respwidth="' . $opts[ 'min_on_width' ] . '" data-respclass="wpsr-mow" ' : '';
         
         // Apply filters
         $rows = apply_filters( 'wpsr_mod_sharebar_template', $rows );
@@ -375,7 +377,7 @@ class WPSR_Template_Followbar{
         $close_icon = WPSR_Lists::public_icons( 'fb_close' );
         
         if( $floating ){
-            $min_on_width = ( $opts[ 'min_on_width' ] > 0 ) ? ' data-minonwidth="' . $opts[ 'min_on_width' ] . '" ' : '';
+            $min_on_width = ( $opts[ 'min_on_width' ] > 0 ) ? ' data-respwidth="' . $opts[ 'min_on_width' ] . '" data-respclass="wpsr-mow" ' : '';
             $title = ( $opts[ 'title' ] != '' ) ? '<div class="sr-fb-title">' . $opts[ 'title' ] . '</div>' : '';
             $close_btn = '<div class="wpsr-fb-close" title="Open or close followbar"><span class="wpsr-bar-icon">' . $open_icon . $close_icon . '</span></div>';
             $orientation = ( $opts[ 'orientation' ] == 'horizontal' ) ? 'sr-fb-hl' : 'sr-fb-vl';
@@ -499,7 +501,7 @@ class WPSR_Template_Mobile_Sharebar{
             }
             
             $sb_info = $sb_sites[ $id ];
-            $link = self::get_url( $sb_info[ 'link' ], $page_info );
+            $link = WPSR_Metadata::process_url( $sb_info[ 'link' ], $page_info );
             $onclick = array_key_exists( 'onclick', $sb_info ) ? 'onclick="' . esc_attr( $sb_info[ 'onclick' ] ) . '"' : '';
             
             $html .= '<span class="sr-' . $id . '"><a rel="nofollow" target="_blank" href="' . esc_attr( $link ) . '" title="' . esc_attr( $sb_info[ 'title' ] ) . '" style="' . $style . '" ' . $onclick . '><i class="' . esc_attr( $sb_info[ 'icon' ] ) . '" tar></i></a></span>';
@@ -518,33 +520,443 @@ class WPSR_Template_Mobile_Sharebar{
         
     }
     
-    public static function get_url( $url, $pinfo ){
-        
-        $g_settings = get_option( 'wpsr_general_settings' );
-        $g_settings = WPSR_Lists::set_defaults( $g_settings, WPSR_Lists::defaults( 'gsettings_twitter' ) );
-        $t_username = ( $g_settings[ 'twitter_username' ] != '' ) ? '@' . $g_settings[ 'twitter_username' ] : '';
-        
-        $search = array(
-            '{url}',
-            '{title}',
-            '{excerpt}',
-            '{s-url}',
-            '{rss-url}',
-            '{twitter-username}',
-        );
-        
-        $replace = array(
-            $pinfo[ 'url' ],
-            $pinfo[ 'title' ],
-            $pinfo[ 'excerpt' ],
-            $pinfo[ 'short_url' ],
-            $pinfo[ 'rss_url' ],
-            $t_username
-        );
-        
-        return str_replace( $search, $replace, $url );
+}
+
+class WPSR_Template_Social_Icons{
+
+    public static function init(){
+
+        add_action( 'init', array( __CLASS__, 'output' ) );
+
     }
-    
+
+    public static function output(){
+
+        $si_settings = WPSR_Lists::set_defaults( get_option( 'wpsr_social_icons_settings' ), WPSR_Lists::defaults( 'social_icons' ) );
+        $si_templates = $si_settings[ 'tmpl' ];
+        
+        if( empty( $si_templates ) ){
+            $default_tmpl = WPSR_Lists::defaults( 'social_icons' );
+            array_push( $si_templates, $default_tmpl );
+        }
+
+        if($si_settings[ 'ft_status' ] != 'disable'){
+            foreach( $si_templates as $tmpl ){
+                
+                $content_obj = new wpsr_template_button_handler( $tmpl, 'content', 'social_icons' );
+                $excerpt_obj = new wpsr_template_button_handler( $tmpl, 'excerpt', 'social_icons' );
+                
+                add_filter( 'the_content', array( $content_obj, 'print_template' ), 10 );
+                add_filter( 'the_excerpt', array( $excerpt_obj, 'print_template' ), 10 );
+                
+            }
+        }
+
+    }
+
+    public static function html( $tmpl ){
+
+        $social_icons = WPSR_Lists::social_icons();
+        $page_info = WPSR_Metadata::metadata();
+        $counter_services = WPSR_Share_Counter::counter_services();
+        $selected_icons = json_decode( base64_decode( $tmpl[ 'selected_icons' ] ) );
+
+        $classes = array( 'socializer', 'sr-popup' );
+
+        if( $tmpl[ 'layout' ] != '' ){
+            array_push( $classes, 'sr-' . $tmpl[ 'layout' ] );
+        }
+
+        if( $tmpl[ 'icon_size' ] != '' ){
+            array_push( $classes, 'sr-' . $tmpl[ 'icon_size' ] );
+        }
+
+        if( $tmpl[ 'icon_shape' ] != '' && $tmpl[ 'layout' ] == '' ){
+            array_push( $classes, 'sr-' . $tmpl[ 'icon_shape' ] );
+        }
+
+        if( $tmpl[ 'hover_effect' ] != '' ){
+            array_push( $classes, 'sr-' . $tmpl[ 'hover_effect' ] );
+        }
+
+        if( $tmpl[ 'padding' ] != '' ){
+            array_push( $classes, 'sr-' . $tmpl[ 'padding' ] );
+        }
+
+        $styles = array();
+        if ( $tmpl[ 'icon_bg_color' ] != '' ) array_push( $styles, 'background-color: ' . $tmpl[ 'icon_bg_color' ] );
+        if ( $tmpl[ 'icon_color' ] != '' ) array_push( $styles, 'color: ' . $tmpl[ 'icon_color' ] );
+        $style = join( ';', $styles );
+        $style = ( $style != '' ) ? ' style="' . $style . '"' : '';
+
+        $icons_html = array();
+
+        $counters_selected = array();
+
+        if( empty( $selected_icons ) ){
+            return array(
+                'html' => ''
+            );
+        }
+
+        foreach( $selected_icons as $icon ){
+
+            $id = key( $icon );
+
+            if( !array_key_exists( $id, $social_icons ) ){
+                continue;
+            }
+
+            $props = $social_icons[ $id ];
+            $icon_classes = array( 'sr-' . $id );
+
+            if( !array_key_exists( $id, $social_icons ) ){
+                continue;
+            }
+
+            $settings = WPSR_Lists::set_defaults( (array) $icon->$id, array(
+                'icon' => '',
+                'text' => '',
+                'hover_text' => ''
+            ));
+
+            // If custom HTML button
+            if( $id == 'html' ){
+                $tags = array();
+                $replace_with = array();
+                foreach( $page_info as $id => $val ){
+                    array_push( $tags, '{' . $id . '}' );
+                    array_push( $replace_with, $val );
+                }
+                $custom_html = str_replace( $tags, $replace_with, $settings[ 'html' ] );
+
+                $ihtml = '<div class="sr-custom-html">' . $custom_html . '</div>';
+                array_push( $icons_html, $ihtml );
+                continue;
+            }
+
+            $url = WPSR_Metadata::process_url( $props[ 'link' ], $page_info );
+            $onclick = isset( $props[ 'onclick' ] ) ? 'onclick="' . $props[ 'onclick' ] . '"' : '';
+            
+            $text = '';
+            if( $settings[ 'text' ] != '' ){
+                $text = '<span class="text">' . $settings[ 'text' ] . '</span>';
+                array_push( $icon_classes, 'sr-text-in' );
+            }
+
+            $icon = '';
+            if( $settings[ 'icon' ] == '' ){
+                $icon = '<i class="' . esc_attr( $props[ 'icon' ] ) . '"></i>';
+            }else{
+                $icon_val = $settings[ 'icon' ];
+                if (strpos( $settings[ 'icon' ], 'http' ) === 0) {
+                    $icon = '<img src="' . esc_attr( $icon_val ) . '" alt="' . esc_attr( $id ) . '" height="50%" />';
+                }else{
+                    $icon = '<i class="' . esc_attr( $icon_val ) . '"></i>';
+                }
+            }
+
+            $title = '';
+            if( $settings[ 'hover_text' ] == '' ){
+                $title = $props[ 'title' ];
+            }else{
+                $title = $settings[ 'hover_text' ];
+            }
+
+            $count_tag = '';
+            if( ( $tmpl[ 'share_counter' ] == 'individual' || $tmpl[ 'share_counter' ] == 'total-individual' ) && array_key_exists( $id, $counter_services) ){
+                $count_holder = WPSR_Share_Counter::placeholder( $page_info[ 'url' ], $id );
+                $count_tag = '<span class="ctext">' . $count_holder . '</span>';
+                array_push( $classes, 'sr-' . $tmpl[ 'sc_style' ] );
+                if( $tmpl[ 'sc_style' ] != 'count-1' ){
+                    array_push( $icon_classes, 'sr-text-in' );
+                }
+            }
+            array_push( $counters_selected, $id );
+
+            $ihtml = '<span class="' . implode( ' ', $icon_classes ) . '"><a rel="nofollow" href="' . esc_attr( $url ) . '" target="_blank" ' . $onclick . ' title="' . esc_attr( $title ) . '" ' . $style . '>' . $icon . $text . $count_tag . '</a></span>';
+            array_push( $icons_html, $ihtml );
+
+        }
+
+        if( intval( $tmpl[ 'more_icons' ] ) > 0 ){
+            $more_count = intval( $tmpl[ 'more_icons' ] );
+            $more_icons = array_slice( $icons_html, -$more_count, $more_count );
+            $more_html = '<span class="sr-more"><a href="#" target="_blank" title="More sites" ' . $style . '><i class="fa fa-share-alt"></i></a><ul class="socializer">' . implode( "\n", $more_icons ) . '</ul></span>';
+            $icons_html = array_slice( $icons_html, 0, -$more_count );
+            array_push( $icons_html, $more_html );
+        }
+
+        $all_icons_html = '<div class="' . implode( " ", $classes ) . '">' . implode( "\n", $icons_html ) . '</div>';
+
+        $all_icons_btn = '<div class="wpsr-btn">' . $all_icons_html . '</div>';
+        $row_html = $all_icons_btn;
+
+        $wrap_classes = '';
+        $html = '';
+
+        if( $tmpl[ 'share_counter' ] == 'total' || $tmpl[ 'share_counter' ] == 'total-individual' ){
+            $total_counter = WPSR_Services::output( 'share_counter', array(
+                'text' => 'Shares',
+                'counter_color' => '#000',
+                'add_services' => $counters_selected,
+                'orientation' => 'vl',
+                'size' => $tmpl[ 'icon_size' ]
+            ), $page_info);
+
+            $total_counter_html = $total_counter[ 'html' ];
+
+            if( $tmpl[ 'sc_total_position' ] == 'left' ){
+                $row_html = '<div class="wpsr-btn">' . $total_counter_html . '</div>';
+                $row_html .= $all_icons_btn;
+            }else{
+                $row_html = $all_icons_btn;
+                $row_html .= '<div class="wpsr-btn">' . $total_counter_html . '</div>';
+            }
+
+            if( $tmpl[ 'layout' ] == 'fluid' ){
+                $wrap_classes = 'wpsr-flex';
+            }
+
+        }
+
+        if( $tmpl[ 'layout' ] == '' && $tmpl[ 'center_icons' ] == 'yes' ){
+            $wrap_classes = 'wpsr-flex-center';
+        }
+
+        if( trim( $tmpl[ 'heading' ] ) != '' ){
+            $html .= '<div class="wp-socializer wpsr-buttons ' . $wrap_classes . '">';
+            $html .= $tmpl[ 'heading' ];
+            $html .= '</div>';
+        }
+
+        if( trim( $tmpl[ 'custom_html_above' ] ) != '' ){
+            $html .= $tmpl[ 'custom_html_above' ];
+        }
+
+        $html .= '<div class="wp-socializer wpsr-buttons ' . $wrap_classes . '">';
+        $html .= $row_html;
+        $html .= '</div>';
+
+        if( trim( $tmpl[ 'custom_html_below' ] ) != '' ){
+            $html .= $tmpl[ 'custom_html_below' ];
+        }
+
+        return array(
+            'html' => $html
+        );
+
+    }
+
+}
+
+class WPSR_Template_Floating_Sharebar{
+
+    public static function init(){
+
+        add_action( 'wp_footer', array( __CLASS__, 'output' ) );
+
+    }
+
+    public static function output(){
+
+        $fsb_settings = WPSR_Lists::set_defaults( get_option( 'wpsr_floating_sharebar_settings' ), WPSR_Lists::defaults( 'floating_sharebar' ) );
+        $loc_rules_answer = WPSR_Location_Rules::check_rule( $fsb_settings[ 'loc_rules' ] );
+        
+        if( $fsb_settings[ 'ft_status' ] != 'disable' && $loc_rules_answer ){
+            $gen_html = self::html( $fsb_settings );
+            echo $gen_html;
+            do_action( 'wpsr_do_floating_sharebar_print_template_end' );
+        }
+
+    }
+
+    public static function html( $o ){
+
+        $social_icons = WPSR_Lists::social_icons();
+        $page_info = WPSR_Metadata::metadata();
+        $counter_services = WPSR_Share_Counter::counter_services();
+        $selected_icons = json_decode( base64_decode( $o[ 'selected_icons' ] ) );
+
+        $classes = array( 'socializer', 'sr-popup', 'sr-vertical' );
+
+        if( $o[ 'icon_size' ] != '' ){
+            array_push( $classes, 'sr-' . $o[ 'icon_size' ] );
+        }
+
+        if( $o[ 'icon_shape' ] != '' ){
+            array_push( $classes, 'sr-' . $o[ 'icon_shape' ] );
+            array_push( $classes, 'sr-pad' );
+        }
+
+        if( $o[ 'hover_effect' ] != '' ){
+            array_push( $classes, 'sr-' . $o[ 'hover_effect' ] );
+        }
+
+        if( $o[ 'padding' ] != '' && $o[ 'icon_shape' ] == '' ){
+            array_push( $classes, 'sr-' . $o[ 'padding' ] );
+        }
+
+        $styles = array();
+        if ( $o[ 'icon_bg_color' ] != '' ) array_push( $styles, 'background-color: ' . $o[ 'icon_bg_color' ] );
+        if ( $o[ 'icon_color' ] != '' ) array_push( $styles, 'color: ' . $o[ 'icon_color' ] );
+        $style = join( ';', $styles );
+        $style = ( $style != '' ) ? ' style="' . $style . '"' : '';
+
+        $icons_html = array();
+
+        $counters_selected = array();
+
+        foreach( $selected_icons as $icon ){
+
+            $id = key( $icon );
+            $props = $social_icons[ $id ];
+            $icon_classes = array( 'sr-' . $id );
+
+            if( !array_key_exists( $id, $social_icons ) ){
+                continue;
+            }
+
+            $settings = WPSR_Lists::set_defaults( (array) $icon->$id, array(
+                'icon' => '',
+                'text' => '',
+                'hover_text' => ''
+            ));
+
+            // If custom HTML button
+            if( $id == 'html' ){
+                $tags = array();
+                $replace_with = array();
+                foreach( $page_info as $id => $val ){
+                    array_push( $tags, '{' . $id . '}' );
+                    array_push( $replace_with, $val );
+                }
+                $custom_html = str_replace( $tags, $replace_with, $settings[ 'html' ] );
+
+                $ihtml = '<div class="sr-custom-html">' . $custom_html . '</div>';
+                array_push( $icons_html, $ihtml );
+                continue;
+            }
+
+            $url = WPSR_Metadata::process_url( $props[ 'link' ], $page_info );
+            $onclick = isset( $props[ 'onclick' ] ) ? 'onclick="' . $props[ 'onclick' ] . '"' : '';
+
+            $icon = '';
+            if( $settings[ 'icon' ] == '' ){
+                $icon = '<i class="' . esc_attr( $props[ 'icon' ] ) . '"></i>';
+            }else{
+                $icon_val = $settings[ 'icon' ];
+                if (strpos( $settings[ 'icon' ], 'http' ) === 0) {
+                    $icon = '<img src="' . esc_attr( $icon_val ) . '" alt="' . esc_attr( $id ) . '" height="50%" />';
+                }else{
+                    $icon = '<i class="' . esc_attr( $icon_val ) . '"></i>';
+                }
+            }
+
+            $title = '';
+            if( $settings[ 'hover_text' ] == '' ){
+                $title = $props[ 'title' ];
+            }else{
+                $title = $settings[ 'hover_text' ];
+            }
+
+            $count_tag = '';
+            if( ( $o[ 'share_counter' ] == 'individual' || $o[ 'share_counter' ] == 'total-individual' ) && array_key_exists( $id, $counter_services) ){
+                $count_holder = WPSR_Share_Counter::placeholder( $page_info[ 'url' ], $id );
+                $count_tag = '<span class="ctext">' . $count_holder . '</span>';
+                array_push( $classes, 'sr-' . $o[ 'sc_style' ] );
+                if( $o[ 'sc_style' ] != 'count-1' ){
+                    array_push( $icon_classes, 'sr-text-in' );
+                }
+            }
+            array_push( $counters_selected, $id );
+
+            $ihtml = '<span class="' . implode( ' ', $icon_classes ) . '"><a rel="nofollow" href="' . esc_attr( $url ) . '" target="_blank" ' . $onclick . ' title="' . esc_attr( $title ) . '" ' . $style . '>' . $icon . $count_tag . '</a></span>';
+            array_push( $icons_html, $ihtml );
+
+        }
+
+        if( intval( $o[ 'more_icons' ] ) > 0 ){
+            $more_count = intval( $o[ 'more_icons' ] );
+            $more_icons = array_slice( $icons_html, -$more_count, $more_count );
+            $more_html = '<span class="sr-more"><a href="#" target="_blank" title="More sites" ' . $style . '><i class="fa fa-share-alt"></i></a><ul class="socializer">' . implode( "\n", $more_icons ) . '</ul></span>';
+            $icons_html = array_slice( $icons_html, 0, -$more_count );
+            array_push( $icons_html, $more_html );
+        }
+
+        $all_icons_html = '<div class="' . implode( " ", $classes ) . '">' . implode( "\n", $icons_html ) . '</div>';
+
+        $all_icons_btn = '<div class="wpsr-btn">' . $all_icons_html . '</div>';
+        $row_html = $all_icons_btn;
+        $html = '';
+
+        if( $o[ 'share_counter' ] == 'total' || $o[ 'share_counter' ] == 'total-individual' ){
+            $total_counter = WPSR_Services::output( 'share_counter', array(
+                'text' => 'Shares',
+                'counter_color' => $o['sc_total_color'],
+                'add_services' => $counters_selected,
+                'orientation' => 'vl',
+                'size' => $o[ 'icon_size' ]
+            ), $page_info);
+
+            $total_counter_html = $total_counter[ 'html' ];
+
+            if( $o[ 'sc_total_position' ] == 'top' ){
+                $row_html = '<div class="wpsr-btn">' . $total_counter_html . '</div>';
+                $row_html .= $all_icons_btn;
+            }else{
+                $row_html = $all_icons_btn;
+                $row_html .= '<div class="wpsr-btn">' . $total_counter_html . '</div>';
+            }
+
+        }
+
+        $wrap_classes = array( 'wp-socializer wpsr-sharebar wpsr-sb-vl' );
+        $wrap_styles = array();
+
+        array_push( $wrap_classes, 'wpsr-sb-vl-' . $o[ 'sb_position' ] );
+        array_push( $wrap_classes, 'wpsr-sb-vl-' . $o[ 'movement' ] );
+
+        if( $o[ 'style' ] == 'enclosed' ){
+            array_push( $wrap_classes, 'wpsr-sb-simple' );
+        }
+
+        if( $o[ 'init_state' ] == 'close' ){
+            array_push( $wrap_classes, 'wpsr-mow' );
+        }
+
+        array_push( $wrap_classes, 'wpsr-sb-mobmode-' . ( $o[ 'sb_position' ] == 'wleft' || $o[ 'sb_position' ] == 'scontent' ? 'left' : 'right' ) );
+
+        array_push( $wrap_styles, ( $o[ 'sb_position' ] == 'wleft' ? 'left' : ( $o[ 'sb_position' ] == 'scontent' ) ? 'margin-left' : 'right' ) . ':' . $o[ 'offset' ] );
+
+        if($o['style'] == 'enclosed'){
+            array_push( $wrap_styles, 'background-color: ' . $o[ 'sb_bg_color' ] );
+        }
+
+        $wrap_classes = implode( ' ', $wrap_classes );
+        $wrap_styles = implode( ';', $wrap_styles );
+
+        $open_icon = WPSR_Lists::public_icons( 'sb_open' );
+        $close_icon = WPSR_Lists::public_icons( 'sb_close' );
+
+        $resp_attr = '';
+        if( $o[ 'responsive_width' ] != '0' ){
+            $resp_action = $o[ 'responsive_action' ] == 'minimize' ? 'wpsr-mow' : 'wpsr-how';
+            $resp_attr = 'data-respwidth="' . $o[ 'responsive_width' ] . '" data-respclass="' . $resp_action . '"';
+        }
+
+        $html .= '<div class="' . $wrap_classes . '" style="' . $wrap_styles . '" data-stickto="' . $o['stick_element'] . '" ' . $resp_attr . '>';
+        $html .= '<div class="wpsr-sb-inner">';
+        $html .= $row_html;
+        $html .= '</div>';
+        $html .= '<div class="wpsr-sb-close" title="Open or close sharebar"><span class="wpsr-bar-icon">' . $open_icon . $close_icon . '</span></div>';
+        $html .= '</div>';
+
+        return $html;
+
+    }
+
+
 }
 
 WPSR_Template_Buttons::init();
@@ -552,17 +964,25 @@ WPSR_Template_Sharebar::init();
 WPSR_Template_Followbar::init();
 WPSR_Template_Text_Sharebar::init();
 WPSR_Template_Mobile_Sharebar::init();
+WPSR_Template_Social_Icons::init();
+WPSR_Template_Floating_Sharebar::init();
 
 class wpsr_template_button_handler{
     
     private $props;
     private $type;
     
-    function __construct( $properties, $type ){
+    function __construct( $properties, $type, $for ){
         
-        $this->props = WPSR_Lists::set_defaults( $properties, WPSR_Lists::defaults( 'buttons_template' ) );
         $this->type = $type;
-        
+        $this->for = $for;
+
+        if( $this->for == 'buttons' ){
+            $this->props = WPSR_Lists::set_defaults( $properties, WPSR_Lists::defaults( 'buttons_template' ) );
+        }else{
+            $this->props = WPSR_Lists::set_defaults( $properties, WPSR_Lists::defaults( 'social_icons_template' ) );
+        }
+
     }
     
     function print_template( $content ){
@@ -584,7 +1004,11 @@ class wpsr_template_button_handler{
             
             if( ( $this->type == 'content' && $call_from_excerpt != 1 ) || ( $this->type == 'excerpt' && $rule_in_excerpt == 1 ) ){
                 
-                $gen_out = WPSR_Template_Buttons::html( $this->props[ 'content' ], array(), $this->props[ 'min_on_width' ] );
+                if( $this->for == 'buttons' ){
+                    $gen_out = WPSR_Template_Buttons::html( $this->props[ 'content' ], array(), $this->props[ 'min_on_width' ] );
+                }else{
+                    $gen_out = WPSR_Template_Social_Icons::html( $this->props );
+                }
                 
                 if( !empty( $gen_out[ 'html' ] ) ){
                 

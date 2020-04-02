@@ -1,6 +1,5 @@
 //<![CDATA[ 
 // FUNCTIONS
-
 var dprv_inputTags = new Array("input", "textarea", "select", "option", "optgroup", "button", "canvas");
 var dprv_imageTags = new Array("img", "picture", "svg");
 

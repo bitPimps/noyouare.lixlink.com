@@ -12,7 +12,6 @@
     margin: 0 1em 0 0;
     padding: 0;
     line-height: 0;
-    display: inline-block;
 }
 .wpsr-buttons .wpsr-btn:last-child {
     margin-right: 0;
@@ -21,7 +20,7 @@
 .wpsr-sharebar{
     transition: all 0.5s;
     box-sizing: border-box;
-    z-index: 9999;
+    z-index: 99999;
 }
 .wpsr-sb-inner:after{
     content: '';
@@ -29,7 +28,7 @@
     clear: both;
 }
 .wpsr-sb-vl{
-    z-index: 9999;
+    z-index: 99999;
     max-width: 82px;
     top: 50%;
     transform: translateY(-50%);
@@ -62,7 +61,6 @@
     margin: 0 1em 0 0;
     padding: 0;
     line-height: 0;
-    display: inline-block;
 }
 .wpsr-sb-hl .wpsr-btn:last-child{
     margin: 0;
@@ -97,7 +95,6 @@
     width: 5px;
     height: 5px;
 }
-
 .wpsr-sharebar::-webkit-scrollbar-thumb{
     background: #aaa;
     border-radius: 10px;
@@ -106,6 +103,9 @@
     display: block;
 }
 
+.wpsr-sharebar.wpsr-how{
+    display: none;
+}
 
 .wpsr-sb-close{
     position: absolute;
@@ -130,7 +130,7 @@
     top: 50%;
 }
 
-/** When Sharebar is hidden **/
+/** When Sharebar is minimized **/
 .wpsr-mow.wpsr-sharebar{
     width: 48px;
     height: 48px;
@@ -158,6 +158,7 @@
     line-height: 2em;
     text-align: center;
     font-size: 10px;
+    color: #000;
 }
 .wpsr-counter .scount{
     font-size: 2em;
@@ -166,10 +167,11 @@
 .wpsr-counter .stext{
     display: block;
     line-height: 1em;
-    color: #888;
+    color: inherit;
     text-transform: uppercase;
     font-size: 1em;
     margin-top: -0.15em;
+    opacity: 0.5;
 }
 
 .wpsr-counter.wpsrc-hl{
@@ -183,6 +185,29 @@
 .wpsr-counter.wpsrc-hl .stext{
     display: inline-block;
     font-size: 0.8em;
+}
+
+.wpsr-counter.wpsrc-sz-40px{
+    font-size: 12.5px;
+}
+.wpsr-counter.wpsrc-sz-48px{
+    font-size: 15px;
+}
+.wpsr-counter.wpsrc-sz-64px{
+    font-size: 20px;
+}
+
+.wpsr-sharebar .wpsr-counter{
+    font-size: 8.5px;
+}
+.wpsr-sharebar .wpsr-counter.wpsrc-sz-40px{
+    font-size: 9.5px;
+}
+.wpsr-sharebar .wpsr-counter.wpsrc-sz-48px{
+    font-size: 11.5px;
+}
+.wpsr-sharebar .wpsr-counter.wpsrc-sz-64px{
+    font-size: 15.2px;
 }
 
 .socializer span.sr-cicon a{
@@ -318,6 +343,7 @@
     animation: wpsr-fadeout 1s;
     box-shadow: 0 3px 6px -3px #000;
     background-image: linear-gradient(rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0));
+    z-index: 999;
 }
 .wpsr-text-sb:before {
     position: absolute;
@@ -351,6 +377,12 @@
     line-height: 32px;
     font-size: 16px;
 }
+.wpsr-tsb-40px a{
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+}
 .wpsr-tsb-48px a{
     width: 48px;
     height: 48px;
@@ -381,7 +413,7 @@
     box-shadow: 0 3px 5px 3px #000;
     transition: margin 1s ease-out;
     margin-bottom: 0;
-    z-index: 9999;
+    z-index: 99999;
 }
 .wpsr-mobile-sb.wpsr-msb-hide{
     transition: margin 2s ease-out;
@@ -420,6 +452,16 @@
     display: block;
     clear: both;
     content: '';
+}
+.wpsr-flex{
+    display: flex;
+}
+.wpsr-flex-center{
+    display: flex;
+    justify-content: center;
+}
+.sr-custom-html {
+    line-height: 1;
 }
 
 .wpsr-btn .fb_iframe_widget {
@@ -485,6 +527,10 @@
         transform: none;
         height: 50px;
         padding: 0;
+    }
+    .wpsr-sb-vl.wpsr-sb-mobmode-right{
+        right: 0 !important;
+        left: auto !important;
     }
     .wpsr-sb-simple-ns{
         background: #fff;

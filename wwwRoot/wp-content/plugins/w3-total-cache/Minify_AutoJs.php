@@ -210,8 +210,9 @@ class Minify_AutoJs {
 
 		$step1 = !empty( $step1_result );
 		$step2 = !in_array( $file, $this->ignore_js_files );
+		$step3 = !preg_match( '~\s+(async|defer)[> ]~is', $script_tag );
 
-		$do_tag_minification = $step1 && $step2;
+		$do_tag_minification = $step1 && $step2 && $step3;
 		$do_tag_minification = apply_filters( 'w3tc_minify_js_do_tag_minification',
 			$do_tag_minification, $script_tag, $file );
 
@@ -300,7 +301,7 @@ class Minify_AutoJs {
 				$data );
 			$this->buffer = $data['buffer'];
 
-			if ( $this->config->get_boolean( 'minify.js.http2push' ) ) {
+			if ( $this->config->getf_boolean( 'minify.js.http2push' ) ) {
 				$this->minify_helpers->http2_header_add(
 					$data['script_to_embed_url'], 'script' );
 			}

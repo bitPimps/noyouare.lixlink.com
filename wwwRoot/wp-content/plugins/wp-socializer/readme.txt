@@ -1,56 +1,43 @@
 === WP Socializer ===
 Contributors: vaakash
-Donate link: https://goo.gl/qMF3iE
+Donate link: https://www.paypal.me/vaakash/6
 Tags: sharing, social media icons, share icons, share buttons, follow buttons, widgets, floating share buttons, profile buttons, mobile sharebar, profile icons, social bar, share counter, excerpt, shortcode, linkedin, pinterest, pocket, reddit, sharethis, addthis, whatsapp, tweet, vkontakte, socializer, wp socializer, weibo, line, mix, odnoklassniki, renren, skype
 Requires at least: 4.6
-Tested up to: 5.1.1
-Stable tag: 4.1.6
+Tested up to: 5.3.2
+Stable tag: 5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP: 5.3
 
-ONE plugin to insert beautiful Social media share buttons, Floating sharebar, Follow us icons, Mobile sharebar, Widgets with TONS of customization easily
+BEAUTIFUL - POWERFUL - EASY social media share buttons, sharebar, follow icons, text and mobile sharebar
 
 == Description ==
 
-WP Socializer is an all in one complete social media plugin to add native social media buttons, icons, floating sharebar, follow us buttons, profile icons, mobile sharebar and selected text share popups easily with **TONS** of customization.
+WP Socializer is a complete social media plugin to add social media icons, floating sharebar, follow us buttons, profile icons, mobile sharebar and selected text share popups easily with **TONS** of customization.
 
 = Key features =
 
 * **Drag & drop** social icons, buttons builder.
-* Add icons easily using the **setup wizard**.
 * Display the icons, buttons only on the required posts, pages using the advanced **conditional rules builder system**.
 * Insert **50 social share icons** which are highly scalable.
-* Insert **8 native social button** widgets ( i.e Facebook, Twitter etc. +6 )
-* Insert both **vertical and horizontal floating sharebars**.
-* Insert **50 follow me icons** in floating bar and widgets.
+* Insert **51 follow me icons** in floating bar and widgets.
 * Insert **text sharebar** with 11 social network support.
 * Add **mobile sharebar** which supports icons of 50 networks.
 * Has inbuilt system to **display share counts**.
 * Has support for **shortcodes**.
-* Has support for native **social network sidebar widgets**.
-
-= Hand picked modern & beautiful designs =
-
-* 58+ social media icons design collections.
-* 87+ design templates to choose during the setup in the below categories.
-* 6 Only native social buttons collection.
-* 11 combination of icons with text and share counter.
-* 19 just icons design collection.
-* 27 icons with share counter collection.
-* 5 full width button collections.
-* 15 icons with text collection.
-* 5 just text buttons collection.
+* Has support for native **social media sidebar widgets**.
+* Extensive options with **no restrictions** to customize.
 
 [youtube https://www.youtube.com/watch?v=50aJq223TB0]
 
-= Highly optimized for faster page loads =
+= Faster page loads =
 
 WP Socializer **loads webpages faster** since scripts required by buttons are loaded only once and also when necessary. This increases the page load faster even when multiple buttons are used in the same page.
 
 
-= Mobile ready with retina icons =
+= Mobile ready with responsiveness =
 
-WP Socializer is 100% mobile ready with all the required options required for **targetting mobile audience**.
+WP Socializer is 100% mobile ready and looks beautiful in any device with options to set the responsiveness to mobile devices.
 
 * It has the social networks to share with mobile apps like WhatsApp, Facebook messenger, Telegram, WeChat
 * Dedicated mobile sharebar.
@@ -60,12 +47,15 @@ WP Socializer is 100% mobile ready with all the required options required for **
 
 = Create your own design for your website =
 
-With WP Socializer, you can create your own design for the social button and icons which are placed before and after posts and pages. There is no restriction to specific set of themes. With the advanced share buttons builder system, you can easily customize your website social media features.
+With WP Socializer, you can create your own design for the social icons which are placed before and after posts and pages. With the advanced social icons builder system, you can easily customize your website social media features. You can select custom icon color, background color, size, and icon designs. Below icons designs are available out of the box.
 
+* Square, Circle
+* Squircle, Squircle type 2
+* Diamond, Drop & Ribbon
 
 = Share counters =
 
-WP Socializer supports share counter. Share counter can be either displayed individually over icons or as a total count like in popular news sites. Share counter is supported for below networks,
+WP Socializer supports share counter can be either displayed individually over icons or as a total count like in popular news sites. Share counter is supported for below networks,
 
 * Facebook like counts
 * LinkedIn share counts
@@ -81,45 +71,13 @@ Social buttons can be placed conditionally by creating rules which allows it to 
 * Hide in all pages
 * Show in selected pages
 * Hide in selected pages
-
-Show/hide on,
-
-* Single posts, pages
-* Home, front & 404 pages.
-* Category, date & tag archives
-* Category, tags attached to posts.
-* Post formats
-* Custom post types.
-
-Show/hide based on:
-
-* Desktop devices
-* Mobile devices
-* Desktop & mobile devices
+* Show/hide on specific pages Single posts, pages, home, front, 404 pages, category, date, tag archives, post formats and custom post types.
+* Show/hide on desktop, mobile devices.
 
 
-= Supported social media icons =
+= Follow us icons and selected text sharebar =
 
-Add to favorites, Behance, Bitbucket, Blogger, CodePen, Comments, Delicious, DeviantArt, Digg, Dribbble, Email, Facebook, Facebook messenger, Flickr, Github, Google, Hacker News, Instagram, LinkedIn, Medium, PayPal, PDF, Pinterest, Pocket, Print, Reddit, RSS, Short link, Snapchat, Soundcloud, StackOverflow, Quora, Telegram, Tumblr, Twitter, Vimeo, VKontakte, wechat, WhatsApp, Xing, Yahoo! Mail, Youtube, Weibo, Line, Mix, Odnoklassniki, Renren, Skype, Telephone/call button
-
-Social share icon designs:
-
-* Square
-* Circle
-* Squircle
-* Squircle 2
-* Diamond
-* Drop
-* Ribbon
-
-
-= Native social media buttons = 
-
-With WP Socializer plugin, you can add the native share buttons provided by leading social media websites. Buttons settings can be changed inside the admin page itself. All kinds of native social buttons from the below providers can be created.
-
-* Facebook, Twitter
-* Reddit, LinkedIn, Sharethis
-* Pinterest & Pocket
+There is also support for follow us / profile icons which can placed in widget or near the sides of the window. In addition to this, popups can also be added to share selected text which allows visitors to share the quoted text.
 
 
 = Sidebar widgets =
@@ -128,63 +86,37 @@ WP Socializer can also be used to insert widgets to WordPress sidebar. Below lis
 
 * Twitter timeline
 * Facebook page & messenger widget
-* Google+ Badge
-* Follow us buttons with text
-* Social buttons/icons to share the current post/page.
+* Follow us buttons
 
 
-= Support for shortcodes =
+= Supported social media icons =
 
-There is also support for shortcodes with which social media buttons can be placed anywhere in posts and even in themes directly. The list of social buttons which can be inserted can be seen below.
-
-* Facebook, Twitter
-* Reddit, LinkedIn
-* Sharethis, Pinterest
-* Pocket & 50 social media icons
-
-
-= Follow us icons and selected text sharebar =
-
-There is also support for follow us / profile icons which can placed in widget or near the sides of the window. In addition to this, popups can also be added to share selected text which allows visitors to share the quoted text.
-
-
-= Setup wizard =
-
-WP Socializer has a built-in setup wizard with which it takes only ~3mins to add social icons and buttons to your site.
-
-
-= Custom social buttons =
-
-If you find that any of the social buttons are missing, they can also be added via the "custom HTML" feature built into the plugin.
+Add to favorites, Behance, Bitbucket, Blogger, CodePen, Comments, Delicious, DeviantArt, Digg, Dribbble, Email, Facebook, Facebook messenger, Flickr, Github, Google, Hacker News, Instagram, LinkedIn, Medium, PayPal, PDF, Pinterest, Pocket, Print, Reddit, RSS, Short link, Snapchat, Soundcloud, StackOverflow, Quora, Telegram, Tumblr, Twitter, Vimeo, VKontakte, wechat, WhatsApp, Xing, Yahoo! Mail, Youtube, Weibo, Line, Mix, Odnoklassniki, Renren, Skype, Telephone/call button, Houzz, Etsy.
 
 
 = More links =
 
-* [FAQs](https://goo.gl/Ge7riC)
 * [Support Forum](http://bit.ly/wpsrForumNew)
-* [Homepage](https://goo.gl/u8Zf09)
-* [Donate](https://goo.gl/qMF3iE)
-* [Submit translation](http://bit.ly/wpsrForumNew)
-* [YouTube demo videos](https://goo.gl/4jZJji)
+* [Homepage](https://www.aakashweb.com/wordpress-plugins/wp-socializer/)
 
 
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/wp-socializer` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
-1. Use the Settings->WP Socializer screen to configure the plugin
+1. Use the Settings -> WP Socializer screen to configure the plugin
 
 
 
 == Frequently Asked Questions ==
 
-= Why are the share buttons not aligned properly ? =
+= Why are the share icons not aligned properly ? =
 
-Share buttons are aligned using CSS. This alignment can sometimes be disturbed by the active theme used. This can be corrected by CSS. Please refer [this image](https://goo.gl/Ge7riC#css-classes) for the list of CSS classes used by plugin to modify it or else please post your issue in the [support forum](http://bit.ly/wpsrForumNew) I'll try my best to give a quick CSS fix for the misalignment.
+Share icons are aligned using CSS. This alignment can sometimes be disturbed by the active theme used. This can be corrected by CSS. Please refer [this image](https://goo.gl/Ge7riC#css-classes) for the list of CSS classes used by plugin to modify it or else please post your issue in the [support forum](http://bit.ly/wpsrForumNew) I'll try my best to give a quick CSS fix for the misalignment.
 
-= Share buttons are not displayed in the page ! =
+= Social icons are not displayed in the page ! =
 
-Share buttons or other feature may be hidden if the option "Hide in all pages" option is selected in "Conditions to display" section. Please select "Show in all pages" option to display the buttons. If the buttons are still not displayed, please raise an issue in the Support forum.
+Social icons or other feature may be hidden if the option "Hide in all pages" option is selected in "Conditions to display" section. Please select "Show in all pages" option to display the buttons. If the buttons are still not displayed, please raise an issue in the Support forum.
 
 = How to disable a feature in specific page alone ? = 
 
@@ -205,23 +137,57 @@ Please refer [this page](https://goo.gl/Ge7riC) for the full list of FAQs.
 == Screenshots ==
 
 1. WP Socializer admin home page.
-2. Native social icon, buttons, share counters, icons styles in action
-3. WP Socializer in action with a dark theme
-4. Vertical sharebar
-5. Horizontal sharebar
-6. Sharebar with custom background color and design
-7. Follow us icons floating to the sides.
-8. Mobile sharebar in different themes
-9. Social media share widgets.
-10. Selected text sharebar with green theme selected.
-11. Conditional display UI.
-12. Administration page 1
-13. Administration page 2
-14. Setup wizard, page 1
+2. Social icons in action.
+3. Floating sharebar in action.
+4. Follow us icons in action.
+5. Mobile sharebar in action.
+6. Text sharebar in action.
+7. Different type of social media widgets in action.
+8. Social icons admin settings page .
+9. Powerful options to conditionally display the social media features.
 
 
 
 == Changelog ==
+
+= 5.1 =
+* New: Custom HTML can now be added above and below the social icons.
+* New: Add custom HTML in between social icons and in floating sharebar.
+* Fix: When no social icons are selected, empty HTML tag were inserted.
+* Fix: Admin UI is enhanced.
+
+= 5.0 =
+* New: Social icons feature is replacing "classic share buttons" feature with easy to setup and powerful features.
+* New: Floating sharebar is replacing the "classic sharebar" feature providing advanced features to setup quick and easy.
+* New: Minor UI changes to the admin page.
+* Fix: 40px size was not working for text sharebar.
+* New: Social share buttons in widgets feature has been removed.
+
+= 4.2 =
+* New: Added Etsy button for follow bar.
+* Fix: Sharebar and mobile sharebar are hidden by other elements on page sometimes.
+* Fix: Update to latest FontAwesome icons v5.12.0.
+* Fix: Minor admin UI fixes.
+
+= 4.1.9 =
+* Fix: Mobile sharebar some link parameters not being resolved.
+* Fix: Text sharebar sometimes goes behind main content.
+* Fix: Title with special characters are not escaped correctly for text sharebar.
+* Fix: Quotes text is not passed correctly to certain social icons in text sharebar.
+* Fix: Admin page style issues with WordPress 5.3.
+* Fix: Added widgets link to admin navigation menu.
+* New: Added WhatsApp to text sharebar.
+
+= 4.1.8 =
+* Fix: Improved the look of "floating sharebar" editor based on the sharebar type.
+* New: Added option to select floating sharebar position when in mobile mode.
+* New: Added support to execute shortcodes in "Custom HTML" button.
+
+= 4.1.7 =
+* Fix: Setup templates with transparent background were not retained after button settings were saved.
+* Fix: Page title with hashtag was not forwarded properly to share sites.
+* New: Added support for Houzz.
+* Fix: Updated to latest FontAwesome icons v5.9.0.
 
 = 4.1.6 =
 * Fix: Facebook share count is 0
@@ -267,57 +233,6 @@ Please refer [this page](https://goo.gl/Ge7riC) for the full list of FAQs.
 * New: Custom colors can be selected for share icons.
 * New: Added new options for Floating sharebar, mobile sharebar
 * New: Enhanced existing developer APIs and added new filters.
-
-= 3.3.4 =
-* Fix: Google plus widget does not work for pages.
-* Fix: Admin UI tweaks to ease the customization of options.
-
-= 3.3.3 =
-* New: Twitch profile icon in social buttons.
-* New: Updated YouTube icon in social buttons.
-* Fix: Admin UI buttons alignment issue.
-
-= 3.3.2 =
-* Fix: Follow bar & sharebar not displayed in some cases.
-
-= 3.3.1 =
-* Fix: Remove PHP error logging
-* Fix: Sharebar & followbars were not displayed properly during page load.
-* Fix: Undefined index notice.
-* Fix: Minified JS was not used.
-
-= 3.3 =
-* New: Setup wizard.
-* New: Added handmade 87 design templates selectable from admin page.
-* Fix: Lots and lots of tweaks to social icons, counter in terms of design and functionality.
-* Fix: Lots and lots of enhancement to admin UI to ease the usage.
-
-= 3.2 =
-* New: Hide on mobile devices.
-* New: Minimize/Hide sharebars on smaller screens.
-* New: Support for post format conditional display.
-* New: Collapse button for follow bar.
-* New: Sharethis is upgraded to the latest version.
-* New: Widgets Admin settings page.
-* Fix: Home page/front page conditional location rules were not working.
-* Fix: Post image was not mentioned in Pinterest button.
-* Fix: Script tags will be removed sometimes while editing the Custom HTML button.
-* Fix: Added default hover setting to social buttons template.
-* Fix: Lots of admin UI tweaks and enhancements.
-
-= 3.1 =
-* New: Import/export settings feature.
-* New: Language can now be selected for Facebook, Google plus and LinkedIn buttons.
-* Fix: Conditional display feature was not working in some cases.
-* Fix: Scrollbars weren't displayed in popup window issue.
-* Fix: Enqueue script warning messages.
-* Fix: Deprecated buttons are removed in Sharethis service.
-* Fix: Follow bar aligment issue.
-
-= 3.0 =
-* New: Plugin completely re-written from scratch
-* New: administration interface
-* New: Support for modern buttons, icons
 
 
 

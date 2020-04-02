@@ -215,21 +215,8 @@ RewriteRule ^wp-includes/js/tinymce/langs/.+\.php - [F]
 RewriteRule ^wp-includes/theme-compat/ - [F]\n\n";
 }
 
-$hostaddress = esc_html( @gethostbyaddr( $_SERVER['SERVER_ADDR'] ) );
-
 if ( $BPSCustomCodeOptions['bps_customcode_request_methods'] != '' ) {        
 $bps_secure_request_methods = "\n# CUSTOM CODE REQUEST METHODS FILTERED\n" . htmlspecialchars_decode( $BPSCustomCodeOptions['bps_customcode_request_methods'], ENT_QUOTES)."\n\n";
-} else {
-if ( preg_match( '/secureserver\.net/', $hostaddress, $matches ) ) {
-$bps_secure_request_methods = "\n# REQUEST METHODS FILTERED
-# If you want to allow HEAD Requests use BPS Custom Code and copy 
-# this entire REQUEST METHODS FILTERED section of code to this BPS Custom Code 
-# text box: CUSTOM CODE REQUEST METHODS FILTERED.
-# See the CUSTOM CODE REQUEST METHODS FILTERED help text for additional steps.
-RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]
-RewriteRule ^(.*)$ - [F]
-RewriteCond %{REQUEST_METHOD} ^(HEAD) [NC]
-RewriteRule ^(.*)$ - [R=405,L]\n\n";
 } else {
 $bps_secure_request_methods = "\n# REQUEST METHODS FILTERED
 # If you want to allow HEAD Requests use BPS Custom Code and copy 
@@ -240,7 +227,6 @@ RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]
 RewriteRule ^(.*)$ - [F]
 RewriteCond %{REQUEST_METHOD} ^(HEAD) [NC]
 RewriteRule ^(.*)$ " . $bps_get_wp_root_secure . $bps_plugin_dir . "/bulletproof-security/405.php [L]\n\n";
-}
 }
 
 $bps_secure_begin_plugins_skip_rules_text = "# PLUGINS/THEMES AND VARIOUS EXPLOIT FILTER SKIP RULES
@@ -434,7 +420,7 @@ if ( isset( $_POST['Submit-RBM-Deactivate'] ) && current_user_can('manage_option
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -518,7 +504,7 @@ if ( isset( $_POST['Submit-RBM-Activate'] ) && current_user_can('manage_options'
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -587,7 +573,7 @@ if ( isset( $_POST['Submit-RBM-Deactivate-Network'] ) && current_user_can('manag
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -671,7 +657,7 @@ if ( isset( $_POST['Submit-RBM-Activate-Network'] ) && current_user_can('manage_
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Root htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;

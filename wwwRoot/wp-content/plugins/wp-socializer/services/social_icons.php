@@ -109,7 +109,7 @@ class wpsr_service_social_icons{
                 continue;
             
             $temp_url = ( $opts[ 'custom_url' ] == '' ) ? $props[ 'link' ] : urldecode( $opts[ 'custom_url' ] );
-            $url = $this->get_url( $temp_url, $page_info );
+            $url = WPSR_Metadata::process_url( $temp_url, $page_info );
             
             $onclick = isset( $props[ 'onclick' ] ) ? 'onclick="' . $props[ 'onclick' ] . '"' : '';
             
@@ -570,44 +570,6 @@ echo json_encode( $a );
         echo '<h4 class="collapse_head">' . __( 'Other settings', 'wpsr' ) . '</h4>';
         WPSR_Admin::build_table( $section4, '', '', true);
         echo '</div>';
-    }
-    
-    function get_url( $url, $pinfo ){
-        
-        $g_settings = get_option( 'wpsr_general_settings' );
-        $g_settings = WPSR_Lists::set_defaults( $g_settings, WPSR_Lists::defaults( 'gsettings_twitter' ) );
-        $t_username = ( $g_settings[ 'twitter_username' ] != '' ) ? '@' . $g_settings[ 'twitter_username' ] : '';
-        
-        $pinfo = wp_parse_args( $pinfo, array(
-            'url' => '',
-            'title' => '',
-            'excerpt' => '',
-            'short_url' => '',
-            'rss_url' => '',
-            'post_image' => ''
-        ));
-        
-        $search = array(
-            '{url}',
-            '{title}',
-            '{excerpt}',
-            '{s-url}',
-            '{rss-url}',
-            '{image}',
-            '{twitter-username}',
-        );
-        
-        $replace = array(
-            $pinfo[ 'url' ],
-            $pinfo[ 'title' ],
-            $pinfo[ 'excerpt' ],
-            $pinfo[ 'short_url' ],
-            $pinfo[ 'rss_url' ],
-            $pinfo[ 'post_image' ],
-            $t_username,
-        );
-        
-        return str_replace( $search, $replace, $url );
     }
     
     function validation( $values ){

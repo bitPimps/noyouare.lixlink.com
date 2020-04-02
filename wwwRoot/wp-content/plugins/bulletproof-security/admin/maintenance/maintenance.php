@@ -24,48 +24,34 @@ if ( $ScrollTop_options['bps_scrolltop'] != 'Off' ) {
 ?>
 
 <?php
-if ( function_exists('get_transient') ) {
-require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+//if ( function_exists('get_transient') ) {
+//require_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
-	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
-		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
+//	if ( false === ( $bps_api = get_transient('bulletproof-security_info') ) ) {
+//		$bps_api = plugins_api( 'plugin_information', array( 'slug' => stripslashes( 'bulletproof-security' ) ) );
 		
-	if ( ! is_wp_error( $bps_api ) ) {
-		$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
-		$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
-		maybe_serialize( $bps_downloaded );
-		set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
-	}
-	}
+//		if ( ! is_wp_error( $bps_api ) ) {
+//			$bps_expire = 60 * 30; // Cache downloads data for 30 minutes
+//			$bps_downloaded = array( 'downloaded' => $bps_api->downloaded );
+//			maybe_serialize( $bps_downloaded );
+//			set_transient( 'bulletproof-security_info', $bps_downloaded, $bps_expire );
+//		}
+//	}
 
-		$bps_transient = get_transient( 'bulletproof-security_info' );
+//		$bps_transient = get_transient( 'bulletproof-security_info' );
     	
 		echo '<div class="bps-star-container">';
 		echo '<div class="bps-star"><img src="'.plugins_url('/bulletproof-security/admin/images/star.png').'" /></div>';
 		echo '<div class="bps-downloaded">';
 		
-		foreach ( $bps_transient as $key => $value ) {
-			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
-		}
+//		foreach ( $bps_transient as $key => $value ) {
+//			echo number_format_i18n( $value ) .' '. str_replace( 'downloaded', "Downloads", $key );
+//		}
 		
 		echo '<div class="bps-star-link"><a href="https://wordpress.org/support/view/plugin-reviews/bulletproof-security#postform" target="_blank" title="Add a Star Rating for the BPS plugin">'.__('Rate BPS', 'bulletproof-security').'</a><br><a href="https://affiliates.ait-pro.com/po/" target="_blank" title="Upgrade to BulletProof Security Pro">Upgrade to Pro</a></div>';
 		echo '</div>';
 		echo '</div>';
-}
-
-// Oxygen plugin check: The Oxygen plugin breaks BPS MMode.
-function bpsPro_oxygen_plugin_check() {
-
-	$oxygen = 'oxygen/functions.php';
-	$oxygen_active = in_array( $oxygen, apply_filters('active_plugins', get_option('active_plugins')));
-	
-	if ( $oxygen_active == 1 || is_plugin_active_for_network( $oxygen ) ) {
-	
-		$text = '<div style="max-width:85%;background-color:#dfecf2;border:1px solid #999;font-size:1.13em;font-weight:600;padding:5px 5px;margin:0px 0px 10px 0px;-moz-border-radius-topleft:3px;-webkit-border-top-left-radius:3px;-khtml-border-top-left-radius:3px;border-top-left-radius:3px;-moz-border-radius-topright:3px;-webkit-border-top-right-radius:3px;-khtml-border-top-right-radius:3px;border-top-right-radius:3px;-webkit-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);-moz-box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);box-shadow: 3px 3px 5px -1px rgba(153,153,153,0.7);"><font color="#fb0101">'.__('BPS Error: Oxygen Plugin', 'bulletproof-security').'</font><br>'.__('The Oxygen plugin is installed and activated, which prevents BPS MMode from being successfully turned On while the Oxygen plugin is activated.', 'bulletproof-security').'<br>'.__('Click this ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/oxygen-plugin-bps-maintenance-mode-not-working/" target="_blank" title="Link opens in a new Browser window">'.__('Oxygen plugin forum topic link', 'bulletproof-security').'</a>'.__(' for more information about how to make BPS MMode work with the Oxygen plugin.', 'bulletproof-security').'</div>';
-		echo $text;
-	}
-}    	
-bpsPro_oxygen_plugin_check();
+//}
 
 ?>
 
@@ -825,7 +811,7 @@ $format_error_2 = '/,[^\s]/'; // no whitespaces between commas
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';	
 		echo $text;
     	echo $bps_bottomDiv;
 	
@@ -1141,7 +1127,7 @@ $format_error_2 = '/,[^\s]/'; // no whitespaces between commas
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';	
 		echo $text;
     	echo $bps_bottomDiv;
 	
@@ -1650,7 +1636,7 @@ $permsHtaccess = @substr(sprintf('%o', fileperms($wpadminHtaccess)), -4);
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';	
 		echo $text;
     	echo $bps_bottomDiv;
 	
@@ -1780,7 +1766,7 @@ $permsHtaccess = @substr(sprintf('%o', fileperms($wpadminHtaccess)), -4);
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';	
 		echo $text;
     	echo $bps_bottomDiv;
 	
@@ -1971,7 +1957,7 @@ $MMindexMaster = WP_PLUGIN_DIR . '/bulletproof-security/admin/htaccess/maintenan
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BackEnd Maintenance Mode is disabled.', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';	
 		echo $text;
     	echo $bps_bottomDiv;
 	

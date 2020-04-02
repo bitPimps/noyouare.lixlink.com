@@ -20,7 +20,7 @@ class dprvErrors
 		//$log->lwrite("entered dprv_error with " . $errstr);
 		global $dprv_last_error;
 		$dprv_last_error = $errstr;
-		// TODO: add in additional caregories (deprecated etc.)
+		// TODO: add in additional categories (deprecated etc.)
 		switch ($errno)
 		{
 			case E_NOTICE:

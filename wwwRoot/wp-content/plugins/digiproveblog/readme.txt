@@ -3,8 +3,8 @@ Contributors: Digiprove
 Donate link: http://www.digiprove.com/
 Tags: copyright, copyright notice, protect ip, copy protect, prove copyright, proof of ownership, record ip address, digital certification
 Requires at least: 2.7
-Tested up to: 5.1
-Stable tag: 4.04
+Tested up to: 5.3.2
+Stable tag: 4.08
 
 Digitally certify your content to prove copyright. Customised copyright notice in your posts, with optional license/attribution. Copy-protects, and more...
 
@@ -151,6 +151,18 @@ level.  However you can influence some aspects of the appearance using CSS style
 	margin-right:40%;
 	background-color:red;
 }
+You might need to be more specific and insistent in your styling, e.g.:
+*[id|="dprv_cp"] span
+{
+	font-size:7px !important;
+	color: blue !important;
+}
+*[id|="dprv_cp"] a img
+{
+	width:8px !important;
+	height:8px !important;
+}
+
 You can also obtain pre-styled or self-styled and personalised tags in image form at http://www.digiprove.com/generate_digiprove_tags.aspx
 
 = How can I remove copy-protection from an an individual post? =
@@ -178,7 +190,7 @@ IF NO CHANGES, CHECK YOUR SETTINGS:
      - Press the "Update Settings" button
 - You can immediately test whether the settings are working by clicking on the blue refresh icon on the Subscription Type Line – if you don’t receive an error message all is OK.
 
-IF CHANGE OF DOMAIN NAME:
+IF CHANGE OF DOMAIN NAME: (instructions below assume you have already got your website working with your new domain)
 - Log in at https://www.digiprove.com/secure/login.aspx
 - Go to Preferences, Issue/Renew API keys
 - Remove the existing api key (which will be for your old domain)
@@ -241,13 +253,39 @@ older posts but it must be done within 30 days of registration. How many posts/p
 7. Settings (Bulk Digiproving)
 
 == Changelog ==
+= 4.08 =
+* Removed copy and right-click restriction if current user has a capability to edit posts or pages
+* fixed minor bug - missing html tag
+* fixed problem where notice of Digiproving did not always appear in Block Editor
+
+= 4.07 =
+* Uses UTC dates to synch with server in calculating usage against daily allowances
+* Fixes problem where notice of Digiproving did not always appear in Block Editor (from WP 5.3.1 or 5.3.2)
+
+= 4.06 =
+* Tested up to WP 5.3
+* Fixed incompatibility with WP 5.3 where "& Digiprove" checkbox not shown
+
+= 4.05 =
+* Tested up to WP 5.2.5
+* Improvements in managing language of notice and license texts:
+* - All Digiprove/Copyright and License text now user-definable by subscribers
+* - Language ISO code is configurable
+* - Option to instruct automatic translation services not to translate notices and license texts
+* Fixed issue where results of Digiprove were sometimes not shown in copyright panel
+* Transaction result notice now appears at top of Block Editor screen (as well as in copyright panel)
+* Fixed bug where licenses with license type > 50 characters were not saved
+* Removed confusion with labelling of License Abstract field
+* Added HTML5 validation to some fields in settings
+* Fixed bug where custom notice text was not being shown in Settings (but was appearing correctly in web-page
+* minor bug-fixes and performance improvements
+
 = 4.04 =
 * Fixed bug with icon size in Digiprove Notice
 * Compatible up to Wordpress 5.1
 
 = 4.03 =
 * Fixed bug sometimes resulting in un-requested Digiprove transactions
-
 
 = 4.02 =
 * Fixed compatability problems for PHP versions before 5.4

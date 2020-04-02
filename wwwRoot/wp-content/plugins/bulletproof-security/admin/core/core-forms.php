@@ -15,7 +15,7 @@ if ( isset( $_POST['Submit-WBM-Activate'] ) && current_user_can('manage_options'
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wp-admin htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wp-admin htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -95,7 +95,7 @@ if ( isset( $_POST['Submit-WBM-Deactivate'] ) && current_user_can('manage_option
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wp-admin htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: wp-admin htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -193,7 +193,7 @@ if ( isset( $_POST['Submit-MBM-Activate'] ) && current_user_can('manage_options'
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Master htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Master htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -243,7 +243,7 @@ if ( isset( $_POST['Submit-MBM-Deactivate'] ) && current_user_can('manage_option
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Master htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: Master htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -277,7 +277,7 @@ if ( isset( $_POST['Submit-BBM-Activate'] ) && current_user_can('manage_options'
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BPS Backup htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BPS Backup htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -327,7 +327,7 @@ if ( isset( $_POST['Submit-BBM-Deactivate'] ) && current_user_can('manage_option
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BPS Backup htaccess file writing is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: BPS Backup htaccess file writing is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -361,7 +361,7 @@ if ( isset( $_POST['Submit-Backup-htaccess-Files'] ) && current_user_can('manage
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: htaccess file Backup is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: htaccess file Backup is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -427,7 +427,7 @@ if ( isset( $_POST['Submit-Restore-htaccess-Files'] ) && current_user_can('manag
 
 	if ( $HFiles_options['bps_htaccess_files'] == 'disabled' ) {
 		echo $bps_topDiv;
-		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: htaccess file Restore is disabled.', 'bulletproof-security').'</strong></font><br>';			
+		$text = '<font color="blue"><strong>'.__('htaccess Files Disabled: htaccess file Restore is disabled. ', 'bulletproof-security').'</strong></font>'.__('Click this link for help information: ', 'bulletproof-security').'<a href="https://forum.ait-pro.com/forums/topic/htaccess-files-disabled-setup-wizard-enable-disable-htaccess-files/" target="_blank" title="htaccess Files Disabled Forum Topic">'.__('htaccess Files Disabled Forum Topic', 'bulletproof-security').'</a><br>';
 		echo $text;
     	echo $bps_bottomDiv;
 		return;
@@ -677,6 +677,14 @@ if ( isset( $_POST['bpsResetDismissSubmit'] ) && current_user_can('manage_option
 		echo $text;
 	} else {
 		$text = '<span style="color:#008000;">'.__('Success! The GDPR Compliance Notice is reset.', 'bulletproof-security').'</span><br>';
+		echo $text;
+	}
+
+	if ( ! delete_user_meta($user_id, 'bps_ignore_root_version_check_notice') ) {
+		$text = __('The Root htaccess File Version Check Notice is NOT set. Nothing to reset.', 'bulletproof-security').'<br>';
+		echo $text;
+	} else {
+		$text = '<span style="color:#008000;">'.__('Success! The Root htaccess File Version Check Notice is reset.', 'bulletproof-security').'</span><br>';
 		echo $text;
 	}
 
