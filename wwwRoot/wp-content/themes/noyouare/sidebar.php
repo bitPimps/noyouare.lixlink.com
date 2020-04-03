@@ -7,7 +7,7 @@
  * @since No You Are 1.0
  */
 
-$options = noyouare_get_theme_options();
+$options        = noyouare_get_theme_options();
 $current_layout = $options['theme_layout'];
 
 if ( 'content' != $current_layout ) :
@@ -31,6 +31,6 @@ if ( 'content' != $current_layout ) :
 					</ul>
 				</aside>
 
-			<?php endif; // end sidebar widget area ?>
+			<?php endif; // End sidebar widget area. ?>
 		</div><!-- #secondary .widget-area -->
 <?php endif; ?>

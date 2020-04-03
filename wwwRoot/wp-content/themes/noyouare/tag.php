@@ -15,9 +15,12 @@ get_header(); ?>
 			<?php if ( have_posts() ) : ?>
 
 				<header class="page-header">
-					<h1 class="page-title"><?php
+					<h1 class="page-title">
+					<?php
+						/* translators: %s: Tag title. */
 						printf( __( 'Tag Archives: %s', 'noyouare' ), '<span>' . single_tag_title( '', false ) . '</span>' );
-					?></h1>
+					?>
+					</h1>
 
 					<?php
 						$tag_description = tag_description();
@@ -36,8 +39,11 @@ get_header(); ?>
 
 				<?php noyouare_content_nav( 'nav-above' ); ?>
 
-				<?php /* Start the Loop */ ?>
-				<?php while ( have_posts() ) : the_post(); ?>
+				<?php
+				// Start the Loop.
+				while ( have_posts() ) :
+					the_post();
+					?>
 
 					<?php
 						/*

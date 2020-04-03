@@ -19,13 +19,24 @@
 				 * A sidebar in the footer? Yep. You can customize
 				 * your footer with three columns of widgets.
 				 */
-				if ( ! is_404() )
-					get_sidebar( 'footer' );
+			if ( ! is_404() ) {
+				get_sidebar( 'footer' );
+			}
 			?>
 
 			<div id="site-generator">
 				<?php do_action( 'noyouare_credits' ); ?>
-				<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'noyouare' ) ); ?>" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'noyouare' ); ?>"><?php printf( __( 'Proudly powered by %s', 'noyouare' ), 'WordPress' ); ?></a>
+				<?php
+				if ( function_exists( 'the_privacy_policy_link' ) ) {
+					the_privacy_policy_link( '', '<span role="separator" aria-hidden="true"></span>' );
+				}
+				?>
+				<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'noyouare' ) ); ?>" class="imprint" title="<?php esc_attr_e( 'Semantic Personal Publishing Platform', 'noyouare' ); ?>">
+					<?php
+					/* translators: %s: WordPress */
+					printf( __( 'Proudly powered by %s', 'noyouare' ), 'WordPress' );
+					?>
+				</a>
 			</div>
 	</footer><!-- #colophon -->
 </div><!-- #page -->
