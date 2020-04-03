@@ -1,5 +1,5 @@
 /*
-Theme Name:     NYA 2018
+Theme Name:     NYA Twenty Eleven Child
 Theme URI:      http://wordpress.org/themes/twentyeleven
 Description:    NYA color scheme for Twenty Eleven.
 Author:         bitPimps
@@ -8,13 +8,6 @@ Template:       twentyeleven
 Version:        1.0.1
 */
 
-
-/**
- * Import twenty eleven base and dark styles
- */
-
-@import url("../twentyeleven/style.css");
-@import url("../twentyeleven/colors/dark.css");
 @import url(http://fonts.googleapis.com/css?family=Droid+Sans);
 body {
 	background:#1d1d1d url(img/bgs/background_body_2014.jpg) top center repeat-x fixed;
@@ -45,44 +38,44 @@ article.feature-image.small .entry-summary p a:hover,
 .feature-slider a.active {background-color:#2fc2ef;}
 /* Sidebar */
 /* Sidebar -> Text */
-.widget_text h3 {background:url(images/icons/star.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_text h3 {background:url(img/icons/star.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Sidebar -> Categories */
-.widget_categories h3 {background:url(images/icons/folder.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_categories h3 {background:url(img/icons/folder.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /*
 .widget_categories ul {list-style:none;}
 .widget_categories ul li,.widget_categories ul li a {display:block;}
 .widget_categories ul li a {background:url(images/icons/folder.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 */
 /* Sidebar -> Recent Posts */
-.widget_recent_entries h3 {background:url(images/icons/page.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_recent_entries h3 {background:url(img/icons/page.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Sidebar -> Recent Comments */
-.widget_recent_comments h3 {background:url(images/icons/comment.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_recent_comments h3 {background:url(img/icons/comment.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Sidebar -> Archives */
-.widget_archive h3 {background:url(images/icons/package.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_archive h3 {background:url(img/icons/package.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Sidebar -> Calendar */
-.widget_calendar h3 {background:url(images/icons/calendar.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_calendar h3 {background:url(img/icons/calendar.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Sidebar -> Tag Cloud */
-.widget_tag_cloud h3 {background:url(images/icons/asterisk_yellow.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_tag_cloud h3 {background:url(img/icons/asterisk_yellow.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Sidebar -> Meta */
-.widget_meta h3 {background:url(images/icons/wrench.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+.widget_meta h3 {background:url(img/icons/wrench.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Footer */
 ul.blogroll {list-style:none;}
 ul.blogroll li,ul.blogroll li a {display:block;}
-ul.blogroll li a {background:url(images/icons/arrow_grey.png) left no-repeat; margin-left:-25px; padding-left:25px;}
-ul.blogroll li a:hover {background:url(images/icons/arrow_blue.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+ul.blogroll li a {background:url(img/icons/arrow_grey.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+ul.blogroll li a:hover {background:url(img/icons/arrow_blue.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Footer -> Twitters You Should Follow */
-#first h3 {background:url(images/icons/twitter.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+#first h3 {background:url(img/icons/twitter.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /*
 #first ul.blogroll {list-style:none;}
 #first ul.blogroll li,#first ul.blogroll li a {display:block;}
 #first ul.blogroll li a {background:url(images/icons/twitter.png) left no-repeat; padding-left:25px;}
 */
 /* Footer -> Instagrams You Should Follow */
-#second h3 {background:url(images/icons/instagram.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+#second h3 {background:url(img/icons/instagram.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Footer -> Places You Should Visit */
-#third h3 {background:url(images/icons/world.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+#third h3 {background:url(img/icons/world.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Footer -> Shit You Can Buy */
-#third aside:last-child h3 {background:url(images/icons/money_dollar.png) left no-repeat; margin-left:-25px; padding-left:25px;}
+#third aside:last-child h3 {background:url(img/icons/money_dollar.png) left no-repeat; margin-left:-25px; padding-left:25px;}
 /* Tables > Bootstrap 3 Style (.table) */
 table {
   max-width: 100%;
