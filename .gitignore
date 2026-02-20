@@ -1,3 +1,4 @@
+*.flv
 wwwRoot/wp-config.php
 wwwRoot/admin/sec/config/phpConfig.php
 wwwRoot/wp-content/uploads/2012/08/Taintstick.flv
